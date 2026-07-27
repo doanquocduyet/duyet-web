@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đoàn Quốc Duyệt</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#16140F;--ink-1:#1C1A14;--ink-2:#252118;--ink-3:#302B1F;
+  --text-0:#EDE7D6;--text-1:#B5AD9C;--text-2:#7A7368;
+  --gold:#C9A96E;--gold-dim:#A3855A;--gold-ghost:rgba(201,169,110,.10);--gold-line:rgba(201,169,110,.20);
+  --serif:'Newsreader',Georgia,serif;--sans:'Be Vietnam Pro',system-ui,sans-serif;
+  --col:34rem;--ease:cubic-bezier(.22,.6,.36,1);
+}
+html[data-theme="light"]{
+  --ink:#F9F6EF;--ink-1:#F3EEE3;--ink-2:#EEE9DC;--ink-3:#E5DECF;
+  --text-0:#1A1710;--text-1:#4C463A;--text-2:#8A8070;
+  --gold:#8A6E2E;--gold-dim:#A3855A;--gold-ghost:rgba(138,110,46,.08);--gold-line:rgba(138,110,46,.20);
+}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--text-0);font-family:var(--sans);font-size:1rem;line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .6s var(--ease),color .6s var(--ease);overflow-x:hidden}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+/* topbar */
+.top{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.1rem clamp(1.2rem,5vw,3.4rem);background:linear-gradient(to bottom,var(--ink) 55%,transparent);transition:background .6s var(--ease)}
+.brand{display:flex;align-items:center;gap:.6rem;cursor:pointer;background:none;border:none}
+.orb{width:11px;height:11px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--gold),var(--gold-dim) 80%);box-shadow:0 0 10px 1px rgba(201,169,110,.35)}
+.brand-name{font-family:var(--serif);font-size:.94rem;font-weight:500;color:var(--text-1);letter-spacing:.01em}
+.toggle{width:30px;height:30px;border-radius:50%;border:1px solid var(--gold-line);background:none;display:grid;place-items:center;cursor:pointer;transition:border-color .3s}
+.toggle:hover{border-color:var(--gold)}
+.toggle svg{width:14px;height:14px;stroke:var(--text-2);fill:none;stroke-width:1.5}
+
+/* screens */
+.screen{display:none;min-height:100vh;animation:fadeUp .7s var(--ease)}
+.screen.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* GATE */
+#gate{display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.85rem;padding:2rem;min-height:100vh;position:relative;overflow:hidden}
+#gate.active{display:flex}
+#gate::before{content:"";position:absolute;inset:0;background:radial-gradient(100% 70% at 50% 0%,rgba(201,169,110,.06),transparent 60%);pointer-events:none}
+.g-star{font-size:.8rem;color:var(--gold);letter-spacing:.5em;opacity:0;animation:gi .8s var(--ease) .2s forwards}
+.g-title{font-family:var(--serif);font-size:clamp(2.6rem,9vw,5.2rem);font-weight:300;letter-spacing:-.02em;line-height:1;color:var(--text-0);opacity:0;animation:gi .9s var(--ease) .4s forwards}
+.g-tagline{font-size:.7rem;letter-spacing:.4em;text-transform:uppercase;color:var(--text-2);margin-top:.3rem;opacity:0;animation:gi .9s var(--ease) 1.3s forwards}
+.g-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:0;animation:gi .6s var(--ease) .9s forwards,pulse 3.4s ease-in-out 1.2s infinite}
+.g-promise{max-width:30rem;font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.12rem;line-height:1.6;color:var(--text-1);opacity:0;animation:gi .9s var(--ease) 1.1s forwards}
+.g-enter{margin-top:.6rem;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text-2);background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:.55rem;opacity:0;animation:gi .9s var(--ease) 1.5s forwards;transition:color .3s,gap .3s}
+.g-enter:hover{color:var(--gold);gap:.85rem}
+@keyframes gi{to{opacity:1}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,169,110,.45)}50%{box-shadow:0 0 0 9px rgba(201,169,110,0)}}
+
+/* generic page wrap */
+.wrap{max-width:52rem;margin:0 auto;padding:7.5rem clamp(1.4rem,6vw,3.6rem) 6rem}
+.wrap-read{max-width:var(--col)}
+
+/* HOME */
+.home-hero{font-family:var(--serif);font-weight:300;font-size:clamp(1.9rem,5.5vw,3rem);line-height:1.2;letter-spacing:-.02em;color:var(--text-0);max-width:30rem;margin-bottom:1rem}
+.home-sub{font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.14rem;line-height:1.6;color:var(--text-1);max-width:32rem;margin-bottom:4rem}
+
+.sec-eyebrow{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.3rem}
+
+/* field log trên home */
+.flog{margin-bottom:4.5rem}
+.flog-item{display:block;padding:1.1rem .4rem;border-bottom:1px solid var(--gold-line);cursor:pointer;background:none;border-left:none;border-right:none;width:100%;text-align:left;transition:padding-left .3s var(--ease),background .3s var(--ease)}
+.flog-list{border-top:1px solid var(--gold-line)}
+.flog-item:hover{padding-left:1.1rem;background:var(--ink-2)}
+.flog-meta{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.35rem}
+.flog-x{font-family:var(--serif);font-size:1.02rem;color:var(--text-1);line-height:1.5}
+.flog-empty{font-family:var(--serif);font-style:italic;color:var(--text-2);font-size:.98rem;line-height:1.6;padding:1.1rem 0;border-top:1px solid var(--gold-line)}
+
+/* nhãn bài nền */
+.nen-badge{display:inline-block;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-line);border-radius:2px;padding:.12rem .5rem;margin-left:.5rem;vertical-align:middle}
+
+/* situation cards */
+.situ{margin-bottom:4.5rem}
+.situ-list{display:flex;flex-direction:column;border-top:1px solid var(--gold-line)}
+.situ-item{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.15rem .4rem;border-bottom:1px solid var(--gold-line);cursor:pointer;background:none;border-left:none;border-right:none;border-top:none;width:100%;text-align:left;transition:padding-left .3s var(--ease),background .3s var(--ease)}
+.situ-item:hover{padding-left:1.1rem;background:var(--ink-2)}
+.situ-q{font-family:var(--serif);font-size:clamp(1.05rem,2.6vw,1.32rem);font-weight:400;color:var(--text-0);line-height:1.3}
+.situ-arr{color:var(--text-2);font-size:1rem;flex-shrink:0;transition:transform .3s var(--ease),color .3s var(--ease)}
+.situ-item:hover .situ-arr{color:var(--gold);transform:translateX(5px)}
+
+/* four faces on home */
+.faces{margin-bottom:4.5rem}
+.face{display:grid;grid-template-columns:2.4rem 1fr auto;align-items:center;gap:1rem;padding:1.15rem .4rem;border-bottom:1px solid var(--gold-line);cursor:pointer;background:none;border-left:none;border-right:none;border-top:none;width:100%;text-align:left;transition:padding-left .3s var(--ease),background .3s var(--ease)}
+.faces .face:first-child{border-top:1px solid var(--gold-line)}
+.face:hover{padding-left:1.1rem;background:var(--ink-2)}
+.face-num{font-family:var(--serif);font-size:.86rem;color:var(--gold);letter-spacing:.04em}
+.face-title{font-family:var(--serif);font-size:clamp(1.1rem,3vw,1.5rem);font-weight:400;color:var(--text-0);line-height:1.15}
+.face-side{font-size:.78rem;color:var(--text-2);font-style:italic;font-family:var(--serif);margin-top:.15rem}
+.face-arr{color:var(--text-2);font-size:1rem;transition:transform .3s var(--ease),color .3s var(--ease)}
+.face:hover .face-arr{color:var(--gold);transform:translateX(5px)}
+
+/* home foot line */
+.home-foot{border-top:1px solid var(--gold-line);padding-top:2.2rem;margin-top:1rem}
+.home-foot-line{font-family:var(--serif);font-style:italic;font-size:1.12rem;line-height:1.65;color:var(--text-1);max-width:30rem}
+.home-foot-mail{color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold-line);transition:border-color .3s}
+.home-foot-mail:hover{border-color:var(--gold)}
+
+/* breadcrumb */
+.crumb{font-size:.8rem;color:var(--text-2);margin-bottom:2rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.crumb button{background:none;border:none;color:var(--text-2);cursor:pointer;font-size:.8rem;font-family:var(--sans);padding:0;transition:color .3s}
+.crumb button:hover{color:var(--gold)}
+.crumb .sep{color:var(--gold-dim)}
+.crumb .here{color:var(--text-1)}
+
+/* face detail */
+.mt-eyebrow{font-size:.7rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+.mt-title{font-family:var(--serif);font-size:clamp(2rem,6vw,3rem);font-weight:300;letter-spacing:-.02em;color:var(--text-0);margin-bottom:.9rem}
+.mt-desc{font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.08rem;line-height:1.6;color:var(--text-1);max-width:var(--col);margin-bottom:2.6rem}
+
+.tang{padding:1.5rem 0;border-top:1px solid var(--gold-line)}
+.tang:last-child{border-bottom:1px solid var(--gold-line)}
+.tang-head{display:flex;align-items:baseline;gap:.85rem;margin-bottom:.35rem}
+.tang-roman{font-family:var(--serif);font-size:.82rem;color:var(--gold-dim);letter-spacing:.06em;min-width:1.8rem}
+.tang-name{font-family:var(--serif);font-size:clamp(1.15rem,3vw,1.6rem);font-weight:400;color:var(--text-0)}
+.tang-gloss{font-size:.86rem;color:var(--text-2);line-height:1.55;margin:.3rem 0 1rem 2.65rem}
+.o{display:flex;align-items:center;gap:.7rem;padding:.6rem .4rem .6rem 2.65rem;border-bottom:1px solid rgba(201,169,110,.08);cursor:pointer;background:none;border-left:none;border-right:none;border-top:none;width:100%;text-align:left;transition:padding-left .3s var(--ease)}
+.o:last-child{border-bottom:none}
+.o:hover{padding-left:3.2rem}
+.o-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.o-name{font-size:.94rem;color:var(--text-0);transition:color .3s var(--ease)}
+.o:hover .o-name{color:var(--gold)}
+.o-tag{margin-left:auto;font-size:.72rem;color:var(--text-2);font-style:italic;font-family:var(--serif);white-space:nowrap}
+.o.locked{opacity:.4;cursor:default}
+.o.locked:hover{padding-left:2.65rem}
+.o.locked .o-dot{background:var(--text-2)}
+.o.locked:hover .o-name{color:var(--text-0)}
+
+/* article list under an o */
+.bais{margin-top:1.4rem;border-top:1px solid var(--gold-line);padding-top:1.4rem}
+.bai-item{display:flex;align-items:baseline;gap:.7rem;padding:.75rem .4rem;border-bottom:1px solid rgba(201,169,110,.08);cursor:pointer;background:none;border:none;border-bottom:1px solid rgba(201,169,110,.08);width:100%;text-align:left;transition:padding-left .3s var(--ease)}
+.bai-item:hover{padding-left:.9rem}
+.bai-idx{font-family:var(--serif);font-size:.8rem;color:var(--gold-dim);min-width:1.5rem}
+.bai-t{font-size:.98rem;color:var(--text-0);line-height:1.4;transition:color .3s}
+.bai-sub{font-size:.82rem;color:var(--text-2);font-style:italic;font-family:var(--serif);margin-left:.4rem}
+.bai-item:hover .bai-t{color:var(--gold)}
+.bai-item.locked{opacity:.42;cursor:default}
+.bai-item.locked:hover{padding-left:.4rem}
+.bai-item.locked:hover .bai-t{color:var(--text-0)}
+
+/* reader */
+.kicker{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem}
+.rtitle{font-family:var(--serif);font-size:clamp(1.7rem,5vw,2.6rem);font-weight:400;letter-spacing:-.02em;line-height:1.12;color:var(--text-0);margin-bottom:2rem}
+.rbody p{font-size:1.06rem;line-height:1.8;color:var(--text-0);margin-bottom:1.4rem}
+.rbody .lead{font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.22rem;line-height:1.6;color:var(--text-1);margin-bottom:1.8rem}
+.rbody .drop::first-letter{font-family:var(--serif);font-size:3.2rem;font-weight:400;float:left;line-height:.78;padding:.34rem .58rem 0 0;color:var(--gold)}
+.rbody .dk{display:block;border-left:2px solid var(--gold-dim);padding:.6rem 0 .6rem 1.1rem;margin:1.6rem 0;color:var(--text-2);font-style:italic;font-family:var(--serif);font-size:.98rem;line-height:1.6}
+.rrule{width:38px;height:1px;background:var(--gold-dim);margin:2rem 0}
+.rnav{display:flex;justify-content:space-between;gap:1rem;margin-top:3.5rem;padding-top:1.6rem;border-top:1px solid var(--gold-line)}
+.rnav button{background:none;border:none;cursor:pointer;font-family:var(--sans);color:var(--text-2);font-size:.82rem;transition:color .3s;text-align:left;max-width:45%}
+.rnav button:hover{color:var(--gold)}
+.rnav .rnav-dir{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-dim);display:block;margin-bottom:.3rem}
+.rnav .rnav-r{text-align:right}
+.pending-note{font-family:var(--serif);font-style:italic;color:var(--text-2);font-size:1.02rem;line-height:1.7;border-left:2px solid var(--gold-line);padding-left:1.2rem;margin-top:1rem}
+
+/* WORKING NOTES (trust layer) */
+.wn-intro{font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.14rem;line-height:1.65;color:var(--text-1);max-width:var(--col);margin-bottom:3rem}
+.wn-group{margin-bottom:2.8rem}
+.wn-glabel{font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--gold-line)}
+.wn-item{display:flex;align-items:baseline;gap:.8rem;padding:.7rem .4rem;cursor:pointer;background:none;border:none;width:100%;text-align:left;transition:padding-left .3s var(--ease)}
+.wn-item:hover{padding-left:.9rem}
+.wn-dot{width:4px;height:4px;border-radius:50%;background:var(--gold-dim);flex-shrink:0;transform:translateY(-2px)}
+.wn-t{font-size:.98rem;color:var(--text-0);line-height:1.45;transition:color .3s}
+.wn-item:hover .wn-t{color:var(--gold)}
+.wn-desc{font-size:.82rem;color:var(--text-2);font-style:italic;font-family:var(--serif);margin-left:.4rem}
+.wn-item.locked{opacity:.42;cursor:default}
+.wn-item.locked:hover{padding-left:.4rem}
+.wn-item.locked:hover .wn-t{color:var(--text-0)}
+
+/* the way i think */
+.tw-list{margin-top:.5rem}
+.tw-item{padding:1.4rem 0;border-top:1px solid var(--gold-line)}
+.tw-item:last-child{border-bottom:1px solid var(--gold-line)}
+.tw-n{font-family:var(--serif);font-size:.8rem;color:var(--gold-dim);letter-spacing:.1em}
+.tw-h{font-family:var(--serif);font-size:1.2rem;font-weight:400;color:var(--text-0);margin:.3rem 0 .5rem}
+.tw-b{font-size:.98rem;line-height:1.7;color:var(--text-1);max-width:var(--col)}
+
+/* footer everywhere */
+.foot{max-width:52rem;margin:0 auto;padding:3rem clamp(1.4rem,6vw,3.6rem) 4rem;text-align:center;border-top:1px solid var(--gold-line)}
+.foot-line{font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--text-2);line-height:1.6}
+.foot-mail{color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold-line)}
+.foot-kw{font-size:.66rem;letter-spacing:.32em;text-transform:uppercase;color:var(--text-2);margin-top:1rem}
+
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--ink)}
+::-webkit-scrollbar-thumb{background:var(--gold-line);border-radius:2px}
+
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <button class="brand" onclick="go('home')">
+    <span class="orb"></span>
+    <span class="brand-name">Đoàn Quốc Duyệt</span>
+  </button>
+  <button class="toggle" onclick="toggleTheme()" aria-label="Đổi nền sáng tối">
+    <svg id="ticon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-linecap="round"/></svg>
+  </button>
+</div>
+
+<!-- GATE -->
+<section id="gate" class="active">
+  <div class="g-star">✦</div>
+  <h1 class="g-title">Đọc đất<br>bằng chân</h1>
+  <div class="g-dot"></div>
+  <p class="g-promise">Mười mấy năm đọc đất bằng chân — không bằng bảng rao, không bằng tin quy hoạch. Mỗi tuần một góc nhìn về đất, dòng tiền và con người.</p>
+  <div class="g-tagline">Keep Walking</div>
+  <button class="g-enter" onclick="go('home')">bước vào →</button>
+</section>
+
+<!-- HOME -->
+<section id="home" class="screen">
+  <div class="wrap">
+    <h2 class="home-hero">Đất không nói bằng bảng rao. Nó nói bằng người ở lại, tiền chảy về, và thời gian.</h2>
+    <p class="home-sub">Đây là chỗ ghi lại cách một người đọc vùng đất bằng chân — không bằng tin quy hoạch, không bằng lời môi giới.</p>
+
+    <!-- SITUATION -->
+    <div class="situ">
+      <div class="sec-eyebrow">Bắt đầu từ chỗ chú đang đứng</div>
+      <div class="situ-list" id="situList"></div>
+    </div>
+
+    <!-- FIELD LOG mới nhất -->
+    <div class="flog" id="flogHome"></div>
+
+    <!-- FOUR FACES -->
+    <div class="faces">
+      <div class="sec-eyebrow">Hoặc đi theo bốn mặt</div>
+      <div id="faceList"></div>
+    </div>
+
+    <!-- foot line -->
+    <div class="home-foot">
+      <p class="home-foot-line">Có một vùng đất, một cái kèo đang làm chú phân vân? Muốn thêm một con mắt trước khi xuống tiền — <a class="home-foot-mail" href="mailto:doanquocduyet@gmail.com">viết cho tôi</a>.</p>
+    </div>
+  </div>
+  <div class="foot">
+    <p class="foot-line">Keep Walking.</p>
+    <div class="foot-kw">Đoàn Quốc Duyệt</div>
+  </div>
+</section>
+
+<!-- SITUATION RESULT -->
+<section id="situResult" class="screen">
+  <div class="wrap">
+    <div class="crumb"><button onclick="go('home')">Trang đầu</button><span class="sep">/</span><span class="here" id="situCrumb"></span></div>
+    <div class="mt-eyebrow" id="situEyebrow"></div>
+    <h2 class="mt-title" id="situTitle"></h2>
+    <p class="mt-desc" id="situDesc"></p>
+    <div id="situBody"></div>
+  </div>
+  <div class="foot"><p class="foot-line">Keep Walking.</p><div class="foot-kw">Đoàn Quốc Duyệt</div></div>
+</section>
+
+<!-- FACE DETAIL -->
+<section id="face" class="screen">
+  <div class="wrap">
+    <div class="crumb"><button onclick="go('home')">Trang đầu</button><span class="sep">/</span><span class="here" id="faceCrumb"></span></div>
+    <div class="mt-eyebrow" id="faceEyebrow"></div>
+    <h2 class="mt-title" id="faceTitle"></h2>
+    <p class="mt-desc" id="faceDesc"></p>
+    <div id="faceBody"></div>
+  </div>
+  <div class="foot"><p class="foot-line">Keep Walking.</p><div class="foot-kw">Đoàn Quốc Duyệt</div></div>
+</section>
+
+<!-- READER -->
+<section id="reader" class="screen">
+  <div class="wrap wrap-read">
+    <div class="crumb" id="readCrumb"></div>
+    <div class="kicker" id="readKicker"></div>
+    <h1 class="rtitle" id="readTitle"></h1>
+    <div class="rbody" id="readBody"></div>
+    <div class="rnav" id="readNav"></div>
+  </div>
+  <div class="foot"><p class="foot-line">Keep Walking.</p><div class="foot-kw">Đoàn Quốc Duyệt</div></div>
+</section>
+
+<!-- WORKING NOTES -->
+<section id="notes" class="screen">
+  <div class="wrap">
+    <div class="crumb"><button onclick="go('home')">Trang đầu</button><span class="sep">/</span><span class="here">Sổ tay hiện trường</span></div>
+    <div class="mt-eyebrow">Không phải trang giới thiệu</div>
+    <h2 class="mt-title">Sổ tay hiện trường</h2>
+    <p class="wn-intro">Đọc mười bài rồi vẫn chưa biết người viết làm thật hay chỉ viết hay. Chỗ này để trả lời câu đó — ghi chép đi thực địa, cách tôi mổ một cái kèo, mấy lần tôi làm sai rồi đổi ý. Không thành tích, không khoe. Chỉ là dấu vết của người làm.</p>
+    <div id="notesBody"></div>
+  </div>
+  <div class="foot"><p class="foot-line">Keep Walking.</p><div class="foot-kw">Đoàn Quốc Duyệt</div></div>
+</section>
+
+<!-- THE WAY I THINK -->
+<section id="think" class="screen">
+  <div class="wrap wrap-read">
+    <div class="crumb"><button onclick="go('home')">Trang đầu</button><span class="sep">/</span><span class="here">Tôi nhìn thị trường thế nào</span></div>
+    <div class="mt-eyebrow">Vài nguyên tắc gốc</div>
+    <h2 class="mt-title">Tôi nhìn thị trường thế nào</h2>
+    <div class="tw-list" id="thinkBody"></div>
+  </div>
+  <div class="foot"><p class="foot-line">Keep Walking.</p><div class="foot-kw">Đoàn Quốc Duyệt</div></div>
+</section>
+
+<script>
+/* ---------- THEME ---------- */
+function toggleTheme(){
+  const h=document.documentElement;
+  const now=h.getAttribute('data-theme')==='dark'?'light':'dark';
+  h.setAttribute('data-theme',now);
+  document.getElementById('ticon').innerHTML = now==='dark'
+    ? '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-linecap="round"/>'
+    : '<circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" stroke-linecap="round"/>';
+}
+
+/* ---------- NAV ---------- */
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('gate').classList.remove('active');
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ============================================================
+   DATA — giữ nguyên khung mặt→tầng→ô→bài cũ.
+   Thêm: SITUATIONS (cửa tình huống), NOTES (sổ tay), THINK (nguyên tắc)
+   Chỗ [D kể] và các ô 'đang dựng' để trống chờ chú lắp.
+   ============================================================ */
+
+const DATA={mucs:[
+{id:'01',num:'01',title:'Bất động sản',side:'người làm',eyebrow:'Mặt thứ nhất — người làm',
+ desc:'Chuyện cầm tiền thiệt, đứng tại đất, mua bán bằng chân chớ không bằng bảng rao. Mười mấy năm đi dọc biển lên rừng rút ra được gì thì để đây.',
+ tangs:[
+  {roman:'I',name:'Một vùng đất',gloss:'Coi một vùng có cái sàn không, đang nằm hay đang lên, tự sống được hay phải bơm mới thở.',
+   os:[
+    {name:'Giá trị gốc',tag:'chuỗi bài',bais:[
+      {t:'Đường mở tới đâu, giá lên tới đó — sai chỗ nào',sub:'bài mở, phá một niềm tin',state:'ready',nen:true,body:[
+        {type:'lead',x:'Người ta hay nói đường mở tới đâu, đất lên tới đó. Câu đó đúng một nửa. Nửa còn lại làm nhiều người ôm đất nằm chờ hoài không thấy lên.'},
+        {type:'drop',x:'Con đường không làm giá đất lên. Dòng người đi trên con đường đó mới làm giá lên. Đường mở mà không ai dọn về ở, thì nó chỉ là nhựa trải qua chỗ vắng.'},
+        {type:'dk',x:'[D kể — chú lắp vào: một con đường chú thấy mở xong mà đất hai bên vẫn nằm im. Ở đâu, cỡ năm nào? Ngược lại, chỗ nào người ta dọn về trước khi đường xong, giá đã chạy?]'},
+      ]},
+      {t:'Cái sàn của một vùng nằm ở đâu',sub:'coi khói bếp, đừng coi bảng rao',state:'ready',nen:true,body:[
+        {type:'lead',x:'Muốn biết một vùng có sống được thiệt hay không, tui không mở bảng giá ra coi trước. Tui coi chiều tối có khói bếp bay lên hay không.'},
+        {type:'drop',x:'Một vùng đất có hai lớp. Lớp trên là mấy tấm bảng cắm dọc đường, số điện thoại môi giới, giá rao mỗi tháng một khác. Lớp đó ồn, dễ thấy, mà rỗng. Lớp dưới là cái sàn — người ta ăn đời ở kiếp ở đó.'},
+        {type:'dk',x:'[D kể — một vùng cụ thể chú từng đi: thấy khói bếp hay không, dân ở thiệt hay chỉ có bảng rao.]'},
+      ]},
+      {t:'Dân sống thiệt là cái nền không rớt',sub:'',state:'pending'},
+      {t:'Coi một vùng bằng chân, đừng coi bằng báo cáo',sub:'',state:'pending'},
+      {t:'Gói lại — ba thứ để coi cái gốc một vùng',sub:'checklist, một chiến thắng nhỏ',state:'pending'},
+    ]},
+    {name:'Các dòng hội tụ',tag:'chuỗi bài',bais:[
+      {t:'Giá trị dồn về chỗ mấy dòng chảy gặp nhau',sub:'',state:'ready',body:[
+        {type:'lead',x:'Có những chỗ đất tự lên giá mà không cần cơn sốt nào. Vì nó nằm ngay chỗ mấy dòng chảy gặp nhau — dòng người, dòng tiền, dòng hàng.'},
+        {type:'dk',x:'[D kể — một chỗ chú thấy rõ mấy dòng này giao nhau.]'},
+      ]},
+      {t:'Tiền lớn đi trước tin tức, tiền nhỏ chạy sau tin đồn',sub:'',state:'pending'},
+      {t:'Đất có mùa, người mua người bán cũng có mùa',sub:'',state:'pending'},
+    ]},
+    {name:'Trọng lực',tag:'chuỗi bài',bais:[
+      {t:'Có chỗ tự có sức hút, gọi là trọng lực',sub:'định nghĩa một từ khóa riêng',state:'ready',nen:true,body:[
+        {type:'lead',x:'Có những vùng đất giống như có lực hút. Người đi rồi cũng quay về, tiền ra rồi cũng chảy lại. Tui gọi cái đó là trọng lực của một nơi.'},
+        {type:'dk',x:'[D kể — một nơi chú thấy rõ cái trọng lực này, người ta cứ quay về.]'},
+      ]},
+      {t:'Vì sao có chỗ tự hút, có chỗ phải bơm',sub:'',state:'pending'},
+      {t:'Trọng lực đo bằng cách nào',sub:'cho một công cụ',state:'pending'},
+    ]},
+    {name:'Thời gian',tag:'đang dựng',bais:[]},
+   ]},
+  {roman:'II',name:'Một lô đất',gloss:'Thế đất, ranh, giấy tờ — cái lợi cái hại nằm trong chính miếng đất đó.',
+   os:[
+    {name:'Coi một lô',tag:'đang dựng',bais:[
+      {t:'Coi một miếng đất trong ba mươi phút, coi cái gì trước',sub:'thứ tự coi của người có nghề',state:'pending',nen:true},
+      {t:'Ranh trên giấy với ranh dưới chân',sub:'',state:'pending'},
+    ]},
+    {name:'Đọc tờ giấy',tag:'chuỗi bài',bais:[
+      {t:'Rành ngôn ngữ giấy tờ, trước khi khuyên ai xuống tiền',sub:'cái căn bản mà người ta hay coi thường',state:'ready',body:[
+        {type:'lead',x:'Cái nghề này có một chuyện lạ. Ai cũng lo học chốt sale, học đọc trend, học hô hào cho sang miệng. Mà cái căn bản nhất — đọc cho ra một tờ giấy tờ đất — thì nhiều người làm mấy năm vẫn ú ớ.'},
+        {type:'drop',x:'Khách giàu, khách khôn, họ không thích nghe nói sai đâu. Ngồi với họ mà kêu sổ đỏ sổ hồng lẫn lộn, giấy này giấy kia gọi trật tên, là họ biết liền mình tay ngang. Còn ăn nói vừa dễ nghe vừa đúng pháp lý, thì tự nhiên họ nể, lần sau có việc lại kiếm mình. Nói vui vậy chớ cái nể đó là nồi cơm.'},
+        {type:'p',x:'Tui hay dặn anh em: làm môi giới chân chính thì phải đọc ngôn ngữ bất động sản cho thông. Khách đưa một xấp giấy ra cho mình ngó, mình phải biết nó là loại gì, tính chất ra sao, bản chất pháp lý thế nào, đủ hợp lệ để đưa ra giao dịch hay chưa.'},
+        {type:'p',x:'Và đây mới là chỗ quan trọng nhất. Ngó tới ngó lui mà thấy giấy có mùi — giấy giả, giấy không đủ giá trị pháp lý, giấy đang vướng — thì đừng cố đấm ăn xôi mà khuyên người ta giao dịch. Ngừng lại. Kiếm cách bổ sung, làm cho giấy tờ chuẩn chỉnh đã, rồi mới tính chuyện mua bán.'},
+        {type:'p',x:'Cái đó không phải khôn vặt. Cái đó là giữ mình, và giữ luôn người tin mình. Một cái deal chốt được mà giấy chưa sạch, thì sớm muộn nó cũng quay lại tìm mình. Tiền hoa hồng cầm chưa nóng tay đã lo ngay ngáy, không đáng.'},
+        {type:'dk',x:'[D kể — chú lắp: một vụ giấy tờ có vấn đề mà chú kịp ngừng, hoặc chú thấy người khác dính. Loại giấy gì, vướng chỗ nào, kết cục ra sao.]'},
+        {type:'p',x:'Luật thì mỗi thời một khác, năm nay quy định vầy, vài năm sau sửa lại. Cái đó phải cập nhật hoài, không thuộc lòng một lần là xong. Nhưng cái cốt thì không đổi: người làm nghề tử tế phải đọc được tờ giấy trước khi mở miệng khuyên. Đọc không ra thì đi hỏi cho ra, chớ đừng gật đại.'},
+        {type:'p',x:'Nghe thì căn bản quá, tưởng đâu ai cũng biết. Mà thiệt tình, chính cái căn bản này lọc ra người làm lâu dài với người làm cho vui. Đó, đơn giản sơ sơ có nhiêu đó thôi à.'},
+      ]},
+    ]},
+   ]},
+  {roman:'III',name:'Giá bao nhiêu',gloss:'Bóc cái giá người ta hô ra, tìm cho được cái giá thiệt bên dưới.',
+   os:[{name:'Ba con số',tag:'đang dựng',bais:[
+      {t:'Giá hô, giá rao, giá chốt — ba con số cách nhau xa lắm',sub:'',state:'pending'},
+   ]}]},
+  {roman:'IV',name:'Đi mua, đi bán',gloss:'Mua sao, trả sao, cọc sao, tiền ở đâu ra, gãy thường gãy chỗ nào.',
+   os:[{name:'Ngồi vào bàn',tag:'đang dựng',bais:[
+      {t:'Trả giá không phải mặc cả — trả giá là đọc người',sub:'',state:'pending'},
+   ]}]},
+  {roman:'V',name:'Kèo thơm đâu ra',gloss:'Kèo thơm không nằm trên mạng. Nó đi đường người quen — và vô được đường đó phải trả bằng thứ khác.',
+   os:[{name:'Lọc kèo',tag:'đang dựng',bais:[
+      {t:'Ba câu tôi hỏi trước khi coi bất kỳ kèo nào',sub:'',state:'pending'},
+      {t:'Kèo nhìn ngon mà tôi lắc, cái gì làm tôi lắc',sub:'',state:'pending',nen:true},
+      {t:'Người ta đưa tôi một kèo, tôi mổ nó theo thứ tự nào',sub:'năm bước, bài gói của tầng',state:'pending',nen:true},
+   ]}]},
+  {roman:'VI',name:'Vào một ngày bình thường',gloss:'Một ngày đi đất bình thường trông ra sao. Từ miếng lẻ tới cái hệ thống tiền tự chảy.',
+   os:[{name:'Đường dài',tag:'đang dựng',bais:[
+      {t:'Từ miếng đất đầu tiên tới đồng tiền đầu tiên tự chảy về',sub:'',state:'pending'},
+   ]}]},
+ ]},
+
+{id:'02',num:'02',title:'Có mấy cái hay hay',side:'người nghĩ',eyebrow:'Mặt thứ hai — người nghĩ',
+ desc:'Cách nghĩ về đám đông, dòng tiền, chu kỳ. Không dạy đời, chỉ bày cách coi.',
+ tangs:[
+  {roman:'I',name:'Cái vòng',gloss:'Cái gì cũng có vòng của nó — lên rồi xuống, nóng rồi nguội. Coi mình đang ở khúc nào.',
+   os:[
+    {name:'Cái đầu người làm nghề',tag:'chuỗi bài',bais:[
+      {t:'Băng trong lòng, là nơi phải tan trước',sub:'viết lúc thị trường đóng băng',state:'ready',nen:true,body:[
+        {type:'lead',x:'Tui hay chia sẻ với nhiều anh em mới vô nghề bất động sản, cái sự "mới" là một đặc ân. Hãy làm hết mình, hãy ghi nhớ cái trạng thái tươi mới này và giữ lấy nó, luôn để cái hộp đó trong đầu. Vì sau này mình sẽ phải lôi cái hộp ký ức này ra, để vượt qua nhiều biến cố trong nghề.'},
+        {type:'p',x:'Càng làm, càng vô sâu — bất kỳ nghề nào, không riêng bất động sản — mọi thứ từ kiến thức, kinh nghiệm, kỹ năng, quan hệ, chức vụ, danh tiếng đều lên một bậc. Và tất nhiên, mấy cái tiêu cực gom được qua từng chuyện trong nghề cũng tích lại dần. Không vượt được, nó thành nhụt chí, bao biện, đổ lỗi.'},
+        {type:'p',x:'Mọi thứ đi theo chiều không tốt, tính ra chỉ diễn ra vỏn vẹn trong hơn một năm nay.'},
+        {type:'p',x:'Có ai từng mấy tháng trời nằm nghĩ, chừng nào nhà nước cho phân lô tách thửa lại, để mình đi chinh chiến, giao dịch ầm ầm như xưa không? Hay nằm mơ một ngày đẹp trời nào đó lên trend, mấy mối cũ tự tìm tới giao cho mình những giỏ hàng thơm phức? Tin mình đăng, khách cũ tự gọi tới, môi giới gọi tới hỏi mua, rồi ta cứ thong dong mà tiền vô ào ào như xưa?'},
+        {type:'p',x:'Có những chuyện không nằm trong tầm mình. Ta làm cách nào đi nữa cũng không đổi được. Băng có tan không? Khi nào tan? Khi nào mua? Khi nào bán? Chờ thị trường tốt mình mới dốc nhiệt huyết vô nghề này chăng?'},
+        {type:'p',x:'Ta có yêu nghề như ta vẫn nghĩ, vẫn cho mọi người thấy bấy lâu, hay không? Có tự hỏi, băng tan rồi thì sao nữa không? Lúc đó ta mới tìm hàng, mới chào khách, mới đi kết nối, mới đàm phán mấy deal ưng ý, mới triển khai kế hoạch, mới bắt đầu làm mọi thứ?'},
+        {type:'p',x:'Ta cứ hay nghĩ ngợi xa xôi rồi tự đẩy mình vào mớ hỗn độn không thoát ra được. Từ đó ra cái góc nhìn "chỉ có bao nhiêu đó mà thôi".'},
+        {type:'p',x:'Vậy nên, muốn tan băng ở đâu đó, thì băng trong lòng ta là nơi phải tan trước.'},
+        {type:'p',x:'Hãy đem cái hộp tươi mới đó ra mà dùng. Tinh thần của một người học việc, một con số không, một người khởi nghiệp với tất cả nhiệt huyết, yêu nghề bất chấp khó khăn. Vô lại cái trạng thái chảy một lần nữa.'},
+      ]},
+    ]},
+    {name:'Bốn mùa của một tài sản',tag:'đang dựng',bais:[
+      {t:'Đất có mùa, người mua kẻ bán cũng có mùa',sub:'',state:'pending'},
+   ]}]},
+  {roman:'II',name:'Đám đông',gloss:'Đám đông tới lúc nào, chạy lúc nào. Đọc được cái đó thì biết mình nên ngược hay nên xuôi.',
+   os:[{name:'Đọc cái đám đông',tag:'đang dựng',bais:[
+      {t:'Bốn kiểu nhà đầu tư',sub:'',state:'ready',nen:true,body:[
+        {type:'lead',x:'Đi mua bán đất mười mấy năm, gặp đủ hạng người. Rút lại tui thấy có bốn kiểu. Nhìn ra mình là kiểu nào thì đỡ tự lừa mình.'},
+        {type:'dk',x:'[D kể — bốn kiểu chú thấy, mỗi kiểu một nét cụ thể.]'},
+      ]},
+      {t:'Đám đông không sai — đám đông chỉ trễ',sub:'',state:'pending'},
+      {t:'Cơn sốt đất không tạo người giàu — nó chuyển tiền',sub:'',state:'pending'},
+   ]}]},
+  {roman:'III',name:'Dòng tiền',gloss:'Tiền lớn chảy đi đâu thì cuộc chơi ở đó. Coi dòng, đừng coi tin đồn.',
+   os:[{name:'Đọc dòng tiền',tag:'đang dựng',bais:[
+      {t:'Tiền lớn đi trước tin tức, tiền nhỏ chạy sau tin đồn',sub:'',state:'pending'},
+   ]}]},
+  {roman:'IV',name:'Chắc sẽ vậy',gloss:'Đọc hiện tại cho kỹ, đừng đoán tương lai xa. Cái sắp tới nằm trong cái đang có.',
+   os:[{name:'Đoán cái sắp tới',tag:'đang dựng',bais:[
+      {t:'Cái tôi coi để đoán năm năm tới của một vùng',sub:'',state:'pending'},
+   ]}]},
+  {roman:'V',name:'Rồi sao, chốt sao',gloss:'Coi tới rồi thì quyết. Cách tui đặt cược, chừa đường lui, giữ vốn đánh ván sau.',
+   os:[{name:'Đường lui',tag:'đang dựng',bais:[
+      {t:'Vì sao tôi luôn chừa đường lui trước khi xuống tiền',sub:'',state:'pending'},
+   ]}]},
+ ]},
+
+{id:'03',num:'03',title:'Đeo cái mắt kính',side:'người nhìn',eyebrow:'Mặt thứ ba — người nhìn',
+ desc:'Cái hồn một nơi, con người, thế hệ. Mặt có máu người nhất.',
+ tangs:[
+  {roman:'I',name:'Cái hồn một nơi',gloss:'Mỗi chỗ có một cái hồn riêng. Đọc được cái hồn thì hiểu vì sao người ta thương chỗ đó.',
+   os:[{name:'Đọc một nơi',tag:'đang dựng',bais:[
+      {t:'Cái quán cà phê nói thiệt hơn cái bảng giá',sub:'',state:'pending',nen:true},
+      {t:'Cái chợ sáng cho biết vùng sống thiệt hay sống diễn',sub:'',state:'pending'},
+      {t:'Tới vùng lạ, tôi kiếm ai trước tiên',sub:'',state:'pending'},
+   ]}]},
+  {roman:'II',name:'Một con người, một thế hệ',gloss:'Nhìn người thấy cả một lớp người. Nhìn một lớp người thấy cả cái thời.',
+   os:[{name:'Người và thế hệ',tag:'đang dựng',bais:[
+      {t:'Người giữ đất với người lướt đất, nhìn là biết',sub:'',state:'pending',nen:true},
+      {t:'Đời cha mua đất để ở, đời con mua đất để bán',sub:'',state:'pending'},
+   ]}]},
+  {roman:'III',name:'Một chuyện thường',gloss:'Chuyện nhỏ xíu mà lòi ra cả một con người, cả một cái lẽ đời.',
+   os:[
+    {name:'Ngồi một mình',tag:'tản mạn',bais:[
+      {t:'Cuối tuần, một dàn loa xịn, một ly cà phê thơm',sub:'chỗ lặng của người đi cả tuần',state:'ready',body:[
+        {type:'lead',x:'Có một tấm hình cũ, chụp năm hai ngàn không trăm mười ba. Một quán cà phê nhỏ, dàn loa xịn, ánh đèn vàng, mấy bức tranh treo tường. Bên dưới tui ghi đúng một dòng: nhẹ nhàng cuối tuần, dàn loa xịn, nhạc hay, cà phê thơm.'},
+        {type:'p',x:'Có nhiêu đó. Không triết lý, không bài học, không đúc kết gì hết. Chỉ là một buổi cuối tuần ngồi nghe nhạc.'},
+        {type:'p',x:'Mà lạ, cái dòng đó tui còn nhớ, còn mấy cái deal cùng năm thì quên gần hết rồi.'},
+        {type:'p',x:'Người đi đất cả tuần, chạy ngoài nắng, đứng giữa đồng, ngó ranh, nghe người ta mặc cả, cãi cọ, hô giá — tới cuối tuần cái đầu nó ong. Lúc đó không cần thêm thông tin nữa, không cần thêm một cái tin tốt hay tin xấu nào nữa. Chỉ cần một chỗ ngồi yên, một dàn loa ra tiếng cho đàng hoàng, một ly cà phê pha tử tế. Vậy thôi mà đủ.'},
+        {type:'p',x:'Tui để ý, mấy người làm nghề này lâu mà bền, phần lớn đều có một cái chốn riêng như vậy. Người thì cà phê, người thì câu cá, người thì cái ban công với mấy chậu cây. Không phải để trốn việc. Mà để cái đầu nó nguội lại, để sáng thứ hai còn tỉnh mà đọc cho ra cái thị trường đang giở trò gì.'},
+        {type:'p',x:'Cái nghề nhìn tiền bạc đất cát suốt ngày, tưởng đâu khô khan. Mà muốn đi được đường dài với nó, hình như lại phải giữ cho được một góc mềm. Một chỗ mà tiền không chen vào được.'},
+        {type:'dk',x:'[D kể — chú thêm nếu muốn: cái quán đó, hay cái chốn riêng của chú bây giờ. Chú hay ngồi đâu cho cái đầu nguội lại.]'},
+      ]},
+      {t:'Một bữa nhậu nói thiệt hơn mười buổi họp',sub:'',state:'pending'},
+   ]}]},
+ ]},
+
+{id:'04',num:'04',title:'Gom gom lại',side:'người đào',eyebrow:'Mặt thứ tư — người đào',
+ desc:'Đào sâu một vùng, một câu hỏi. Bài có ngày tháng, có kết luận.',
+ tangs:[
+  {roman:'I',name:'Đào một thị trường',gloss:'Mổ một thị trường tới lớp cuối — giá vì sao cao, luật đổi thì ai lời ai thiệt.',
+   os:[{name:'Mổ thị trường',tag:'đang dựng',bais:[]}]},
+  {roman:'II',name:'Đào một vùng',gloss:'Đào một vùng cụ thể tới tới. Đây là sân nhà — đọc vùng bằng chân, bỏ cơn sốt, coi cái nền.',
+   os:[{name:'Hồ sơ một vùng',tag:'sân nhà — đang dựng',bais:[
+      {t:'Cần Giờ — đọc một vùng trước khi nó thành tin',sub:'thực địa có ngày tháng',state:'pending',nen:true},
+      {t:'Một chuyến đi coi đất không mua gì hết',sub:'',state:'pending'},
+      {t:'Ba ngày ở một vùng — cái thấy rồi, cái còn ngờ',sub:'',state:'pending'},
+   ]}]},
+  {roman:'III',name:'Một câu hỏi chưa có tên',gloss:'Chỗ để mở. Mấy câu hỏi lạ, đào cho vui, đào cho tới. Chừa chỗ cho cái tò mò tới sau.',
+   os:[{name:'Để mở',tag:'chừa chỗ',bais:[
+      {t:'Đọc một trận bóng như đọc một thị trường',sub:'',state:'pending'},
+   ]}]},
+ ]},
+]};
+
+/* SITUATIONS — cửa tình huống, dẫn tới bài/ô có sẵn */
+/* FIELD LOG — ghi chép hiện trường có ngày. Chờ chú điền (phần A trong file điền).
+   Khi có, mỗi cái là {ngay,noi,x}. Trống thì web hiện dòng mời nhẹ. */
+const FLOG=[
+  // {ngay:'17/07', noi:'Nam Ban', x:'[A1 — chú điền: buổi sáng ngồi quán, thấy gì, nghe gì]'},
+];
+
+const SITU=[
+ {q:'Tôi đang tính xuống tiền một miếng',eyebrow:'Trước khi xuống tiền',
+  title:'Trước khi xuống tiền một miếng',
+  desc:'Chưa vội coi giá. Coi cái nền trước, coi người bán trước, coi đường ra trước. Mấy bài này đi đúng thứ tự đó.',
+  refs:[['01',0,0,0],['01',0,0,1],['01',4,0,1],['01',4,0,2]]},
+ {q:'Tôi đang giữ đất, không biết ôm hay buông',eyebrow:'Đang giữ tài sản',
+  title:'Đang giữ, chưa biết ôm hay buông',
+  desc:'Câu hỏi không phải lời bao nhiêu, mà là vùng này còn cái nền không, mình còn đường lui không.',
+  refs:[['01',0,2,0],['02',4,0,0],['02',1,0,1]]},
+ {q:'Tôi muốn hiểu một vùng trước khi bước vào',eyebrow:'Đọc một vùng',
+  title:'Hiểu một vùng trước khi bước vào',
+  desc:'Đọc một vùng bằng chân: cái sàn, dòng người, cái hồn, người ở lại. Bỏ tin quy hoạch, coi cái sống thiệt.',
+  refs:[['01',0,0,1],['01',0,1,0],['03',0,0,0],['04',1,0,0]]},
+ {q:'Tôi muốn coi cách chú đọc thị trường',eyebrow:'Cách đọc',
+  title:'Cách tôi đọc thị trường',
+  desc:'Không phải mẹo. Là cách nhìn — đám đông, dòng tiền, cái vòng, chỗ nào nên ngược chỗ nào nên xuôi.',
+  refs:[['02',1,0,0],['02',1,0,1],['01',0,2,0]]},
+ {q:'Tôi chỉ muốn coi gần đây chú nghĩ gì',eyebrow:'Mới nhất',
+  title:'Mấy cái gần đây',
+  desc:'Bài mới ra, xếp trên xuống. Coi thử hạp thì đi tiếp.',
+  refs:[['01',0,0,0],['01',0,0,1],['02',1,0,0]]},
+];
+
+/* WORKING NOTES — trust layer, chờ chú lắp */
+const NOTES=[
+ {label:'Quan sát hiện trường',items:[
+   {t:'Ghi chép mấy chuyến đi gần đây',desc:'ngày, chỗ, thấy gì',state:'pending'},
+ ]},
+ {label:'Cách tôi làm',items:[
+   {t:'Cách tôi mổ một cái kèo, từng bước',desc:'',state:'pending'},
+   {t:'Một ngày đi đất của tôi trông ra sao',desc:'',state:'pending'},
+   {t:'Cách tôi đánh giá một cơ hội',desc:'',state:'pending'},
+ ]},
+ {label:'Cái tôi từng sai',items:[
+   {t:'Mấy vụ tôi làm sai rồi đổi ý',desc:'không giấu nghề',state:'pending'},
+ ]},
+];
+
+/* THE WAY I THINK — nguyên tắc gốc, chờ chú lắp/sửa */
+const THINK=[
+ {h:'Đọc đất bằng chân, không bằng bảng rao',b:'[D kể — chú viết lại theo lời chú: vì sao chú tin cái thấy tận nơi hơn cái nghe, cái đọc trên giấy.]'},
+ {h:'Trust đến trước, deal đến sau',b:'[D kể — nguyên tắc của chú: người ta tin rồi mới tính chuyện làm ăn, không làm ngược.]'},
+ {h:'Chừa đường lui trước khi bước vào',b:'[D kể — vì sao chú luôn coi đường ra trước khi coi đường vô.]'},
+];
+
+/* ---------- RENDER HOME ---------- */
+function renderHome(){
+  const sl=document.getElementById('situList');
+  sl.innerHTML=SITU.map((s,i)=>`<button class="situ-item" onclick="openSitu(${i})"><span class="situ-q">${s.q}</span><span class="situ-arr">→</span></button>`).join('');
+  const fl=document.getElementById('faceList');
+  fl.innerHTML=DATA.mucs.map((m,i)=>`<button class="face" onclick="openFace(${i})"><span class="face-num">${m.num}</span><span><span class="face-title">${m.title}</span><br><span class="face-side">${m.side}</span></span><span class="face-arr">→</span></button>`).join('');
+}
+
+/* ---------- SITUATION ---------- */
+function openSitu(i){
+  const s=SITU[i];
+  document.getElementById('situCrumb').textContent=s.title;
+  document.getElementById('situEyebrow').textContent=s.eyebrow;
+  document.getElementById('situTitle').textContent=s.title;
+  document.getElementById('situDesc').textContent=s.desc;
+  const body=document.getElementById('situBody');
+  body.innerHTML='<div class="bais" style="border-top:none;padding-top:0">'+s.refs.map(r=>{
+    const b=DATA.mucs[r[0]-0*1] && findBai(r);
+    if(!b) return '';
+    const locked=b.state!=='ready';
+    return `<button class="bai-item${locked?' locked':''}" ${locked?'':`onclick="openBaiByRef('${r.join(',')}')"`}><span class="bai-idx">→</span><span><span class="bai-t">${b.t}</span>${b.nen?'<span class="nen-badge">bài nền</span>':''}${b.sub?`<span class="bai-sub">${b.sub}</span>`:''}${locked?'<span class="bai-sub"> · sắp có</span>':''}</span></button>`;
+  }).join('')+'</div>';
+  go('situResult');
+}
+function findBai(r){
+  try{return DATA.mucs[mucIdx(r[0])].tangs[r[1]].os[r[2]].bais[r[3]];}catch(e){return null;}
+}
+function mucIdx(id){return DATA.mucs.findIndex(m=>m.id===id);}
+
+/* ---------- FACE ---------- */
+function openFace(i){
+  const m=DATA.mucs[i];
+  document.getElementById('faceCrumb').textContent=m.title;
+  document.getElementById('faceEyebrow').textContent=m.eyebrow;
+  document.getElementById('faceTitle').textContent=m.title;
+  document.getElementById('faceDesc').textContent=m.desc;
+  const body=document.getElementById('faceBody');
+  body.innerHTML=m.tangs.map((t,ti)=>{
+    const os=t.os.map((o,oi)=>{
+      const hasReady=o.bais.some(b=>b.state==='ready');
+      const hasAny=o.bais.length>0;
+      const locked=!hasAny;
+      return `<button class="o${locked?' locked':''}" ${locked?'':`onclick="openO(${i},${ti},${oi})"`}><span class="o-dot"></span><span class="o-name">${o.name}</span><span class="o-tag">${o.tag}</span></button>`;
+    }).join('');
+    return `<div class="tang"><div class="tang-head"><span class="tang-roman">${t.roman}</span><span class="tang-name">${t.name}</span></div><div class="tang-gloss">${t.gloss}</div>${os}</div>`;
+  }).join('');
+  go('face');
+}
+
+/* open an O -> show its article list inline on face screen */
+function openO(mi,ti,oi){
+  const m=DATA.mucs[mi], t=m.tangs[ti], o=t.os[oi];
+  const body=document.getElementById('faceBody');
+  const list=o.bais.map((b,bi)=>{
+    const locked=b.state!=='ready';
+    return `<button class="bai-item${locked?' locked':''}" ${locked?'':`onclick="openBai(${mi},${ti},${oi},${bi})"`}><span class="bai-idx">${String(bi+1).padStart(2,'0')}</span><span><span class="bai-t">${b.t}</span>${b.nen?'<span class="nen-badge">bài nền</span>':''}${b.sub?`<span class="bai-sub">${b.sub}</span>`:''}${locked?'<span class="bai-sub"> · sắp có</span>':''}</span></button>`;
+  }).join('');
+  document.getElementById('faceEyebrow').textContent=m.eyebrow+' · tầng '+t.roman;
+  document.getElementById('faceTitle').textContent=o.name;
+  document.getElementById('faceDesc').textContent=t.gloss;
+  document.getElementById('faceCrumb').innerHTML=`<button onclick="openFace(${mi})">${m.title}</button> <span class="sep">/</span> <span class="here">${o.name}</span>`;
+  body.innerHTML='<div class="bais">'+list+'</div>';
+  window.scrollTo(0,0);
+}
+
+/* ---------- READER ---------- */
+let curRef=null;
+function openBai(mi,ti,oi,bi){
+  const m=DATA.mucs[mi], t=m.tangs[ti], o=t.os[oi], b=o.bais[bi];
+  curRef=[mi,ti,oi,bi];
+  document.getElementById('readKicker').textContent=`${m.title} · ${t.name} · ${o.name}`;
+  document.getElementById('readTitle').textContent=b.t;
+  document.getElementById('readCrumb').innerHTML=`<button onclick="go('home')">Trang đầu</button> <span class="sep">/</span> <button onclick="openFace(${mi})">${m.title}</button> <span class="sep">/</span> <button onclick="openO(${mi},${ti},${oi})">${o.name}</button> <span class="sep">/</span> <span class="here">đọc</span>`;
+  const bd=document.getElementById('readBody');
+  if(b.state==='ready' && b.body){
+    bd.innerHTML=b.body.map(seg=>{
+      if(seg.type==='lead')return `<p class="lead">${seg.x}</p>`;
+      if(seg.type==='drop')return `<p class="drop">${seg.x}</p>`;
+      if(seg.type==='dk')return `<span class="dk">${seg.x}</span>`;
+      if(seg.type==='rule')return `<div class="rrule"></div>`;
+      return `<p>${seg.x}</p>`;
+    }).join('');
+  }else{
+    bd.innerHTML=`<p class="pending-note">Bài này đang viết. Khung đã dựng sẵn, chờ chú lắp chuyện thật vào. Ngoặc [D kể] trong file là chỗ để đổ chi tiết vùng đất, con số, thương vụ.</p>`;
+  }
+  // nav trước/sau trong cùng ô
+  const nav=document.getElementById('readNav');
+  let h='';
+  if(bi>0){const p=o.bais[bi-1];h+=`<button onclick="openBai(${mi},${ti},${oi},${bi-1})"><span class="rnav-dir">← Bài trước</span>${p.t}</button>`;}else{h+='<span></span>';}
+  if(bi<o.bais.length-1){const n=o.bais[bi+1];h+=`<button class="rnav-r" onclick="openBai(${mi},${ti},${oi},${bi+1})"><span class="rnav-dir">Bài sau →</span>${n.t}</button>`;}else{h+='<span></span>';}
+  nav.innerHTML=h;
+  go('reader');
+}
+function openBaiByRef(str){
+  const r=str.split(',');
+  openBai(mucIdx(r[0]),+r[1],+r[2],+r[3]);
+}
+
+/* ---------- NOTES ---------- */
+function renderNotes(){
+  document.getElementById('notesBody').innerHTML=NOTES.map(g=>{
+    const items=g.items.map(it=>{
+      const locked=it.state!=='ready';
+      return `<button class="wn-item${locked?' locked':''}"><span class="wn-dot"></span><span><span class="wn-t">${it.t}</span>${it.desc?`<span class="wn-desc">${it.desc}</span>`:''}${locked?'<span class="wn-desc"> · sắp có</span>':''}</span></button>`;
+    }).join('');
+    return `<div class="wn-group"><div class="wn-glabel">${g.label}</div>${items}</div>`;
+  }).join('');
+}
+
+/* ---------- THINK ---------- */
+function renderThink(){
+  document.getElementById('thinkBody').innerHTML=THINK.map((t,i)=>`<div class="tw-item"><div class="tw-n">${String(i+1).padStart(2,'0')}</div><div class="tw-h">${t.h}</div><div class="tw-b">${t.b}</div></div>`).join('');
+}
+
+/* ---------- INIT ---------- */
+function renderFlog(){
+  const el=document.getElementById('flogHome');
+  if(!FLOG.length){
+    el.innerHTML='<div class="sec-eyebrow">Sổ tay hiện trường</div><div class="flog-empty">Mấy ghi chép đi thực địa gần đây sẽ nằm đây — có ngày, có chỗ. Đang gom.</div>';
+    return;
+  }
+  el.innerHTML='<div class="sec-eyebrow">Mới nhất từ hiện trường</div><div class="flog-list">'+
+    FLOG.slice(0,4).map(f=>`<button class="flog-item" onclick="go('notes')"><div class="flog-meta">${f.noi} · ${f.ngay}</div><div class="flog-x">${f.x}</div></button>`).join('')+'</div>';
+}
+renderHome();renderNotes();renderThink();renderFlog();
+</script>
+</body>
+</html>
