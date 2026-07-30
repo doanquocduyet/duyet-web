@@ -42,7 +42,8 @@ body{background:var(--ink);color:var(--text-0);font-family:var(--sans);font-size
 #gate.active{display:flex}
 #gate::before{content:"";position:absolute;inset:0;background:radial-gradient(100% 70% at 50% 0%,rgba(201,169,110,.06),transparent 60%);pointer-events:none}
 .g-star{font-size:.8rem;color:var(--gold);letter-spacing:.5em;opacity:0;animation:gi .8s var(--ease) .2s forwards}
-.g-title{font-family:var(--serif);font-size:clamp(3rem,11vw,6.4rem);font-weight:300;letter-spacing:-.02em;line-height:.95;color:var(--text-0);opacity:0;animation:gi .9s var(--ease) .4s forwards}
+.g-title{font-family:var(--serif);font-size:clamp(2.6rem,9vw,5.2rem);font-weight:300;letter-spacing:-.02em;line-height:1;color:var(--text-0);opacity:0;animation:gi .9s var(--ease) .4s forwards}
+.g-tagline{font-size:.7rem;letter-spacing:.4em;text-transform:uppercase;color:var(--text-2);margin-top:.3rem;opacity:0;animation:gi .9s var(--ease) 1.3s forwards}
 .g-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:0;animation:gi .6s var(--ease) .9s forwards,pulse 3.4s ease-in-out 1.2s infinite}
 .g-promise{max-width:30rem;font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.12rem;line-height:1.6;color:var(--text-1);opacity:0;animation:gi .9s var(--ease) 1.1s forwards}
 .g-enter{margin-top:.6rem;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text-2);background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:.55rem;opacity:0;animation:gi .9s var(--ease) 1.5s forwards;transition:color .3s,gap .3s}
@@ -59,6 +60,18 @@ body{background:var(--ink);color:var(--text-0);font-family:var(--sans);font-size
 .home-sub{font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.14rem;line-height:1.6;color:var(--text-1);max-width:32rem;margin-bottom:4rem}
 
 .sec-eyebrow{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.3rem}
+
+/* field log trên home */
+.flog{margin-bottom:4.5rem}
+.flog-item{display:block;padding:1.1rem .4rem;border-bottom:1px solid var(--gold-line);cursor:pointer;background:none;border-left:none;border-right:none;width:100%;text-align:left;transition:padding-left .3s var(--ease),background .3s var(--ease)}
+.flog-list{border-top:1px solid var(--gold-line)}
+.flog-item:hover{padding-left:1.1rem;background:var(--ink-2)}
+.flog-meta{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.35rem}
+.flog-x{font-family:var(--serif);font-size:1.02rem;color:var(--text-1);line-height:1.5}
+.flog-empty{font-family:var(--serif);font-style:italic;color:var(--text-2);font-size:.98rem;line-height:1.6;padding:1.1rem 0;border-top:1px solid var(--gold-line)}
+
+/* nhãn bài nền */
+.nen-badge{display:inline-block;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-line);border-radius:2px;padding:.12rem .5rem;margin-left:.5rem;vertical-align:middle}
 
 /* situation cards */
 .situ{margin-bottom:4.5rem}
@@ -193,9 +206,10 @@ body{background:var(--ink);color:var(--text-0);font-family:var(--sans);font-size
 <!-- GATE -->
 <section id="gate" class="active">
   <div class="g-star">✦</div>
-  <h1 class="g-title">Keep Walking</h1>
+  <h1 class="g-title">Đọc đất<br>bằng chân</h1>
   <div class="g-dot"></div>
-  <p class="g-promise">Mười mấy năm đọc đất bằng chân. Mỗi tuần một góc nhìn — về đất, dòng tiền và con người — để thấy sớm hơn cái thị trường chưa kịp nói.</p>
+  <p class="g-promise">Mười mấy năm đọc đất bằng chân — không bằng bảng rao, không bằng tin quy hoạch. Mỗi tuần một góc nhìn về đất, dòng tiền và con người.</p>
+  <div class="g-tagline">Keep Walking</div>
   <button class="g-enter" onclick="go('home')">bước vào →</button>
 </section>
 
@@ -210,6 +224,9 @@ body{background:var(--ink);color:var(--text-0);font-family:var(--sans);font-size
       <div class="sec-eyebrow">Bắt đầu từ chỗ chú đang đứng</div>
       <div class="situ-list" id="situList"></div>
     </div>
+
+    <!-- FIELD LOG mới nhất -->
+    <div class="flog" id="flogHome"></div>
 
     <!-- FOUR FACES -->
     <div class="faces">
@@ -319,12 +336,12 @@ const DATA={mucs:[
   {roman:'I',name:'Một vùng đất',gloss:'Coi một vùng có cái sàn không, đang nằm hay đang lên, tự sống được hay phải bơm mới thở.',
    os:[
     {name:'Giá trị gốc',tag:'chuỗi bài',bais:[
-      {t:'Đường mở tới đâu, giá lên tới đó — sai chỗ nào',sub:'bài mở, phá một niềm tin',state:'ready',body:[
+      {t:'Đường mở tới đâu, giá lên tới đó — sai chỗ nào',sub:'bài mở, phá một niềm tin',state:'ready',nen:true,body:[
         {type:'lead',x:'Người ta hay nói đường mở tới đâu, đất lên tới đó. Câu đó đúng một nửa. Nửa còn lại làm nhiều người ôm đất nằm chờ hoài không thấy lên.'},
         {type:'drop',x:'Con đường không làm giá đất lên. Dòng người đi trên con đường đó mới làm giá lên. Đường mở mà không ai dọn về ở, thì nó chỉ là nhựa trải qua chỗ vắng.'},
         {type:'dk',x:'[D kể — chú lắp vào: một con đường chú thấy mở xong mà đất hai bên vẫn nằm im. Ở đâu, cỡ năm nào? Ngược lại, chỗ nào người ta dọn về trước khi đường xong, giá đã chạy?]'},
       ]},
-      {t:'Cái sàn của một vùng nằm ở đâu',sub:'coi khói bếp, đừng coi bảng rao',state:'ready',body:[
+      {t:'Cái sàn của một vùng nằm ở đâu',sub:'coi khói bếp, đừng coi bảng rao',state:'ready',nen:true,body:[
         {type:'lead',x:'Muốn biết một vùng có sống được thiệt hay không, tui không mở bảng giá ra coi trước. Tui coi chiều tối có khói bếp bay lên hay không.'},
         {type:'drop',x:'Một vùng đất có hai lớp. Lớp trên là mấy tấm bảng cắm dọc đường, số điện thoại môi giới, giá rao mỗi tháng một khác. Lớp đó ồn, dễ thấy, mà rỗng. Lớp dưới là cái sàn — người ta ăn đời ở kiếp ở đó.'},
         {type:'dk',x:'[D kể — một vùng cụ thể chú từng đi: thấy khói bếp hay không, dân ở thiệt hay chỉ có bảng rao.]'},
@@ -342,7 +359,7 @@ const DATA={mucs:[
       {t:'Đất có mùa, người mua người bán cũng có mùa',sub:'',state:'pending'},
     ]},
     {name:'Trọng lực',tag:'chuỗi bài',bais:[
-      {t:'Có chỗ tự có sức hút, gọi là trọng lực',sub:'định nghĩa một từ khóa riêng',state:'ready',body:[
+      {t:'Có chỗ tự có sức hút, gọi là trọng lực',sub:'định nghĩa một từ khóa riêng',state:'ready',nen:true,body:[
         {type:'lead',x:'Có những vùng đất giống như có lực hút. Người đi rồi cũng quay về, tiền ra rồi cũng chảy lại. Tui gọi cái đó là trọng lực của một nơi.'},
         {type:'dk',x:'[D kể — một nơi chú thấy rõ cái trọng lực này, người ta cứ quay về.]'},
       ]},
@@ -354,8 +371,20 @@ const DATA={mucs:[
   {roman:'II',name:'Một lô đất',gloss:'Thế đất, ranh, giấy tờ — cái lợi cái hại nằm trong chính miếng đất đó.',
    os:[
     {name:'Coi một lô',tag:'đang dựng',bais:[
-      {t:'Coi một miếng đất trong ba mươi phút, coi cái gì trước',sub:'thứ tự coi của người có nghề',state:'pending'},
+      {t:'Coi một miếng đất trong ba mươi phút, coi cái gì trước',sub:'thứ tự coi của người có nghề',state:'pending',nen:true},
       {t:'Ranh trên giấy với ranh dưới chân',sub:'',state:'pending'},
+    ]},
+    {name:'Đọc tờ giấy',tag:'chuỗi bài',bais:[
+      {t:'Rành ngôn ngữ giấy tờ, trước khi khuyên ai xuống tiền',sub:'cái căn bản mà người ta hay coi thường',state:'ready',body:[
+        {type:'lead',x:'Cái nghề này có một chuyện lạ. Ai cũng lo học chốt sale, học đọc trend, học hô hào cho sang miệng. Mà cái căn bản nhất — đọc cho ra một tờ giấy tờ đất — thì nhiều người làm mấy năm vẫn ú ớ.'},
+        {type:'drop',x:'Khách giàu, khách khôn, họ không thích nghe nói sai đâu. Ngồi với họ mà kêu sổ đỏ sổ hồng lẫn lộn, giấy này giấy kia gọi trật tên, là họ biết liền mình tay ngang. Còn ăn nói vừa dễ nghe vừa đúng pháp lý, thì tự nhiên họ nể, lần sau có việc lại kiếm mình. Nói vui vậy chớ cái nể đó là nồi cơm.'},
+        {type:'p',x:'Tui hay dặn anh em: làm môi giới chân chính thì phải đọc ngôn ngữ bất động sản cho thông. Khách đưa một xấp giấy ra cho mình ngó, mình phải biết nó là loại gì, tính chất ra sao, bản chất pháp lý thế nào, đủ hợp lệ để đưa ra giao dịch hay chưa.'},
+        {type:'p',x:'Và đây mới là chỗ quan trọng nhất. Ngó tới ngó lui mà thấy giấy có mùi — giấy giả, giấy không đủ giá trị pháp lý, giấy đang vướng — thì đừng cố đấm ăn xôi mà khuyên người ta giao dịch. Ngừng lại. Kiếm cách bổ sung, làm cho giấy tờ chuẩn chỉnh đã, rồi mới tính chuyện mua bán.'},
+        {type:'p',x:'Cái đó không phải khôn vặt. Cái đó là giữ mình, và giữ luôn người tin mình. Một cái deal chốt được mà giấy chưa sạch, thì sớm muộn nó cũng quay lại tìm mình. Tiền hoa hồng cầm chưa nóng tay đã lo ngay ngáy, không đáng.'},
+        {type:'dk',x:'[D kể — chú lắp: một vụ giấy tờ có vấn đề mà chú kịp ngừng, hoặc chú thấy người khác dính. Loại giấy gì, vướng chỗ nào, kết cục ra sao.]'},
+        {type:'p',x:'Luật thì mỗi thời một khác, năm nay quy định vầy, vài năm sau sửa lại. Cái đó phải cập nhật hoài, không thuộc lòng một lần là xong. Nhưng cái cốt thì không đổi: người làm nghề tử tế phải đọc được tờ giấy trước khi mở miệng khuyên. Đọc không ra thì đi hỏi cho ra, chớ đừng gật đại.'},
+        {type:'p',x:'Nghe thì căn bản quá, tưởng đâu ai cũng biết. Mà thiệt tình, chính cái căn bản này lọc ra người làm lâu dài với người làm cho vui. Đó, đơn giản sơ sơ có nhiêu đó thôi à.'},
+      ]},
     ]},
    ]},
   {roman:'III',name:'Giá bao nhiêu',gloss:'Bóc cái giá người ta hô ra, tìm cho được cái giá thiệt bên dưới.',
@@ -369,8 +398,8 @@ const DATA={mucs:[
   {roman:'V',name:'Kèo thơm đâu ra',gloss:'Kèo thơm không nằm trên mạng. Nó đi đường người quen — và vô được đường đó phải trả bằng thứ khác.',
    os:[{name:'Lọc kèo',tag:'đang dựng',bais:[
       {t:'Ba câu tôi hỏi trước khi coi bất kỳ kèo nào',sub:'',state:'pending'},
-      {t:'Kèo nhìn ngon mà tôi lắc, cái gì làm tôi lắc',sub:'',state:'pending'},
-      {t:'Người ta đưa tôi một kèo, tôi mổ nó theo thứ tự nào',sub:'năm bước, bài gói của tầng',state:'pending'},
+      {t:'Kèo nhìn ngon mà tôi lắc, cái gì làm tôi lắc',sub:'',state:'pending',nen:true},
+      {t:'Người ta đưa tôi một kèo, tôi mổ nó theo thứ tự nào',sub:'năm bước, bài gói của tầng',state:'pending',nen:true},
    ]}]},
   {roman:'VI',name:'Vào một ngày bình thường',gloss:'Một ngày đi đất bình thường trông ra sao. Từ miếng lẻ tới cái hệ thống tiền tự chảy.',
    os:[{name:'Đường dài',tag:'đang dựng',bais:[
@@ -382,12 +411,26 @@ const DATA={mucs:[
  desc:'Cách nghĩ về đám đông, dòng tiền, chu kỳ. Không dạy đời, chỉ bày cách coi.',
  tangs:[
   {roman:'I',name:'Cái vòng',gloss:'Cái gì cũng có vòng của nó — lên rồi xuống, nóng rồi nguội. Coi mình đang ở khúc nào.',
-   os:[{name:'Bốn mùa của một tài sản',tag:'đang dựng',bais:[
+   os:[
+    {name:'Cái đầu người làm nghề',tag:'chuỗi bài',bais:[
+      {t:'Băng trong lòng, là nơi phải tan trước',sub:'viết lúc thị trường đóng băng',state:'ready',nen:true,body:[
+        {type:'lead',x:'Tui hay chia sẻ với nhiều anh em mới vô nghề bất động sản, cái sự "mới" là một đặc ân. Hãy làm hết mình, hãy ghi nhớ cái trạng thái tươi mới này và giữ lấy nó, luôn để cái hộp đó trong đầu. Vì sau này mình sẽ phải lôi cái hộp ký ức này ra, để vượt qua nhiều biến cố trong nghề.'},
+        {type:'p',x:'Càng làm, càng vô sâu — bất kỳ nghề nào, không riêng bất động sản — mọi thứ từ kiến thức, kinh nghiệm, kỹ năng, quan hệ, chức vụ, danh tiếng đều lên một bậc. Và tất nhiên, mấy cái tiêu cực gom được qua từng chuyện trong nghề cũng tích lại dần. Không vượt được, nó thành nhụt chí, bao biện, đổ lỗi.'},
+        {type:'p',x:'Mọi thứ đi theo chiều không tốt, tính ra chỉ diễn ra vỏn vẹn trong hơn một năm nay.'},
+        {type:'p',x:'Có ai từng mấy tháng trời nằm nghĩ, chừng nào nhà nước cho phân lô tách thửa lại, để mình đi chinh chiến, giao dịch ầm ầm như xưa không? Hay nằm mơ một ngày đẹp trời nào đó lên trend, mấy mối cũ tự tìm tới giao cho mình những giỏ hàng thơm phức? Tin mình đăng, khách cũ tự gọi tới, môi giới gọi tới hỏi mua, rồi ta cứ thong dong mà tiền vô ào ào như xưa?'},
+        {type:'p',x:'Có những chuyện không nằm trong tầm mình. Ta làm cách nào đi nữa cũng không đổi được. Băng có tan không? Khi nào tan? Khi nào mua? Khi nào bán? Chờ thị trường tốt mình mới dốc nhiệt huyết vô nghề này chăng?'},
+        {type:'p',x:'Ta có yêu nghề như ta vẫn nghĩ, vẫn cho mọi người thấy bấy lâu, hay không? Có tự hỏi, băng tan rồi thì sao nữa không? Lúc đó ta mới tìm hàng, mới chào khách, mới đi kết nối, mới đàm phán mấy deal ưng ý, mới triển khai kế hoạch, mới bắt đầu làm mọi thứ?'},
+        {type:'p',x:'Ta cứ hay nghĩ ngợi xa xôi rồi tự đẩy mình vào mớ hỗn độn không thoát ra được. Từ đó ra cái góc nhìn "chỉ có bao nhiêu đó mà thôi".'},
+        {type:'p',x:'Vậy nên, muốn tan băng ở đâu đó, thì băng trong lòng ta là nơi phải tan trước.'},
+        {type:'p',x:'Hãy đem cái hộp tươi mới đó ra mà dùng. Tinh thần của một người học việc, một con số không, một người khởi nghiệp với tất cả nhiệt huyết, yêu nghề bất chấp khó khăn. Vô lại cái trạng thái chảy một lần nữa.'},
+      ]},
+    ]},
+    {name:'Bốn mùa của một tài sản',tag:'đang dựng',bais:[
       {t:'Đất có mùa, người mua kẻ bán cũng có mùa',sub:'',state:'pending'},
    ]}]},
   {roman:'II',name:'Đám đông',gloss:'Đám đông tới lúc nào, chạy lúc nào. Đọc được cái đó thì biết mình nên ngược hay nên xuôi.',
    os:[{name:'Đọc cái đám đông',tag:'đang dựng',bais:[
-      {t:'Bốn kiểu nhà đầu tư',sub:'',state:'ready',body:[
+      {t:'Bốn kiểu nhà đầu tư',sub:'',state:'ready',nen:true,body:[
         {type:'lead',x:'Đi mua bán đất mười mấy năm, gặp đủ hạng người. Rút lại tui thấy có bốn kiểu. Nhìn ra mình là kiểu nào thì đỡ tự lừa mình.'},
         {type:'dk',x:'[D kể — bốn kiểu chú thấy, mỗi kiểu một nét cụ thể.]'},
       ]},
@@ -413,17 +456,27 @@ const DATA={mucs:[
  tangs:[
   {roman:'I',name:'Cái hồn một nơi',gloss:'Mỗi chỗ có một cái hồn riêng. Đọc được cái hồn thì hiểu vì sao người ta thương chỗ đó.',
    os:[{name:'Đọc một nơi',tag:'đang dựng',bais:[
-      {t:'Cái quán cà phê nói thiệt hơn cái bảng giá',sub:'',state:'pending'},
+      {t:'Cái quán cà phê nói thiệt hơn cái bảng giá',sub:'',state:'pending',nen:true},
       {t:'Cái chợ sáng cho biết vùng sống thiệt hay sống diễn',sub:'',state:'pending'},
       {t:'Tới vùng lạ, tôi kiếm ai trước tiên',sub:'',state:'pending'},
    ]}]},
   {roman:'II',name:'Một con người, một thế hệ',gloss:'Nhìn người thấy cả một lớp người. Nhìn một lớp người thấy cả cái thời.',
    os:[{name:'Người và thế hệ',tag:'đang dựng',bais:[
-      {t:'Người giữ đất với người lướt đất, nhìn là biết',sub:'',state:'pending'},
+      {t:'Người giữ đất với người lướt đất, nhìn là biết',sub:'',state:'pending',nen:true},
       {t:'Đời cha mua đất để ở, đời con mua đất để bán',sub:'',state:'pending'},
    ]}]},
   {roman:'III',name:'Một chuyện thường',gloss:'Chuyện nhỏ xíu mà lòi ra cả một con người, cả một cái lẽ đời.',
-   os:[{name:'Chuyện nhỏ',tag:'đang dựng',bais:[
+   os:[
+    {name:'Ngồi một mình',tag:'tản mạn',bais:[
+      {t:'Cuối tuần, một dàn loa xịn, một ly cà phê thơm',sub:'chỗ lặng của người đi cả tuần',state:'ready',body:[
+        {type:'lead',x:'Có một tấm hình cũ, chụp năm hai ngàn không trăm mười ba. Một quán cà phê nhỏ, dàn loa xịn, ánh đèn vàng, mấy bức tranh treo tường. Bên dưới tui ghi đúng một dòng: nhẹ nhàng cuối tuần, dàn loa xịn, nhạc hay, cà phê thơm.'},
+        {type:'p',x:'Có nhiêu đó. Không triết lý, không bài học, không đúc kết gì hết. Chỉ là một buổi cuối tuần ngồi nghe nhạc.'},
+        {type:'p',x:'Mà lạ, cái dòng đó tui còn nhớ, còn mấy cái deal cùng năm thì quên gần hết rồi.'},
+        {type:'p',x:'Người đi đất cả tuần, chạy ngoài nắng, đứng giữa đồng, ngó ranh, nghe người ta mặc cả, cãi cọ, hô giá — tới cuối tuần cái đầu nó ong. Lúc đó không cần thêm thông tin nữa, không cần thêm một cái tin tốt hay tin xấu nào nữa. Chỉ cần một chỗ ngồi yên, một dàn loa ra tiếng cho đàng hoàng, một ly cà phê pha tử tế. Vậy thôi mà đủ.'},
+        {type:'p',x:'Tui để ý, mấy người làm nghề này lâu mà bền, phần lớn đều có một cái chốn riêng như vậy. Người thì cà phê, người thì câu cá, người thì cái ban công với mấy chậu cây. Không phải để trốn việc. Mà để cái đầu nó nguội lại, để sáng thứ hai còn tỉnh mà đọc cho ra cái thị trường đang giở trò gì.'},
+        {type:'p',x:'Cái nghề nhìn tiền bạc đất cát suốt ngày, tưởng đâu khô khan. Mà muốn đi được đường dài với nó, hình như lại phải giữ cho được một góc mềm. Một chỗ mà tiền không chen vào được.'},
+        {type:'dk',x:'[D kể — chú thêm nếu muốn: cái quán đó, hay cái chốn riêng của chú bây giờ. Chú hay ngồi đâu cho cái đầu nguội lại.]'},
+      ]},
       {t:'Một bữa nhậu nói thiệt hơn mười buổi họp',sub:'',state:'pending'},
    ]}]},
  ]},
@@ -435,7 +488,7 @@ const DATA={mucs:[
    os:[{name:'Mổ thị trường',tag:'đang dựng',bais:[]}]},
   {roman:'II',name:'Đào một vùng',gloss:'Đào một vùng cụ thể tới tới. Đây là sân nhà — đọc vùng bằng chân, bỏ cơn sốt, coi cái nền.',
    os:[{name:'Hồ sơ một vùng',tag:'sân nhà — đang dựng',bais:[
-      {t:'Cần Giờ — đọc một vùng trước khi nó thành tin',sub:'thực địa có ngày tháng',state:'pending'},
+      {t:'Cần Giờ — đọc một vùng trước khi nó thành tin',sub:'thực địa có ngày tháng',state:'pending',nen:true},
       {t:'Một chuyến đi coi đất không mua gì hết',sub:'',state:'pending'},
       {t:'Ba ngày ở một vùng — cái thấy rồi, cái còn ngờ',sub:'',state:'pending'},
    ]}]},
@@ -447,6 +500,12 @@ const DATA={mucs:[
 ]};
 
 /* SITUATIONS — cửa tình huống, dẫn tới bài/ô có sẵn */
+/* FIELD LOG — ghi chép hiện trường có ngày. Chờ chú điền (phần A trong file điền).
+   Khi có, mỗi cái là {ngay,noi,x}. Trống thì web hiện dòng mời nhẹ. */
+const FLOG=[
+  // {ngay:'17/07', noi:'Nam Ban', x:'[A1 — chú điền: buổi sáng ngồi quán, thấy gì, nghe gì]'},
+];
+
 const SITU=[
  {q:'Tôi đang tính xuống tiền một miếng',eyebrow:'Trước khi xuống tiền',
   title:'Trước khi xuống tiền một miếng',
@@ -512,7 +571,7 @@ function openSitu(i){
     const b=DATA.mucs[r[0]-0*1] && findBai(r);
     if(!b) return '';
     const locked=b.state!=='ready';
-    return `<button class="bai-item${locked?' locked':''}" ${locked?'':`onclick="openBaiByRef('${r.join(',')}')"`}><span class="bai-idx">→</span><span><span class="bai-t">${b.t}</span>${b.sub?`<span class="bai-sub">${b.sub}</span>`:''}${locked?'<span class="bai-sub"> · sắp có</span>':''}</span></button>`;
+    return `<button class="bai-item${locked?' locked':''}" ${locked?'':`onclick="openBaiByRef('${r.join(',')}')"`}><span class="bai-idx">→</span><span><span class="bai-t">${b.t}</span>${b.nen?'<span class="nen-badge">bài nền</span>':''}${b.sub?`<span class="bai-sub">${b.sub}</span>`:''}${locked?'<span class="bai-sub"> · sắp có</span>':''}</span></button>`;
   }).join('')+'</div>';
   go('situResult');
 }
@@ -547,7 +606,7 @@ function openO(mi,ti,oi){
   const body=document.getElementById('faceBody');
   const list=o.bais.map((b,bi)=>{
     const locked=b.state!=='ready';
-    return `<button class="bai-item${locked?' locked':''}" ${locked?'':`onclick="openBai(${mi},${ti},${oi},${bi})"`}><span class="bai-idx">${String(bi+1).padStart(2,'0')}</span><span><span class="bai-t">${b.t}</span>${b.sub?`<span class="bai-sub">${b.sub}</span>`:''}${locked?'<span class="bai-sub"> · sắp có</span>':''}</span></button>`;
+    return `<button class="bai-item${locked?' locked':''}" ${locked?'':`onclick="openBai(${mi},${ti},${oi},${bi})"`}><span class="bai-idx">${String(bi+1).padStart(2,'0')}</span><span><span class="bai-t">${b.t}</span>${b.nen?'<span class="nen-badge">bài nền</span>':''}${b.sub?`<span class="bai-sub">${b.sub}</span>`:''}${locked?'<span class="bai-sub"> · sắp có</span>':''}</span></button>`;
   }).join('');
   document.getElementById('faceEyebrow').textContent=m.eyebrow+' · tầng '+t.roman;
   document.getElementById('faceTitle').textContent=o.name;
@@ -607,7 +666,16 @@ function renderThink(){
 }
 
 /* ---------- INIT ---------- */
-renderHome();renderNotes();renderThink();
+function renderFlog(){
+  const el=document.getElementById('flogHome');
+  if(!FLOG.length){
+    el.innerHTML='<div class="sec-eyebrow">Sổ tay hiện trường</div><div class="flog-empty">Mấy ghi chép đi thực địa gần đây sẽ nằm đây — có ngày, có chỗ. Đang gom.</div>';
+    return;
+  }
+  el.innerHTML='<div class="sec-eyebrow">Mới nhất từ hiện trường</div><div class="flog-list">'+
+    FLOG.slice(0,4).map(f=>`<button class="flog-item" onclick="go('notes')"><div class="flog-meta">${f.noi} · ${f.ngay}</div><div class="flog-x">${f.x}</div></button>`).join('')+'</div>';
+}
+renderHome();renderNotes();renderThink();renderFlog();
 </script>
 </body>
 </html>
