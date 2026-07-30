@@ -3,8 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Đoàn Quốc Duyệt</title>
+<title>Đoàn Quốc Duyệt — Đọc đất bằng chân</title>
+<meta name="description" content="Mười mấy năm đọc đất bằng chân — không bằng bảng rao, không bằng tin quy hoạch. Mỗi tuần một góc nhìn về đất, dòng tiền và con người.">
+<meta name="author" content="Đoàn Quốc Duyệt">
+<meta name="theme-color" content="#16140F">
+<link rel="canonical" href="https://www.duyet.com.vn/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.duyet.com.vn/">
+<meta property="og:title" content="Đoàn Quốc Duyệt — Đọc đất bằng chân">
+<meta property="og:description" content="Mười mấy năm đọc đất bằng chân — không bằng bảng rao, không bằng tin quy hoạch. Mỗi tuần một góc nhìn về đất, dòng tiền và con người.">
+<meta property="og:locale" content="vi_VN">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='9' fill='%23C9A96E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Đoàn Quốc Duyệt","url":"https://www.duyet.com.vn/","email":"mailto:doanquocduyet@gmail.com","telephone":"+84978758788","description":"Mười mấy năm đọc đất bằng chân. Mỗi tuần một góc nhìn về đất, dòng tiền và con người.","knowsAbout":["Bất động sản","Đầu tư đất","Đọc thị trường","Thực địa"]}
+</script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -802,10 +818,9 @@ function openSitu(i){
   document.getElementById('situDesc').textContent=s.desc;
   const body=document.getElementById('situBody');
   body.innerHTML='<div class="bais" style="border-top:none;padding-top:0">'+s.refs.map(r=>{
-    const b=DATA.mucs[r[0]-0*1] && findBai(r);
-    if(!b) return '';
-    const locked=b.state!=='ready';
-    return `<button class="bai-item${locked?' locked':''}" ${locked?'':`onclick="openBaiByRef('${r.join(',')}')"`}><span class="bai-idx">→</span><span><span class="bai-t">${b.t}</span>${b.nen?'<span class="nen-badge">bài nền</span>':''}${b.sub?`<span class="bai-sub">${b.sub}</span>`:''}${locked?'<span class="bai-sub"> · sắp có</span>':''}</span></button>`;
+    const b=findBai(r);
+    if(!b||b.state!=='ready') return '';
+    return `<button class="bai-item" onclick="openBaiByRef('${r.join(',')}')"><span class="bai-idx">→</span><span><span class="bai-t">${b.t}</span>${b.nen?'<span class="nen-badge">bài nền</span>':''}${b.sub?`<span class="bai-sub">${b.sub}</span>`:''}</span></button>`;
   }).join('')+'</div>';
   go('situResult');
 }
@@ -824,13 +839,14 @@ function openFace(i){
   const body=document.getElementById('faceBody');
   body.innerHTML=m.tangs.map((t,ti)=>{
     const os=t.os.map((o,oi)=>{
-      const hasReady=o.bais.some(b=>b.state==='ready');
-      const hasAny=o.bais.length>0;
-      const locked=!hasAny;
-      return `<button class="o${locked?' locked':''}" ${locked?'':`onclick="openO(${i},${ti},${oi})"`}><span class="o-dot"></span><span class="o-name">${o.name}</span><span class="o-tag">${o.tag}</span></button>`;
+      const ready=o.bais.filter(b=>b.state==='ready').length;
+      if(!ready) return '';
+      return `<button class="o" onclick="openO(${i},${ti},${oi})"><span class="o-dot"></span><span class="o-name">${o.name}</span><span class="o-tag">${ready} bài</span></button>`;
     }).join('');
+    if(!os) return '';
     return `<div class="tang"><div class="tang-head"><span class="tang-roman">${t.roman}</span><span class="tang-name">${t.name}</span></div><div class="tang-gloss">${t.gloss}</div>${os}</div>`;
   }).join('');
+  if(!body.innerHTML) body.innerHTML=`<p class="pending-note">Mặt này đang được viết. Bài sẽ lên dần — mỗi tuần một góc nhìn.</p>`;
   go('face');
 }
 
@@ -838,10 +854,9 @@ function openFace(i){
 function openO(mi,ti,oi){
   const m=DATA.mucs[mi], t=m.tangs[ti], o=t.os[oi];
   const body=document.getElementById('faceBody');
-  const list=o.bais.map((b,bi)=>{
-    const locked=b.state!=='ready';
-    return `<button class="bai-item${locked?' locked':''}" ${locked?'':`onclick="openBai(${mi},${ti},${oi},${bi})"`}><span class="bai-idx">${String(bi+1).padStart(2,'0')}</span><span><span class="bai-t">${b.t}</span>${b.nen?'<span class="nen-badge">bài nền</span>':''}${b.sub?`<span class="bai-sub">${b.sub}</span>`:''}${locked?'<span class="bai-sub"> · sắp có</span>':''}</span></button>`;
-  }).join('');
+  const list=o.bais.map((b,bi)=>({b,bi})).filter(x=>x.b.state==='ready').map((x,vi)=>
+    `<button class="bai-item" onclick="openBai(${mi},${ti},${oi},${x.bi})"><span class="bai-idx">${String(vi+1).padStart(2,'0')}</span><span><span class="bai-t">${x.b.t}</span>${x.b.nen?'<span class="nen-badge">bài nền</span>':''}${x.b.sub?`<span class="bai-sub">${x.b.sub}</span>`:''}</span></button>`
+  ).join('');
   document.getElementById('faceEyebrow').textContent=m.eyebrow+' · tầng '+t.roman;
   document.getElementById('faceTitle').textContent=o.name;
   document.getElementById('faceDesc').textContent=t.gloss;
@@ -875,13 +890,15 @@ function openBai(mi,ti,oi,bi){
       return `<p>${seg.x}</p>`;
     }).join('');
   }else{
-    bd.innerHTML=`<p class="pending-note">Bài này đang viết. Khung đã dựng sẵn, chờ chú lắp chuyện thật vào. Ngoặc [D kể] trong file là chỗ để đổ chi tiết vùng đất, con số, thương vụ.</p>`;
+    bd.innerHTML=`<p class="pending-note">Bài này đang viết, sẽ lên trong thời gian tới.</p>`;
   }
-  // nav trước/sau trong cùng ô
+  // nav trước/sau trong cùng ô — chỉ qua lại giữa các bài đã có
   const nav=document.getElementById('readNav');
+  const sibs=o.bais.map((b2,i2)=>({b2,i2})).filter(x=>x.b2.state==='ready');
+  const pos=sibs.findIndex(x=>x.i2===bi);
   let h='';
-  if(bi>0){const p=o.bais[bi-1];h+=`<button onclick="openBai(${mi},${ti},${oi},${bi-1})"><span class="rnav-dir">← Bài trước</span>${p.t}</button>`;}else{h+='<span></span>';}
-  if(bi<o.bais.length-1){const n=o.bais[bi+1];h+=`<button class="rnav-r" onclick="openBai(${mi},${ti},${oi},${bi+1})"><span class="rnav-dir">Bài sau →</span>${n.t}</button>`;}else{h+='<span></span>';}
+  if(pos>0){const p=sibs[pos-1];h+=`<button onclick="openBai(${mi},${ti},${oi},${p.i2})"><span class="rnav-dir">← Bài trước</span>${p.b2.t}</button>`;}else{h+='<span></span>';}
+  if(pos>-1&&pos<sibs.length-1){const n=sibs[pos+1];h+=`<button class="rnav-r" onclick="openBai(${mi},${ti},${oi},${n.i2})"><span class="rnav-dir">Bài sau →</span>${n.b2.t}</button>`;}else{h+='<span></span>';}
   nav.innerHTML=h;
   go('reader');
 }
@@ -892,18 +909,18 @@ function openBaiByRef(str){
 
 /* ---------- NOTES ---------- */
 function renderNotes(){
-  document.getElementById('notesBody').innerHTML=NOTES.map(g=>{
-    const items=g.items.map(it=>{
-      const locked=it.state!=='ready';
-      return `<button class="wn-item${locked?' locked':''}"><span class="wn-dot"></span><span><span class="wn-t">${it.t}</span>${it.desc?`<span class="wn-desc">${it.desc}</span>`:''}${locked?'<span class="wn-desc"> · sắp có</span>':''}</span></button>`;
-    }).join('');
-    return `<div class="wn-group"><div class="wn-glabel">${g.label}</div>${items}</div>`;
+  const groups=NOTES.map(g=>{
+    const items=g.items.filter(it=>it.state==='ready').map(it=>
+      `<button class="wn-item"><span class="wn-dot"></span><span><span class="wn-t">${it.t}</span>${it.desc?`<span class="wn-desc">${it.desc}</span>`:''}</span></button>`
+    ).join('');
+    return items?`<div class="wn-group"><div class="wn-glabel">${g.label}</div>${items}</div>`:'';
   }).join('');
+  document.getElementById('notesBody').innerHTML=groups||`<p class="pending-note">Ghi chép đang được gom lại từ những chuyến đi. Sẽ lên dần — có ngày, có chỗ, có cái thấy tận mắt.</p>`;
 }
 
 /* ---------- THINK ---------- */
 function renderThink(){
-  document.getElementById('thinkBody').innerHTML=THINK.map((t,i)=>`<div class="tw-item"><div class="tw-n">${String(i+1).padStart(2,'0')}</div><div class="tw-h">${t.h}</div><div class="tw-b">${t.b}</div></div>`).join('');
+  document.getElementById('thinkBody').innerHTML=THINK.map((t,i)=>`<div class="tw-item"><div class="tw-n">${String(i+1).padStart(2,'0')}</div><div class="tw-h">${t.h}</div>${t.b&&t.b[0]!=='['?`<div class="tw-b">${t.b}</div>`:''}</div>`).join('');
 }
 
 /* ---------- INIT ---------- */
