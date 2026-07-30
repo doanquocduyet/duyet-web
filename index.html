@@ -62,8 +62,14 @@ body{background:var(--ink);color:var(--text-0);font-family:var(--sans);font-size
 .g-tagline{font-size:.7rem;letter-spacing:.4em;text-transform:uppercase;color:var(--text-2);margin-top:.3rem;opacity:0;animation:gi .9s var(--ease) 1.3s forwards}
 .g-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:0;animation:gi .6s var(--ease) .9s forwards,pulse 3.4s ease-in-out 1.2s infinite}
 .g-promise{max-width:30rem;font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.12rem;line-height:1.6;color:var(--text-1);opacity:0;animation:gi .9s var(--ease) 1.1s forwards}
-.g-enter{margin-top:.6rem;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text-2);background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:.55rem;opacity:0;animation:gi .9s var(--ease) 1.5s forwards;transition:color .3s,gap .3s}
+.g-enter{margin-top:.6rem;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text-2);background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.55rem;min-height:48px;padding:.75rem 1.5rem;opacity:0;animation:gi .9s var(--ease) 1.5s forwards;transition:color .3s,gap .3s;-webkit-tap-highlight-color:transparent}
 .g-enter:hover{color:var(--gold);gap:.85rem}
+/* trên phone: đưa nút vào vùng ngón cái với tới dễ nhất — 1/3 dưới, giữa ngang,
+   chừa khoảng cách với vạch home/gesture để không bấm lộn */
+@media(max-width:640px){
+  #gate{padding-bottom:26vh}
+  .g-enter{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(11vh + env(safe-area-inset-bottom,0px));margin-top:0}
+}
 @keyframes gi{to{opacity:1}}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,169,110,.45)}50%{box-shadow:0 0 0 9px rgba(201,169,110,0)}}
 
