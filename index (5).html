@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đoàn Quốc Duyệt</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#16140F;--ink-1:#1C1A14;--ink-2:#252118;--ink-3:#302B1F;
+  --text-0:#EDE7D6;--text-1:#B5AD9C;--text-2:#7A7368;
+  --gold:#C9A96E;--gold-dim:#A3855A;--gold-ghost:rgba(201,169,110,.10);--gold-line:rgba(201,169,110,.20);
+  --serif:'Newsreader',Georgia,serif;--sans:'Be Vietnam Pro',system-ui,sans-serif;
+  --col:34rem;--ease:cubic-bezier(.22,.6,.36,1);
+}
+html[data-theme="light"]{
+  --ink:#F9F6EF;--ink-1:#F3EEE3;--ink-2:#EEE9DC;--ink-3:#E5DECF;
+  --text-0:#1A1710;--text-1:#4C463A;--text-2:#8A8070;
+  --gold:#8A6E2E;--gold-dim:#A3855A;--gold-ghost:rgba(138,110,46,.08);--gold-line:rgba(138,110,46,.20);
+}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--text-0);font-family:var(--sans);font-size:1rem;line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .6s var(--ease),color .6s var(--ease);overflow-x:hidden}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+/* topbar */
+.top{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.1rem clamp(1.2rem,5vw,3.4rem);background:linear-gradient(to bottom,var(--ink) 55%,transparent);transition:background .6s var(--ease)}
+.brand{display:flex;align-items:center;gap:.6rem;cursor:pointer;background:none;border:none}
+.orb{width:11px;height:11px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--gold),var(--gold-dim) 80%);box-shadow:0 0 10px 1px rgba(201,169,110,.35)}
+.brand-name{font-family:var(--serif);font-size:.94rem;font-weight:500;color:var(--text-1);letter-spacing:.01em}
+.toggle{width:30px;height:30px;border-radius:50%;border:1px solid var(--gold-line);background:none;display:grid;place-items:center;cursor:pointer;transition:border-color .3s}
+.toggle:hover{border-color:var(--gold)}
+.toggle svg{width:14px;height:14px;stroke:var(--text-2);fill:none;stroke-width:1.5}
+
+/* screens */
+.screen{display:none;min-height:100vh;animation:fadeUp .7s var(--ease)}
+.screen.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* GATE */
+#gate{display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.85rem;padding:2rem;min-height:100vh;position:relative;overflow:hidden}
+#gate.active{display:flex}
+#gate::before{content:"";position:absolute;inset:0;background:radial-gradient(100% 70% at 50% 0%,rgba(201,169,110,.06),transparent 60%);pointer-events:none}
+.g-star{font-size:.8rem;color:var(--gold);letter-spacing:.5em;opacity:0;animation:gi .8s var(--ease) .2s forwards}
+.g-title{font-family:var(--serif);font-size:clamp(2.6rem,9vw,5.2rem);font-weight:300;letter-spacing:-.02em;line-height:1;color:var(--text-0);opacity:0;animation:gi .9s var(--ease) .4s forwards}
+.g-tagline{font-size:.7rem;letter-spacing:.4em;text-transform:uppercase;color:var(--text-2);margin-top:.3rem;opacity:0;animation:gi .9s var(--ease) 1.3s forwards}
+.g-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:0;animation:gi .6s var(--ease) .9s forwards,pulse 3.4s ease-in-out 1.2s infinite}
+.g-promise{max-width:30rem;font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.12rem;line-height:1.6;color:var(--text-1);opacity:0;animation:gi .9s var(--ease) 1.1s forwards}
+.g-enter{margin-top:.6rem;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text-2);background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:.55rem;opacity:0;animation:gi .9s var(--ease) 1.5s forwards;transition:color .3s,gap .3s}
+.g-enter:hover{color:var(--gold);gap:.85rem}
+@keyframes gi{to{opacity:1}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,169,110,.45)}50%{box-shadow:0 0 0 9px rgba(201,169,110,0)}}
+
+/* generic page wrap */
+.wrap{max-width:52rem;margin:0 auto;padding:7.5rem clamp(1.4rem,6vw,3.6rem) 6rem}
+.wrap-read{max-width:var(--col)}
+
+/* HOME */
+.home-hero{font-family:var(--serif);font-weight:300;font-size:clamp(1.9rem,5.5vw,3rem);line-height:1.2;letter-spacing:-.02em;color:var(--text-0);max-width:30rem;margin-bottom:1rem}
+.home-sub{font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.14rem;line-height:1.6;color:var(--text-1);max-width:32rem;margin-bottom:4rem}
+
+.sec-eyebrow{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.3rem}
+
+/* field log trên home */
+.flog{margin-bottom:4.5rem}
+.flog-item{display:block;padding:1.1rem .4rem;border-bottom:1px solid var(--gold-line);cursor:pointer;background:none;border-left:none;border-right:none;width:100%;text-align:left;transition:padding-left .3s var(--ease),background .3s var(--ease)}
+.flog-list{border-top:1px solid var(--gold-line)}
+.flog-item:hover{padding-left:1.1rem;background:var(--ink-2)}
+.flog-meta{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.35rem}
+.flog-x{font-family:var(--serif);font-size:1.02rem;color:var(--text-1);line-height:1.5}
+.flog-empty{font-family:var(--serif);font-style:italic;color:var(--text-2);font-size:.98rem;line-height:1.6;padding:1.1rem 0;border-top:1px solid var(--gold-line)}
+
+/* nhãn bài nền */
+.nen-badge{display:inline-block;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-line);border-radius:2px;padding:.12rem .5rem;margin-left:.5rem;vertical-align:middle}
+
+/* situation cards */
+.situ{margin-bottom:4.5rem}
+.situ-list{display:flex;flex-direction:column;border-top:1px solid var(--gold-line)}
+.situ-item{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.15rem .4rem;border-bottom:1px solid var(--gold-line);cursor:pointer;background:none;border-left:none;border-right:none;border-top:none;width:100%;text-align:left;transition:padding-left .3s var(--ease),background .3s var(--ease)}
+.situ-item:hover{padding-left:1.1rem;background:var(--ink-2)}
+.situ-q{font-family:var(--serif);font-size:clamp(1.05rem,2.6vw,1.32rem);font-weight:400;color:var(--text-0);line-height:1.3}
+.situ-arr{color:var(--text-2);font-size:1rem;flex-shrink:0;transition:transform .3s var(--ease),color .3s var(--ease)}
+.situ-item:hover .situ-arr{color:var(--gold);transform:translateX(5px)}
+
+/* four faces on home */
+.faces{margin-bottom:4.5rem}
+.face{display:grid;grid-template-columns:2.4rem 1fr auto;align-items:center;gap:1rem;padding:1.15rem .4rem;border-bottom:1px solid var(--gold-line);cursor:pointer;background:none;border-left:none;border-right:none;border-top:none;width:100%;text-align:left;transition:padding-left .3s var(--ease),background .3s var(--ease)}
+.faces .face:first-child{border-top:1px solid var(--gold-line)}
+.face:hover{padding-left:1.1rem;background:var(--ink-2)}
+.face-num{font-family:var(--serif);font-size:.86rem;color:var(--gold);letter-spacing:.04em}
+.face-title{font-family:var(--serif);font-size:clamp(1.1rem,3vw,1.5rem);font-weight:400;color:var(--text-0);line-height:1.15}
+.face-side{font-size:.78rem;color:var(--text-2);font-style:italic;font-family:var(--serif);margin-top:.15rem}
+.face-arr{color:var(--text-2);font-size:1rem;transition:transform .3s var(--ease),color .3s var(--ease)}
+.face:hover .face-arr{color:var(--gold);transform:translateX(5px)}
+
+/* home foot line */
+.home-foot{border-top:1px solid var(--gold-line);padding-top:2.2rem;margin-top:1rem}
+.home-foot-line{font-family:var(--serif);font-style:italic;font-size:1.12rem;line-height:1.65;color:var(--text-1);max-width:30rem}
+.home-foot-mail{color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold-line);transition:border-color .3s}
+.home-foot-mail:hover{border-color:var(--gold)}
+
+/* ===== lời mời (invitation — quiet luxury, không nút, không nền) ===== */
+.invite{border-top:1px solid var(--gold-line);margin-top:3.5rem;padding-top:2.6rem}
+.invite-line{font-family:var(--serif);font-size:1.12rem;line-height:1.72;color:var(--text-1);max-width:33rem;margin:0 0 1.1rem}
+.invite-line:first-child{color:var(--text-0)}
+.invite-ways{margin-top:1.6rem;font-family:var(--sans);font-size:.92rem;color:var(--text-2)}
+.invite-ways a{color:var(--gold-dim);text-decoration:none;transition:color .3s}
+.invite-ways a:hover{color:var(--gold)}
+.invite-sep{margin:0 .6rem;color:var(--text-2);opacity:.5}
+.invite-more{margin:0 0 1.8rem}
+.invite-more button{background:none;border:none;cursor:pointer;font-family:var(--serif);font-size:1.12rem;color:var(--gold);padding:0;transition:opacity .3s}
+.invite-more button:hover{opacity:.7}
+.invite-plain{margin-top:.4rem;color:var(--text-2);font-size:1rem}
+
+/* ===== chữ ký "Nếu là tôi" cuối bài (khối tư duy, không phải CTA) ===== */
+.iam{margin-top:3rem;padding-top:1.7rem;border-top:1px solid var(--gold-line);max-width:33rem}
+.iam-label{font-family:var(--sans);font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:1.1rem}
+.iam-row{margin-bottom:.9rem}
+.iam-row:last-child{margin-bottom:0}
+.iam-k{font-family:var(--sans);font-size:.78rem;color:var(--text-2);margin-bottom:.25rem}
+.iam-v{font-family:var(--serif);font-size:1.08rem;line-height:1.55;color:var(--text-0)}
+.iam-decision .iam-v{font-size:1.24rem;font-style:italic}
+
+/* ===== trang About / Trao đổi ===== */
+.about-hero{font-family:var(--serif);font-size:clamp(1.7rem,4.6vw,2.6rem);font-weight:400;line-height:1.28;letter-spacing:-.01em;color:var(--text-0);max-width:32rem;margin-bottom:1.4rem}
+.about-hero-sub{font-family:var(--serif);font-size:1.12rem;line-height:1.7;color:var(--text-1);max-width:32rem;margin-bottom:2.6rem}
+.about-sec{margin:2.8rem 0;max-width:33rem}
+.about-sec-q{font-family:var(--sans);font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:.9rem}
+.about-sec p{font-family:var(--serif);font-size:1.05rem;line-height:1.75;color:var(--text-1);margin:0 0 .9rem}
+.about-sec p:last-child{margin-bottom:0}
+.about-sec .lead-line{font-size:1.2rem;color:var(--text-0);line-height:1.55}
+.about-fit{margin:1.2rem 0;max-width:33rem}
+.about-fit-block{margin-bottom:1.6rem}
+.about-fit-h{font-family:var(--sans);font-size:.78rem;font-weight:600;letter-spacing:.05em;color:var(--gold-dim);margin-bottom:.7rem}
+.about-fit-block p{font-family:var(--serif);font-size:1rem;line-height:1.7;color:var(--text-1);margin:0 0 .3rem}
+.about-tenets{margin:1.2rem 0;max-width:33rem}
+.about-tenet{font-family:var(--serif);font-size:1.08rem;line-height:1.5;color:var(--text-0);padding:.75rem 0;border-bottom:1px solid var(--gold-line)}
+.about-tenet:first-child{border-top:1px solid var(--gold-line)}
+.about-close{border-top:1px solid var(--gold-line);margin-top:3rem;padding-top:2.4rem;max-width:33rem}
+.about-close p{font-family:var(--serif);font-size:1.12rem;line-height:1.72;color:var(--text-1);margin:0 0 1.1rem}
+.about-close p:first-child{color:var(--text-0)}
+.about-ways{margin-top:1.6rem;font-family:var(--sans);font-size:.92rem;color:var(--text-2)}
+.about-ways a{color:var(--gold-dim);text-decoration:none;transition:color .3s}
+.about-ways a:hover{color:var(--gold)}
+/* link About trên gate */
+.gate-about{position:absolute;top:1.5rem;right:1.3rem;font-family:var(--sans);font-size:.82rem;color:var(--text-2);text-decoration:none;transition:color .3s;z-index:5}
+.gate-about:hover{color:var(--gold)}
+
+/* breadcrumb */
+.crumb{font-size:.8rem;color:var(--text-2);margin-bottom:2rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.crumb button{background:none;border:none;color:var(--text-2);cursor:pointer;font-size:.8rem;font-family:var(--sans);padding:0;transition:color .3s}
+.crumb button:hover{color:var(--gold)}
+.crumb .sep{color:var(--gold-dim)}
+.crumb .here{color:var(--text-1)}
+
+/* face detail */
+.mt-eyebrow{font-size:.7rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+.mt-title{font-family:var(--serif);font-size:clamp(2rem,6vw,3rem);font-weight:300;letter-spacing:-.02em;color:var(--text-0);margin-bottom:.9rem}
+.mt-desc{font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.08rem;line-height:1.6;color:var(--text-1);max-width:var(--col);margin-bottom:2.6rem}
+
+.tang{padding:1.5rem 0;border-top:1px solid var(--gold-line)}
+.tang:last-child{border-bottom:1px solid var(--gold-line)}
+.tang-head{display:flex;align-items:baseline;gap:.85rem;margin-bottom:.35rem}
+.tang-roman{font-family:var(--serif);font-size:.82rem;color:var(--gold-dim);letter-spacing:.06em;min-width:1.8rem}
+.tang-name{font-family:var(--serif);font-size:clamp(1.15rem,3vw,1.6rem);font-weight:400;color:var(--text-0)}
+.tang-gloss{font-size:.86rem;color:var(--text-2);line-height:1.55;margin:.3rem 0 1rem 2.65rem}
+.o{display:flex;align-items:center;gap:.7rem;padding:.6rem .4rem .6rem 2.65rem;border-bottom:1px solid rgba(201,169,110,.08);cursor:pointer;background:none;border-left:none;border-right:none;border-top:none;width:100%;text-align:left;transition:padding-left .3s var(--ease)}
+.o:last-child{border-bottom:none}
+.o:hover{padding-left:3.2rem}
+.o-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.o-name{font-size:.94rem;color:var(--text-0);transition:color .3s var(--ease)}
+.o:hover .o-name{color:var(--gold)}
+.o-tag{margin-left:auto;font-size:.72rem;color:var(--text-2);font-style:italic;font-family:var(--serif);white-space:nowrap}
+.o.locked{opacity:.4;cursor:default}
+.o.locked:hover{padding-left:2.65rem}
+.o.locked .o-dot{background:var(--text-2)}
+.o.locked:hover .o-name{color:var(--text-0)}
+
+/* article list under an o */
+.bais{margin-top:1.4rem;border-top:1px solid var(--gold-line);padding-top:1.4rem}
+.bai-item{display:flex;align-items:baseline;gap:.7rem;padding:.75rem .4rem;border-bottom:1px solid rgba(201,169,110,.08);cursor:pointer;background:none;border:none;border-bottom:1px solid rgba(201,169,110,.08);width:100%;text-align:left;transition:padding-left .3s var(--ease)}
+.bai-item:hover{padding-left:.9rem}
+.bai-idx{font-family:var(--serif);font-size:.8rem;color:var(--gold-dim);min-width:1.5rem}
+.bai-t{font-size:.98rem;color:var(--text-0);line-height:1.4;transition:color .3s}
+.bai-sub{font-size:.82rem;color:var(--text-2);font-style:italic;font-family:var(--serif);margin-left:.4rem}
+.bai-item:hover .bai-t{color:var(--gold)}
+.bai-item.locked{opacity:.42;cursor:default}
+.bai-item.locked:hover{padding-left:.4rem}
+.bai-item.locked:hover .bai-t{color:var(--text-0)}
+
+/* reader */
+.kicker{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem}
+.rtitle{font-family:var(--serif);font-size:clamp(1.7rem,5vw,2.6rem);font-weight:400;letter-spacing:-.02em;line-height:1.12;color:var(--text-0);margin-bottom:2rem}
+.rbody p{font-size:1.06rem;line-height:1.8;color:var(--text-0);margin-bottom:1.4rem}
+.rbody .lead{font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.22rem;line-height:1.6;color:var(--text-1);margin-bottom:1.8rem}
+.rbody .drop::first-letter{font-family:var(--serif);font-size:3.2rem;font-weight:400;float:left;line-height:.78;padding:.34rem .58rem 0 0;color:var(--gold)}
+.rbody .flog{display:block;margin:2.2rem 0;padding:1.3rem 0;border-top:1px solid var(--gold-line);border-bottom:1px solid var(--gold-line)}
+.rbody .flog .fl-meta{font-family:var(--sans);font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:.9rem}
+.rbody .flog .fl-body{font-family:var(--serif);font-size:1rem;line-height:1.75;color:var(--text-1)}
+.rbody .flog .fl-body p{margin:0 0 .5rem}
+.rbody .flog .fl-body p:last-child{margin-bottom:0}
+.rrule{width:38px;height:1px;background:var(--gold-dim);margin:2rem 0}
+.rnav{display:flex;justify-content:space-between;gap:1rem;margin-top:3.5rem;padding-top:1.6rem;border-top:1px solid var(--gold-line)}
+.rnav button{background:none;border:none;cursor:pointer;font-family:var(--sans);color:var(--text-2);font-size:.82rem;transition:color .3s;text-align:left;max-width:45%}
+.rnav button:hover{color:var(--gold)}
+.rnav .rnav-dir{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-dim);display:block;margin-bottom:.3rem}
+.rnav .rnav-r{text-align:right}
+.pending-note{font-family:var(--serif);font-style:italic;color:var(--text-2);font-size:1.02rem;line-height:1.7;border-left:2px solid var(--gold-line);padding-left:1.2rem;margin-top:1rem}
+
+/* WORKING NOTES (trust layer) */
+.wn-intro{font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.14rem;line-height:1.65;color:var(--text-1);max-width:var(--col);margin-bottom:3rem}
+.wn-group{margin-bottom:2.8rem}
+.wn-glabel{font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--gold-line)}
+.wn-item{display:flex;align-items:baseline;gap:.8rem;padding:.7rem .4rem;cursor:pointer;background:none;border:none;width:100%;text-align:left;transition:padding-left .3s var(--ease)}
+.wn-item:hover{padding-left:.9rem}
+.wn-dot{width:4px;height:4px;border-radius:50%;background:var(--gold-dim);flex-shrink:0;transform:translateY(-2px)}
+.wn-t{font-size:.98rem;color:var(--text-0);line-height:1.45;transition:color .3s}
+.wn-item:hover .wn-t{color:var(--gold)}
+.wn-desc{font-size:.82rem;color:var(--text-2);font-style:italic;font-family:var(--serif);margin-left:.4rem}
+.wn-item.locked{opacity:.42;cursor:default}
+.wn-item.locked:hover{padding-left:.4rem}
+.wn-item.locked:hover .wn-t{color:var(--text-0)}
+
+/* the way i think */
+.tw-list{margin-top:.5rem}
+.tw-item{padding:1.4rem 0;border-top:1px solid var(--gold-line)}
+.tw-item:last-child{border-bottom:1px solid var(--gold-line)}
+.tw-n{font-family:var(--serif);font-size:.8rem;color:var(--gold-dim);letter-spacing:.1em}
+.tw-h{font-family:var(--serif);font-size:1.2rem;font-weight:400;color:var(--text-0);margin:.3rem 0 .5rem}
+.tw-b{font-size:.98rem;line-height:1.7;color:var(--text-1);max-width:var(--col)}
+
+/* footer everywhere */
+.foot{max-width:52rem;margin:0 auto;padding:3rem clamp(1.4rem,6vw,3.6rem) 4rem;text-align:center;border-top:1px solid var(--gold-line)}
+.foot-line{font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--text-2);line-height:1.6}
+.foot-mail{color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold-line)}
+.foot-kw{font-size:.66rem;letter-spacing:.32em;text-transform:uppercase;color:var(--text-2);margin-top:1rem}
+
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--ink)}
+::-webkit-scrollbar-thumb{background:var(--gold-line);border-radius:2px}
+
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <button class="brand" onclick="go('home')">
+    <span class="orb"></span>
+    <span class="brand-name">Đoàn Quốc Duyệt</span>
+  </button>
+  <button class="toggle" onclick="toggleTheme()" aria-label="Đổi nền sáng tối">
+    <svg id="ticon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-linecap="round"/></svg>
+  </button>
+</div>
+
+<!-- GATE -->
+<section id="gate" class="active">
+  <div class="g-star">✦</div>
+  <h1 class="g-title">Đọc đất<br>bằng chân</h1>
+  <div class="g-dot"></div>
+  <p class="g-promise">Mười mấy năm đọc đất bằng chân — không bằng bảng rao, không bằng tin quy hoạch. Mỗi tuần một góc nhìn về đất, dòng tiền và con người.</p>
+  <button class="g-enter" onclick="go('home')">bước vào →</button>
+</section>
+
+<!-- HOME -->
+<section id="home" class="screen">
+  <div class="wrap">
+    <h2 class="home-hero">Đất không nói bằng bảng rao. Nó nói bằng người ở lại, dòng tiền và thời gian.</h2>
+
+    <!-- SITUATION -->
+    <div class="situ">
+      <div class="sec-eyebrow">Bắt đầu từ chỗ chú đang đứng</div>
+      <div class="situ-list" id="situList"></div>
+    </div>
+
+    <!-- FIELD LOG mới nhất -->
+    <div class="flog" id="flogHome"></div>
+
+    <!-- FOUR FACES -->
+    <div class="faces">
+      <div class="sec-eyebrow">Hoặc đi theo bốn mặt</div>
+      <div id="faceList"></div>
+    </div>
+
+    <!-- cuối trang: dẫn qua Cách tôi ra quyết định + thông tin, không mời chào -->
+    <div class="invite">
+      <p class="invite-line">Mỗi thương vụ có những biến số riêng của nó. Nên tôi hiếm khi kết luận chỉ từ vài dòng trên mạng — có những điều chỉ hiện ra khi đặt bản đồ, quy hoạch và thực địa cạnh nhau.</p>
+      <p class="invite-more"><button onclick="go('decision')">Cách tôi ra quyết định →</button></p>
+      <p class="invite-line invite-plain">Phần lớn thời gian của tôi ở ngoài hiện trường.</p>
+      <div class="invite-ways">
+        <a href="tel:0978758788">0978 758 788</a>
+        <span class="invite-sep">·</span>
+        <a href="https://zalo.me/0978758788" target="_blank" rel="noopener">Zalo</a>
+        <span class="invite-sep">·</span>
+        <a href="mailto:doanquocduyet@gmail.com">doanquocduyet@gmail.com</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div class="foot-kw">Đoàn Quốc Duyệt</div>
+  </div>
+</section>
+
+<!-- CÁCH TÔI RA QUYẾT ĐỊNH -->
+<section id="decision" class="screen">
+  <div class="wrap">
+    <div class="crumb"><button onclick="go('home')">Trang đầu</button><span class="sep">/</span><span class="here">Cách tôi ra quyết định</span></div>
+
+    <h2 class="about-hero">Tôi không đi tìm thương vụ tốt. Tôi đi loại những thương vụ tệ.</h2>
+    <p class="about-hero-sub">Trong nghề này, tránh sai một lần thường đáng hơn tìm thêm một cơ hội mới. Phần lớn công việc không nằm trước màn hình — nó nằm ngoài hiện trường, và trong mấy câu hỏi phải đặt ra trước khi gật đầu cho ai xuống tiền.</p>
+
+    <div class="about-sec">
+      <div class="about-sec-q">Vì sao tôi làm việc này</div>
+      <p class="lead-line">Trong nghề này, phần lớn mấy khoản lỗ nặng đều là lỗ đáng lẽ tránh được.</p>
+      <p>Đất đai không giống món hàng mua hớ rồi thôi. Một quyết định trật ở đây kéo theo nhiều năm tiền chôn một chỗ, lãi vay đều đặn, và cái cảm giác đứng nhìn tài sản của mình nằm im không nhúc nhích. Chuyện đó xảy ra hoài với những người thừa tiền, mà thiếu một người nói thẳng với họ, đúng lúc, rằng cái này chưa nên. Tôi làm cái việc nói thẳng đó.</p>
+    </div>
+
+    <div class="about-sec">
+      <div class="about-sec-q">Tôi khác ở đâu</div>
+      <p>Người ta thường tới chỗ tôi mong nghe một cái kèo ngon. Tôi hay làm họ hụt hẫng lúc đầu, vì việc tôi giỏi nhất không phải chỉ ra chỗ nên mua — mà chỉ ra chỗ không nên. Một cái gật đầu vội đáng giá vài tỷ; một cái lắc đầu đúng lúc nhiều khi còn đáng hơn. Tôi đọc dòng tiền trước khi đọc cái giá, đọc người ở lại trước khi đọc bảng rao, và tin rằng tiền phần lớn kiếm được ngay từ lúc mua, chớ không phải lúc bán.</p>
+    </div>
+
+    <div class="about-sec">
+      <div class="about-sec-q">Một ngày của tôi</div>
+      <p>Không có gì kịch tính. Đọc, đi, ngó, ngồi lại với người đang thật sự xuống tiền. Có tuần tôi chạy mấy tỉnh chỉ để về tới một kết luận rất gọn: cái thương vụ này chưa đáng. Phần lớn quyết định của tôi không ra đời trước cái laptop, mà ở một quán nước đầu đường, một buổi chiều đứng coi khu đất lên đèn hay tối thui.</p>
+    </div>
+
+    <div class="about-sec">
+      <div class="about-sec-q">Tôi hợp với ai, và không hợp với ai</div>
+      <div class="about-fit">
+        <div class="about-fit-block">
+          <div class="about-fit-h">Có lẽ mình chưa hợp, nếu anh</div>
+          <p>— chỉ muốn nghe điều mình đã muốn nghe</p>
+          <p>— muốn lướt cho thật nhanh, ăn cho thật lẹ</p>
+          <p>— muốn có người quyết thay mình, để sau này có chỗ đổ lỗi</p>
+        </div>
+        <div class="about-fit-block">
+          <div class="about-fit-h">Chắc mình sẽ hợp, nếu anh</div>
+          <p>— đang sắp xuống tiền một thương vụ đủ lớn để cần nghĩ kỹ</p>
+          <p>— muốn nhìn thị trường bằng con mắt dài hạn, không phải con mắt người lướt</p>
+          <p>— thích tranh luận bằng dữ liệu và thực tế, kể cả khi nó ngược ý mình</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-sec">
+      <div class="about-sec-q">Mấy điều tôi tin</div>
+      <div class="about-tenets">
+        <div class="about-tenet">Giá không phải là giá trị.</div>
+        <div class="about-tenet">Quy hoạch không tạo ra thanh khoản.</div>
+        <div class="about-tenet">Không mua cũng là một quyết định đầu tư.</div>
+        <div class="about-tenet">Tiền kiếm được từ lúc mua, không phải lúc bán.</div>
+        <div class="about-tenet">Đọc cho kỹ hiện tại, đừng đoán tương lai xa.</div>
+        <div class="about-tenet">Kiểm soát được một cuộc chơi khác với đứng tên sở hữu nó.</div>
+      </div>
+    </div>
+
+    <div class="about-close">
+      <p>Phần lớn thời gian của tôi ở ngoài hiện trường.</p>
+      <div class="about-ways">
+        <a href="tel:0978758788">0978 758 788</a>
+        <span class="invite-sep">·</span>
+        <a href="https://zalo.me/0978758788" target="_blank" rel="noopener">Zalo</a>
+        <span class="invite-sep">·</span>
+        <a href="mailto:doanquocduyet@gmail.com">doanquocduyet@gmail.com</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><div class="foot-kw">Đoàn Quốc Duyệt</div></div>
+</section>
+
+<!-- SITUATION RESULT -->
+<section id="situResult" class="screen">
+  <div class="wrap">
+    <div class="crumb"><button onclick="go('home')">Trang đầu</button><span class="sep">/</span><span class="here" id="situCrumb"></span></div>
+    <div class="mt-eyebrow" id="situEyebrow"></div>
+    <h2 class="mt-title" id="situTitle"></h2>
+    <p class="mt-desc" id="situDesc"></p>
+    <div id="situBody"></div>
+  </div>
+  <div class="foot"><div class="foot-kw">Đoàn Quốc Duyệt</div></div>
+</section>
+
+<!-- FACE DETAIL -->
+<section id="face" class="screen">
+  <div class="wrap">
+    <div class="crumb"><button onclick="go('home')">Trang đầu</button><span class="sep">/</span><span class="here" id="faceCrumb"></span></div>
+    <div class="mt-eyebrow" id="faceEyebrow"></div>
+    <h2 class="mt-title" id="faceTitle"></h2>
+    <p class="mt-desc" id="faceDesc"></p>
+    <div id="faceBody"></div>
+  </div>
+  <div class="foot"><div class="foot-kw">Đoàn Quốc Duyệt</div></div>
+</section>
+
+<!-- READER -->
+<section id="reader" class="screen">
+  <div class="wrap wrap-read">
+    <div class="crumb" id="readCrumb"></div>
+    <div class="kicker" id="readKicker"></div>
+    <h1 class="rtitle" id="readTitle"></h1>
+    <div class="rbody" id="readBody"></div>
+    <div class="rnav" id="readNav"></div>
+  </div>
+  <div class="foot"><div class="foot-kw">Đoàn Quốc Duyệt</div></div>
+</section>
+
+<!-- WORKING NOTES -->
+<section id="notes" class="screen">
+  <div class="wrap">
+    <div class="crumb"><button onclick="go('home')">Trang đầu</button><span class="sep">/</span><span class="here">Sổ tay hiện trường</span></div>
+    <div class="mt-eyebrow">Không phải trang giới thiệu</div>
+    <h2 class="mt-title">Sổ tay hiện trường</h2>
+    <p class="wn-intro">Đọc mười bài rồi vẫn chưa biết người viết làm thật hay chỉ viết hay. Chỗ này để trả lời câu đó — ghi chép đi thực địa, cách tôi mổ một cái kèo, mấy lần tôi làm sai rồi đổi ý. Không thành tích, không khoe. Chỉ là dấu vết của người làm.</p>
+    <div id="notesBody"></div>
+  </div>
+  <div class="foot"><div class="foot-kw">Đoàn Quốc Duyệt</div></div>
+</section>
+
+<!-- THE WAY I THINK -->
+<section id="think" class="screen">
+  <div class="wrap wrap-read">
+    <div class="crumb"><button onclick="go('home')">Trang đầu</button><span class="sep">/</span><span class="here">Tôi nhìn thị trường thế nào</span></div>
+    <div class="mt-eyebrow">Vài nguyên tắc gốc</div>
+    <h2 class="mt-title">Tôi nhìn thị trường thế nào</h2>
+    <div class="tw-list" id="thinkBody"></div>
+  </div>
+  <div class="foot"><div class="foot-kw">Đoàn Quốc Duyệt</div></div>
+</section>
+
+<script>
+/* ---------- THEME ---------- */
+function toggleTheme(){
+  const h=document.documentElement;
+  const now=h.getAttribute('data-theme')==='dark'?'light':'dark';
+  h.setAttribute('data-theme',now);
+  document.getElementById('ticon').innerHTML = now==='dark'
+    ? '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-linecap="round"/>'
+    : '<circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" stroke-linecap="round"/>';
+}
+
+/* ---------- NAV ---------- */
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('gate').classList.remove('active');
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ============================================================
+   DATA — giữ nguyên khung mặt→tầng→ô→bài cũ.
+   Thêm: SITUATIONS (cửa tình huống), NOTES (sổ tay), THINK (nguyên tắc)
+   Chỗ [D kể] và các ô 'đang dựng' để trống chờ chú lắp.
+   ============================================================ */
+
+const DATA={mucs:[
+{id:'01',num:'01',title:'Bất động sản',side:'người làm',eyebrow:'Mặt thứ nhất — người làm',
+ desc:'Chuyện cầm tiền thiệt, đứng tại đất, mua bán bằng chân chớ không bằng bảng rao. Mười mấy năm đi dọc biển lên rừng rút ra được gì thì để đây.',
+ tangs:[
+  {roman:'I',name:'Một vùng đất',gloss:'Coi một vùng có cái sàn không, đang nằm hay đang lên, tự sống được hay phải bơm mới thở.',
+   os:[
+    {name:'Giá trị gốc',tag:'chuỗi bài',bais:[
+      {t:'Đường mở tới đâu, giá lên tới đó — sai chỗ nào',sub:'bài mở, phá một niềm tin',state:'ready',nen:true,body:[
+        {type:'lead',x:'Người ta hay nói đường mở tới đâu, đất lên tới đó. Câu đó đúng một nửa. Nửa còn lại làm nhiều người ôm đất nằm chờ hoài không thấy lên.'},
+        {type:'drop',x:'Con đường không làm giá đất lên. Dòng người đi trên con đường đó mới làm giá lên. Đường mở mà không ai dọn về ở, thì nó chỉ là nhựa trải qua chỗ vắng.'},
+        {type:'field_log',field_log:null,note:'[D kể — chú lắp vào: một con đường chú thấy mở xong mà đất hai bên vẫn nằm im. Ở đâu, cỡ năm nào? Ngược lại, chỗ nào người ta dọn về trước khi đường xong, giá đã chạy?]'},
+      ]},
+      {t:'Cái sàn của một vùng nằm ở đâu',sub:'coi khói bếp, đừng coi bảng rao',state:'ready',nen:true,body:[
+        {type:'lead',x:'Muốn biết một vùng có sống được thiệt hay không, tui không mở bảng giá ra coi trước. Tui coi chiều tối có khói bếp bay lên hay không.'},
+        {type:'drop',x:'Một vùng đất có hai lớp. Lớp trên là mấy tấm bảng cắm dọc đường, số điện thoại môi giới, giá rao mỗi tháng một khác. Lớp đó ồn, dễ thấy, mà rỗng. Lớp dưới là cái sàn — người ta ăn đời ở kiếp ở đó, đi chợ, nấu cơm, cho con đi học. Lớp trên có thể dựng lên trong một tháng rồi xẹp trong một tháng. Lớp dưới thì phải mấy năm mới có, mà có rồi thì khó mất.'},
+        {type:'p',x:'Cho nên khi tôi coi một vùng, tôi coi cái lớp dưới đó trước. Chiều tối chạy xe một vòng, coi có bao nhiêu nhà lên đèn, có khói bếp không, quán xá còn mở tới mấy giờ, chợ có người thiệt hay chỉ có mấy sạp cầm chừng. Sáng sớm coi có ai đi làm, con nít có đi học không, hay cả khu im lìm tới trưa. Mấy cái đó không có trên bảng rao, mà nó nói thiệt hơn bảng rao nhiều.'},
+        {type:'p',x:'Vì cái sàn đó chính là cái đỡ giá lúc thị trường xuống. Vùng nào chỉ có nhà đầu tư mua đi bán lại với nhau, không có người ở thiệt, thì lúc sóng rút giá rơi không có gì cản, rơi thẳng. Còn vùng có cái sàn dân cư dày, thì dù đầu tư rút hết, cái nhu cầu ở thiệt vẫn còn đó, giá có xuống cũng xuống tới một mức rồi dừng. Cái mức dừng đó, tôi gọi là cái sàn.'},
+        {type:'field_log',field_log:{
+          place:'Nam Ban',date:'06/2021',
+          body:'Sáu giờ tối.\nQuán cơm còn sáng đèn, mà ba căn mặt tiền hai bên vẫn khóa cửa im.\nĐường thì đẹp, bảng rao cắm dày.\nNhưng tôi đứng đó gần hai chục phút, xe chạy ngang nhiều mà không ai ghé.\nTôi không xuống tiền.\nCon đường này chưa nuôi được một cuộc sống — nó mới có nhựa, chưa có người.'
+        }},
+        {type:'p',x:'Nói vậy không phải vùng nào chưa có cái sàn là bỏ hết. Có khi mình mua sớm chính là mua cái lúc sàn chưa hình thành, chờ nó lên. Nhưng phải biết rõ mình đang làm gì: mình đang cược vào cái sàn sẽ tới, chớ không phải mua một chỗ đã có sàn. Hai cái đó tiền khác nhau, rủi ro khác nhau, thời gian chờ khác nhau. Lẫn lộn hai cái là mua lầm mà tưởng mua đúng.'},
+        {type:'p',x:'Cho nên tui mới nói, đừng nghe cái bảng rao nó hứa, hãy coi cái khói bếp nó thiệt. Bảng rao là lời người bán muốn mình tin. Khói bếp là cái người ta đang sống thiệt, không diễn cho ai coi. Đọc một vùng mà chỉ đọc lớp trên thì dễ bị gạt, còn chịu khó coi lớp dưới thì ít khi lầm. Đó, sơ sơ có nhiêu đó, mà phải chịu đi mới thấy.'},
+      ]},
+      {t:'Dân sống thiệt là cái nền không rớt',sub:'',state:'pending'},
+      {t:'Coi một vùng bằng chân, đừng coi bằng báo cáo',sub:'',state:'pending'},
+      {t:'Gói lại — ba thứ để coi cái gốc một vùng',sub:'checklist, một chiến thắng nhỏ',state:'pending'},
+    ]},
+    {name:'Các dòng hội tụ',tag:'chuỗi bài',bais:[
+      {t:'Giá trị dồn về chỗ mấy dòng chảy gặp nhau',sub:'',state:'ready',body:[
+        {type:'lead',x:'Có những chỗ đất tự lên giá mà không cần cơn sốt nào. Vì nó nằm ngay chỗ mấy dòng chảy gặp nhau — dòng người, dòng tiền, dòng hàng.'},
+        {type:'field_log',field_log:null,note:'[D kể — một chỗ chú thấy rõ mấy dòng này giao nhau.]'},
+      ]},
+      {t:'Tiền lớn đi trước tin tức, tiền nhỏ chạy sau tin đồn',sub:'',state:'pending'},
+      {t:'Đất có mùa, người mua người bán cũng có mùa',sub:'',state:'pending'},
+    ]},
+    {name:'Trọng lực',tag:'chuỗi bài',bais:[
+      {t:'Có chỗ tự có sức hút, gọi là trọng lực',sub:'định nghĩa một từ khóa riêng',state:'ready',nen:true,body:[
+        {type:'lead',x:'Có những vùng đất giống như có lực hút. Người đi rồi cũng quay về, tiền ra rồi cũng chảy lại. Tui gọi cái đó là trọng lực của một nơi.'},
+        {type:'field_log',field_log:null,note:'[D kể — một nơi chú thấy rõ cái trọng lực này, người ta cứ quay về.]'},
+      ]},
+      {t:'Vì sao có chỗ tự hút, có chỗ phải bơm',sub:'',state:'pending'},
+      {t:'Trọng lực đo bằng cách nào',sub:'cho một công cụ',state:'pending'},
+    ]},
+    {name:'Thời gian',tag:'đang dựng',bais:[]},
+   ]},
+  {roman:'II',name:'Một lô đất',gloss:'Thế đất, ranh, giấy tờ — cái lợi cái hại nằm trong chính miếng đất đó.',
+   os:[
+    {name:'Coi một lô',tag:'đang dựng',bais:[
+      {t:'Coi một miếng đất trong ba mươi phút, coi cái gì trước',sub:'thứ tự coi của người có nghề',state:'pending',nen:true},
+      {t:'Ranh trên giấy với ranh dưới chân',sub:'',state:'pending'},
+      {t:'Cái giá căn hộ nó cao, cao từ đâu ra',sub:'bóc bảy cái đẩy giá, cho người mua thấy tiền mình trả cho cái gì',state:'ready',nen:true,body:[
+        {type:'lead',x:'Người ta hay than nhà giờ mắc quá, mà than xong rồi thôi, ít ai ngồi hỏi tại sao nó mắc. Tui thì làm nghề này lâu, quen tật, thấy cái giá nào cũng muốn lật ra coi bên dưới nó gồm những gì. Vì hiểu cái giá từ đâu ra thì mới biết chỗ nào là giá trị thiệt, chỗ nào là người ta thổi.'},
+        {type:'drop',x:'Nói cho ngay, cái giá một căn hộ bây giờ nó không phải trên trời rớt xuống. Nó là một chồng chi phí cộng lại, cộng thêm cái kỳ vọng của người bán. Tôi tách ra chừng bảy cái, cái nào cũng đẩy giá lên một nấc, mà người mua thường chỉ thấy cái con số cuối cùng chớ không thấy mấy tầng bên dưới.'},
+        {type:'p',x:'Thứ nhất là pháp lý. Một dự án làm giấy tờ đàng hoàng, đủ điều kiện bán, thì cái sự an toàn đó có giá của nó. Ngược lại dự án pháp lý lôm côm thì rẻ hơn, mà rẻ là vì mình đang mua kèm rủi ro vô người. Thứ hai là quỹ đất. Đất sạch trong khu người ta muốn ở thì ngày càng hiếm, hiếm thì mắc, cái này khỏi bàn. Chủ đầu tư gom được miếng đất đẹp là đã nắm sẵn một nửa cái giá cao.'},
+        {type:'p',x:'Thứ ba là chi phí xây. Vật liệu, nhân công, mấy năm nay nhích lên đều, có giai đoạn đội thêm cả mười lăm hai chục phần trăm. Cái đó xây xong là nằm luôn trong giá bán, không ai gánh giùm. Thứ tư, cái này ít người để ý: mấy khoản như phòng cháy chữa cháy, xử lý môi trường, tiêu chuẩn kỹ thuật ngày càng siết. Làm cho đúng chuẩn thì tốn, có khi đội thêm hai ba chục phần trăm ở mấy hạng mục đó, và rốt cuộc cũng người mua trả.'},
+        {type:'p',x:'Thứ năm là cái lệch pha, chỗ này mới đáng nói. Chủ đầu tư ai cũng thích làm hàng cao cấp, vì làm cao cấp lời nhiều hơn làm hàng vừa túi tiền. Thành ra ngoài thị trường hàng sang thì đầy, mà hàng cho người mua ở thiệt, mua lần đầu, thì thiếu. Cầu một đằng cung một nẻo, cái mặt bằng giá chung bị kéo lên theo cái phân khúc sang đó. Thứ sáu là hạ tầng — chỗ nào đường sá sắp mở, cầu sắp bắc, thì giá chạy trước cả khi hạ tầng xong, người bán tính luôn cái tương lai vô giá hiện tại.'},
+        {type:'p',x:'Thứ bảy là dòng vốn. Tiền từ nơi khác đổ về, tiền nước ngoài rót vô, thì một phần chảy vào bất động sản, và hễ tiền nhiều đuổi theo hàng ít thì giá lên. Bảy cái đó chồng lên nhau, có cái là chi phí thiệt phải trả, có cái là kỳ vọng và tâm lý. Người mua tỉnh là người tách được: trong cái giá này, bao nhiêu phần là giá trị nằm đó thiệt, bao nhiêu phần là mình đang trả cho một giấc mơ chưa tới.'},
+        {type:'field_log',field_log:null,note:'[D kể — chú lắp một ví dụ thiệt: một dự án mà chú bóc được cái giá, chỉ ra chỗ nào đáng tiền chỗ nào thổi. Hoặc một lần chú can người mua vì giá đã gánh quá nhiều kỳ vọng.]'},
+        {type:'p',x:'Nói cho cùng, tôi không có bàn chuyện giá cao hay thấp là tốt hay xấu — cái đó tùy túi tiền mỗi người. Tui chỉ muốn người mua đừng nhìn cái con số cuối cùng rồi hoảng, hoặc rồi mê. Lật nó ra, coi bên dưới, thì tự khắc biết miếng này có đáng đồng tiền hay không. Coi giá mà không biết giá từ đâu ra, thì khác gì nhắm mắt đưa chân.'},
+      ]},
+    ]},
+    {name:'Đọc tờ giấy',tag:'chuỗi bài',bais:[
+      {t:'Rành ngôn ngữ giấy tờ, trước khi khuyên ai xuống tiền',sub:'cái căn bản mà người ta hay coi thường',state:'ready',body:[
+        {type:'lead',x:'Cái nghề này có một chuyện lạ. Ai cũng lo học chốt sale, học đọc trend, học hô hào cho sang miệng. Mà cái căn bản nhất — đọc cho ra một tờ giấy tờ đất — thì nhiều người làm mấy năm vẫn ú ớ.'},
+        {type:'drop',x:'Khách giàu, khách khôn, họ không thích nghe nói sai đâu. Ngồi với họ mà kêu sổ đỏ sổ hồng lẫn lộn, giấy này giấy kia gọi trật tên, là họ biết liền mình tay ngang. Còn ăn nói vừa dễ nghe vừa đúng pháp lý, thì tự nhiên họ nể, lần sau có việc lại kiếm mình. Nói vui vậy chớ cái nể đó là nồi cơm.'},
+        {type:'p',x:'Tui hay dặn anh em: làm môi giới chân chính thì phải đọc ngôn ngữ bất động sản cho thông. Khách đưa một xấp giấy ra cho mình ngó, mình phải biết nó là loại gì, tính chất ra sao, bản chất pháp lý thế nào, đủ hợp lệ để đưa ra giao dịch hay chưa.'},
+        {type:'p',x:'Và đây mới là chỗ quan trọng nhất. Ngó tới ngó lui mà thấy giấy có mùi — giấy giả, giấy không đủ giá trị pháp lý, giấy đang vướng — thì đừng cố đấm ăn xôi mà khuyên người ta giao dịch. Ngừng lại. Kiếm cách bổ sung, làm cho giấy tờ chuẩn chỉnh đã, rồi mới tính chuyện mua bán.'},
+        {type:'p',x:'Cái đó không phải khôn vặt. Cái đó là giữ mình, và giữ luôn người tin mình. Một cái deal chốt được mà giấy chưa sạch, thì sớm muộn nó cũng quay lại tìm mình. Tiền hoa hồng cầm chưa nóng tay đã lo ngay ngáy, không đáng.'},
+        {type:'field_log',field_log:null,note:'[D kể — chú lắp: một vụ giấy tờ có vấn đề mà chú kịp ngừng, hoặc chú thấy người khác dính. Loại giấy gì, vướng chỗ nào, kết cục ra sao.]'},
+        {type:'p',x:'Luật thì mỗi thời một khác, năm nay quy định vầy, vài năm sau sửa lại. Cái đó phải cập nhật hoài, không thuộc lòng một lần là xong. Nhưng cái cốt thì không đổi: người làm nghề tử tế phải đọc được tờ giấy trước khi mở miệng khuyên. Đọc không ra thì đi hỏi cho ra, chớ đừng gật đại.'},
+        {type:'p',x:'Nghe thì căn bản quá, tưởng đâu ai cũng biết. Mà thiệt tình, chính cái căn bản này lọc ra người làm lâu dài với người làm cho vui. Đó, đơn giản sơ sơ có nhiêu đó thôi à.'},
+      ]},
+    ]},
+   ]},
+  {roman:'III',name:'Giá bao nhiêu',gloss:'Bóc cái giá người ta hô ra, tìm cho được cái giá thiệt bên dưới.',
+   os:[{name:'Ba con số',tag:'đang dựng',bais:[
+      {t:'Giá hô, giá rao, giá chốt — ba con số cách nhau xa lắm',sub:'',state:'pending'},
+      {t:'Chặn một cửa, tiền nó dồn qua cửa còn mở',sub:'siết phân lô thì đất sổ đỏ hiện hữu nóng lên — đọc một thay đổi luật',state:'ready',nen:true,body:[
+        {type:'lead',x:'Mỗi lần nhà nước ra một cái luật mới siết chỗ này chỗ kia, tui thấy thiên hạ hay chia hai phe cãi nhau: phe kêu siết là đúng, phe kêu siết là chặn đường làm ăn. Cãi cũng vui, mà tui ít khi ngồi cãi. Tui đi hỏi câu khác: luật này chặn một cửa, vậy dòng tiền nó dồn qua cửa nào.'},
+        {type:'drop',x:'Tiền nó giống nước, chỗ này bít lại thì nó chảy chỗ khác, chớ nó không đứng yên chờ. Cho nên đọc một thay đổi luật, cái đáng đọc không phải là cái nó cấm, mà là cái nó dồn tiền tới. Người thấy được chỗ tiền sắp dồn tới thì đi trước một bước, người chỉ lo than cái cửa bị đóng thì đứng lại một chỗ.'},
+        {type:'p',x:'Lấy cái chuyện siết phân lô bán nền làm ví dụ. Hồi trước người ta gom một miếng đất lớn, tách ra thành nhiều nền nhỏ bán, quay vòng nhanh, lời nhanh. Giờ luật siết cái đó lại, làm khó hơn nhiều, cái nguồn hàng nền phân lô mới tự nhiên hẹp lại. Vậy thì người muốn mua một miếng đất có sổ, để dành hoặc để ở, họ mua ở đâu?',},
+        {type:'p',x:'Họ quay qua cái đang có sẵn: đất thổ cư, đất đã có sổ đỏ hiện hữu đàng hoàng. Nguồn hàng phân lô mới bị chặn, mà nhu cầu thì còn đó, dồn hết qua cái loại đất sổ sẵn này. Cầu giữ nguyên, cung hẹp lại, thì cái loại đất đó nóng lên, giá nhích. Đó là chuyện gần như tất nhiên, không cần tài thánh cũng đoán được — miễn là mình chịu nghĩ theo hướng tiền chảy đi đâu, thay vì đứng ngó cái cửa bị đóng.'},
+        {type:'p',x:'Mà cái luật siết đó, nhìn xa hơn một chút thì nó còn làm một chuyện nữa: nó lọc người chơi. Siết ăn xổi, siết phân lô lướt nhanh, thì mấy tay quen kiểu mua nhanh bán nhanh ăn chênh bị đẩy ra khỏi cuộc. Còn lại người làm bài bản, người có tầm nhìn dài, người làm quy hoạch đàng hoàng pháp lý sạch. Luật kiểu đó, ngắn hạn thì nhiều người kêu ca, mà dài hạn nó đưa cái thị trường về đúng bản chất của nó hơn.'},
+        {type:'field_log',field_log:null,note:'[D kể — chú lắp: một lần chú đọc đúng hướng tiền dồn sau một thay đổi luật, và làm gì với cái đọc đó. Vùng nào, loại đất nào, ra sao.]'},
+        {type:'p',x:'Cho nên tôi hay nói, đọc chính sách đừng đọc như đọc báo, gật gù rồi thôi. Đọc như người đi buôn: cái này chặn ai, mở cho ai, tiền sẽ dồn về đâu. Trả lời được ba câu đó thì một cái tin tưởng khô khan trên mặt báo tự nhiên thành một tấm bản đồ. Còn đọc mà không hỏi tới đó, thì đọc bao nhiêu cũng chỉ để biết, chớ không để làm.'},
+      ]},
+   ]}]},
+  {roman:'IV',name:'Đi mua, đi bán',gloss:'Mua sao, trả sao, cọc sao, tiền ở đâu ra, gãy thường gãy chỗ nào.',
+   os:[{name:'Ngồi vào bàn',tag:'đang dựng',bais:[
+      {t:'Trả giá không phải mặc cả — trả giá là đọc người',sub:'',state:'pending'},
+      {t:'Nhà phố dự án đẹp thiệt — mà đẹp không phải là hết chuyện',sub:'ba cái yếu người bán ít khi nói, người mua ít khi hỏi',state:'ready',nen:true,body:[
+        {type:'lead',x:'Có người cầm một số tiền kha khá tới hỏi tui nên mua gì. Đưa họ đi coi mấy căn nhà phố trong khu dự án mới, đường rộng, cây xanh, nhà nào cũng giống nhà nào, đẹp như trong hình quảng cáo. Họ mê liền. Tui hiểu cái mê đó, vì nó đẹp thiệt. Nhưng đẹp là một chuyện, mua có yên hay không lại là chuyện khác.'},
+        {type:'drop',x:'Tôi không có chê nhà phố dự án. Nó có cái hay của nó: quy hoạch gọn gàng, an ninh, tiện ích, ở sướng. Tôi chỉ làm cái việc mà người bán ít khi làm — chỉ ra ba cái yếu nằm bên dưới cái vẻ đẹp đó, để người mua biết mình đang bước vào cái gì, rồi quyết. Biết mà vẫn mua thì khác, không biết mà mua thì khác.'},
+        {type:'p',x:'Cái yếu thứ nhất là pháp lý. Nhà phố trong dự án, cái giấy tờ của nó phụ thuộc vào cái dự án tổng. Dự án mà pháp lý chưa xong, chưa ra được sổ riêng cho từng căn, thì người mua ôm cái rủi ro đó vô người. Có khi ở rồi mà sổ mấy năm chưa cầm được, tiền chôn trong đó, muốn bán lại cũng khó vì người sau cũng ngại. Cái đẹp thấy bằng mắt, còn cái pháp lý thì nằm trong xấp giấy, phải lật ra coi mới biết.'},
+        {type:'p',x:'Cái yếu thứ hai, nó nằm ở chỗ mình phụ thuộc vô uy tín của chủ đầu tư. Mua một căn nhà phố dự án là mình đặt niềm tin vô cái ông làm ra dự án đó — tin ổng làm đúng cam kết, làm xong hạ tầng, ra giấy tờ đàng hoàng, không bỏ ngang. Chủ đầu tư có tâm có tầm thì phước, gặp ông làm ăn kiểu khác thì khổ. Cái này người mua gần như không kiểm soát được, chỉ có thể coi cái lịch sử ổng từng làm mà đoán.'},
+        {type:'p',x:'Cái yếu thứ ba là mua hàng hình thành trong tương lai. Nhiều khi trả tiền rồi mà nhà chưa có, mới trên giấy, trên cái phối cảnh. Mình trả tiền cho một lời hứa. Lời hứa đó thành hình đúng hẹn thì mừng, mà trễ hẹn, hoặc ra không giống như vẽ, thì cũng đã lỡ. Tiền đi trước, nhà theo sau — cái khoảng giữa đó là chỗ rủi ro nằm.'},
+        {type:'p',x:'Nói vậy chớ không phải để người ta sợ mà không dám mua. Ba cái yếu đó, cái nào cũng có cách dò trước: pháp lý thì lật giấy, coi dự án ra sổ tới đâu; uy tín thì coi chủ đầu tư từng làm gì, có bỏ dự án nào giữa chừng không; hàng tương lai thì coi hợp đồng ràng buộc ra sao, tiến độ cam kết thế nào. Có một mẹo nữa người trong nghề hay dùng: hàng tốt mà mua được đợt đầu, lúc chủ đầu tư còn ra giá mềm để bán mồi, thì vừa được giá vừa đón được sóng sau.'},
+        {type:'field_log',field_log:null,note:'[D kể — chú lắp: một vụ nhà phố dự án chú thấy dính một trong ba cái yếu này, hoặc một lần chú dò đủ ba cái rồi mới gật cho khách mua. Cụ thể càng tốt.]'},
+        {type:'p',x:'Rốt cuộc cái nghề tư vấn tử tế nó không phải là khen cho người ta mua. Nó là chỉ cho người ta thấy đủ mặt tốt mặt xấu, rồi để người ta tự quyết bằng con mắt sáng. Người bán lo khoe cái đẹp, đó là việc của họ. Còn tui, tui lo chỉ cái chỗ khuất — không phải để dìm hàng, mà để cái gật đầu của người mua là cái gật của người biết mình đang làm gì.'},
+      ]},
+   ]}]},
+  {roman:'V',name:'Kèo thơm đâu ra',gloss:'Kèo thơm không nằm trên mạng. Nó đi đường người quen — và vô được đường đó phải trả bằng thứ khác.',
+   os:[{name:'Lọc kèo',tag:'đang dựng',bais:[
+      {t:'Ba câu tôi hỏi trước khi coi bất kỳ kèo nào',sub:'',state:'pending'},
+      {t:'Kèo nhìn ngon mà tôi lắc, cái gì làm tôi lắc',sub:'',state:'pending',nen:true},
+      {t:'Người ta đưa tôi một kèo, tôi mổ nó theo thứ tự nào',sub:'năm bước, bài gói của tầng',state:'pending',nen:true},
+   ]}]},
+  {roman:'VI',name:'Vào một ngày bình thường',gloss:'Một ngày đi đất bình thường trông ra sao. Từ miếng lẻ tới cái hệ thống tiền tự chảy.',
+   os:[{name:'Đường dài',tag:'đang dựng',bais:[
+      {t:'Từ miếng đất đầu tiên tới đồng tiền đầu tiên tự chảy về',sub:'',state:'pending'},
+   ]}]},
+ ]},
+
+{id:'02',num:'02',title:'Có mấy cái hay hay',side:'người nghĩ',eyebrow:'Mặt thứ hai — người nghĩ',
+ desc:'Cách nghĩ về đám đông, dòng tiền, chu kỳ. Không dạy đời, chỉ bày cách coi.',
+ tangs:[
+  {roman:'I',name:'Cái vòng',gloss:'Cái gì cũng có vòng của nó — lên rồi xuống, nóng rồi nguội. Coi mình đang ở khúc nào.',
+   os:[
+    {name:'Cái đầu người làm nghề',tag:'chuỗi bài',bais:[
+      {t:'Băng trong lòng, là nơi phải tan trước',sub:'viết lúc thị trường đóng băng',state:'ready',nen:true,body:[
+        {type:'lead',x:'Tui hay chia sẻ với nhiều anh em mới vô nghề bất động sản, cái sự "mới" là một đặc ân. Hãy làm hết mình, hãy ghi nhớ cái trạng thái tươi mới này và giữ lấy nó, luôn để cái hộp đó trong đầu. Vì sau này mình sẽ phải lôi cái hộp ký ức này ra, để vượt qua nhiều biến cố trong nghề.'},
+        {type:'p',x:'Càng làm, càng vô sâu — bất kỳ nghề nào, không riêng bất động sản — mọi thứ từ kiến thức, kinh nghiệm, kỹ năng, quan hệ, chức vụ, danh tiếng đều lên một bậc. Và tất nhiên, mấy cái tiêu cực gom được qua từng chuyện trong nghề cũng tích lại dần. Không vượt được, nó thành nhụt chí, bao biện, đổ lỗi.'},
+        {type:'p',x:'Mọi thứ đi theo chiều không tốt, tính ra chỉ diễn ra vỏn vẹn trong hơn một năm nay.'},
+        {type:'p',x:'Có ai từng mấy tháng trời nằm nghĩ, chừng nào nhà nước cho phân lô tách thửa lại, để mình đi chinh chiến, giao dịch ầm ầm như xưa không? Hay nằm mơ một ngày đẹp trời nào đó lên trend, mấy mối cũ tự tìm tới giao cho mình những giỏ hàng thơm phức? Tin mình đăng, khách cũ tự gọi tới, môi giới gọi tới hỏi mua, rồi ta cứ thong dong mà tiền vô ào ào như xưa?'},
+        {type:'p',x:'Có những chuyện không nằm trong tầm mình. Ta làm cách nào đi nữa cũng không đổi được. Băng có tan không? Khi nào tan? Khi nào mua? Khi nào bán? Chờ thị trường tốt mình mới dốc nhiệt huyết vô nghề này chăng?'},
+        {type:'p',x:'Ta có yêu nghề như ta vẫn nghĩ, vẫn cho mọi người thấy bấy lâu, hay không? Có tự hỏi, băng tan rồi thì sao nữa không? Lúc đó ta mới tìm hàng, mới chào khách, mới đi kết nối, mới đàm phán mấy deal ưng ý, mới triển khai kế hoạch, mới bắt đầu làm mọi thứ?'},
+        {type:'p',x:'Ta cứ hay nghĩ ngợi xa xôi rồi tự đẩy mình vào mớ hỗn độn không thoát ra được. Từ đó ra cái góc nhìn "chỉ có bao nhiêu đó mà thôi".'},
+        {type:'p',x:'Vậy nên, muốn tan băng ở đâu đó, thì băng trong lòng ta là nơi phải tan trước.'},
+        {type:'p',x:'Hãy đem cái hộp tươi mới đó ra mà dùng. Tinh thần của một người học việc, một con số không, một người khởi nghiệp với tất cả nhiệt huyết, yêu nghề bất chấp khó khăn. Vô lại cái trạng thái chảy một lần nữa.'},
+      ]},
+    ]},
+    {name:'Bốn mùa của một tài sản',tag:'đang dựng',bais:[
+      {t:'Đất có mùa, người mua kẻ bán cũng có mùa',sub:'',state:'pending'},
+    ]},
+    {name:'Đọc chu kỳ',tag:'chuỗi bài',bais:[
+      {t:'Đừng đếm năm canh đỉnh đáy, hỏi mình đang đứng ở khúc nào',sub:'đọc Howard Marks, ngẫm cho chuyện đất',state:'ready',nen:true,body:[
+        {type:'lead',x:'Có một ông tên Howard Marks, quản lý cái quỹ mấy trăm tỉ đô. Ông viết một cuốn về chu kỳ thị trường. Tui đọc, rồi ngồi ngẫm coi nó ứng vô chuyện đất mình ra sao.'},
+        {type:'drop',x:'Cái hay nhất ông nói, gọn lại một câu: đừng cố đoán tương lai. Không ai đoán được chính xác và đều đặn cái tương lai hết. Cổ phiếu nào lên, lãi suất chạy đâu, năm sau kinh tế thế nào — đoán hoài trật hoài. Cái đáng làm không phải đoán, mà là biết mình đang đứng ở khúc nào của cái vòng.'},
+        {type:'p',x:'Chỗ này tui tâm đắc, vì làm đất bao năm tui thấy đúng y. Người ta cứ hỏi chừng nào đáy, chừng nào đỉnh, chừng nào tan băng. Hỏi vậy là hỏi trật. Câu đúng phải là: giờ thị trường đang ở trạng thái nào, rủi ro đang cỡ nào.'},
+        {type:'p',x:'Ông Marks nói một câu tui chép lại để dành: chu kỳ không giống bốn mùa, không giống thủy triều. Không có luật nào nói cứ năm năm mười năm là lặp lại. Mỗi vòng một thời gian khác, một biên độ khác. Cho nên ngồi đếm năm để canh đỉnh canh đáy là cách nguy hiểm.'},
+        {type:'p',x:'Vì sao khó đoán? Vì cái vòng này do con người tạo ra. Mà con người thì không chạy như máy. Cái lặp lại không phải là thời gian — cái lặp lại là con người cứ đi qua đi lại giữa hai cái cực.'},
+        {type:'p',x:'Hai cực đó, ai làm đất lâu đều thấy. Một đầu là hưng phấn, tham, giá nào cũng mua, sợ mua trễ. Đầu kia là hoảng, chán, giá nào cũng bán, sợ ôm. Ở giữa là chỗ giá đúng với giá trị thật. Mà thị trường giống cái con lắc — nó lướt qua cái điểm giữa đó nhanh lắm, không đứng lại đó lâu. Phần lớn thời gian nó đang đi từ cực này qua cực kia.'},
+        {type:'p',x:'Hiểu được nhiêu đó thôi là đỡ rồi. Không phải để canh mua đúng đáy bán đúng đỉnh — cái đó không ai làm được đều. Mà để biết lúc cả làng đang hưng phấn thì mình dè lại, lúc cả làng đang hoảng thì mình ngó tới. Ngược với đám đông ở hai cái cực. Vậy thôi mà nhiều người làm không nổi, vì nó ngược với cái bụng mình lúc đó.'},
+        {type:'field_log',field_log:null,note:'[D kể — chú rảnh thì thêm: một lần chú thấy cái con lắc này lắc rõ nhất ở đất Việt mình, hay đất Lâm Đồng. Lúc cả làng hưng phấn, hay lúc cả làng hoảng — chú làm gì.]'},
+      ]},
+   ]}]},
+  {roman:'II',name:'Đám đông',gloss:'Đám đông tới lúc nào, chạy lúc nào. Đọc được cái đó thì biết mình nên ngược hay nên xuôi.',
+   os:[{name:'Đọc cái đám đông',tag:'đang dựng',bais:[
+      {t:'Bốn kiểu nhà đầu tư',sub:'',state:'ready',nen:true,body:[
+        {type:'lead',x:'Đi mua bán đất mười mấy năm, ngồi cà phê với đủ hạng người cầm tiền, rút lại tui thấy đi tới đi lui cũng chừng bốn kiểu. Nhìn ra mình đang là kiểu nào thì đỡ tự lừa mình — mà cái đó mới khó, chớ nhìn ra người khác thì ai cũng giỏi.'},
+        {type:'drop',x:'Kiểu thứ nhất, đông nhất, là dân lướt sóng. Thấy sóng lên là nhảy vô, mua nhanh bán nhanh, ăn cái chênh. Hồi sóng còn thì kiểu này coi bộ ngon, ai cũng tưởng mình thiên tài. Nhưng cái kẹt của lướt sóng là nó đuối nước vì chính con sóng mình tạo ra. Cả đám cùng lao vô một chỗ, giá bị chính mình đẩy lên, rồi tới hồi cần ra thì cũng cả đám cùng muốn ra một lượt, không ai đỡ ai. Người tạo sóng giỏi thì rút sớm, còn phần đông kẹt lại giữa dòng, ôm hàng ngồi ngó nhau.'},
+        {type:'p',x:'Kiểu thứ hai là mấy người vốn lớn, tôi hay kêu là nhà đầu tư tự do. Tự do ở chỗ họ không bị con sóng nào ép. Tiền dày, không xài đòn bẩy tới hạn, nên thị trường lên họ không hớn hở chạy theo, thị trường xuống họ cũng không hoảng mà bán tháo. Họ ngồi đó, giá rớt tới khúc ngon thì gom, không cần đúng đáy, chỉ cần rẻ. Cái tự do đó không phải trời cho, nó mua bằng vốn dày và cái đầu lạnh — hai thứ mà dân lướt sóng thiếu cả hai.'},
+        {type:'p',x:'Kiểu thứ ba là người coi kỹ, cẩn thận, cái gì cũng phải chắc mới xuống tiền. Kiểu này ít khi lỗ. Nhưng có một chuyện tui để ý hoài: chắc ăn thì thường chỉ đủ ăn. Chờ mọi thứ rõ ràng hết, hạ tầng xong, dân về đủ, giấy tờ sạch trơn mới mua, thì lúc đó cái giá nó cũng phản ánh hết mọi cái tốt đẹp rồi. Mua cái đã chắc là mua cái đã mắc. An toàn, mà miếng bánh còn mỏng.'},
+        {type:'p',x:'Kiểu thứ tư, kiểu tui phục nhất, là người làm bài bản. Họ không đoán sóng, không canh me chạy ra chạy vô. Họ đọc cho đúng cái vùng, đúng cái chu kỳ, mua đúng chỗ đúng lúc rồi để đó. Mua đúng thì thị trường nó tự chạy, lợi nhuận tự tìm tới, mình khỏi phải rượt theo nó. Nói kiểu mộng mơ một chút thì họ thở cùng hơi thở của thị trường — không đi trước hớt hải, không chạy sau hụt hơi, mà đi cùng nhịp với nó.'},
+        {type:'p',x:'Bốn kiểu đó không phải cái thang, không phải kiểu này sang hơn kiểu kia. Người vốn nhỏ mà tỉnh thì lướt sóng cũng có đường sống, miễn biết mình đang chơi ván cờ bạc và ra cho kịp. Người vốn lớn mà tham cũng chết như thường. Cái chính là biết mình đang đứng ở kiểu nào, chơi bằng vốn gì, chịu được rủi ro cỡ nào — rồi chơi cho đúng cái ván của mình, đừng ngồi ván này mà mơ tiền của ván kia.'},
+        {type:'field_log',field_log:null,note:'[D kể — chú thấy mình rõ nhất ở kiểu nào, và một lần chú nhìn ra ai đó chơi lộn ván — vốn lướt sóng mà đòi ăn kiểu đầu tư dài, hoặc ngược lại. Kết cục ra sao.]'},
+        {type:'p',x:'Rốt cuộc, cái nghề này người ta thua ít khi vì dốt. Thua vì tưởng mình là kiểu này, mà tiền trong túi lại là tiền của kiểu khác. Nhìn cho ra mình là ai trước đã, rồi tính tới miếng đất sau. Đó, sơ sơ có nhiêu đó thôi à.'},
+      ]},
+      {t:'Đám đông không sai — đám đông chỉ trễ',sub:'',state:'ready',nen:true,body:[
+        {type:'lead',x:'Có bận tui làm một cái khảo sát nhỏ, hỏi một vòng người đi mua đất coi họ mua để làm gì. Con số ra khá giật mình, mà ngẫm lại thì cũng đúng thôi: cỡ bảy tám phần mười là mua để bán lại, chỉ chừng hai ba phần là mua để ở thiệt. Tùy vùng có xê xích, nhưng cái tỷ lệ đó nói lên gần hết câu chuyện.'},
+        {type:'drop',x:'Nói đám đông là nói cái số bảy tám phần đó. Họ không ngu, tui nói trước cho rõ. Trong đám đó, chừng hai phần mười là người có đội nhóm, có nghề, đọc được thị trường, mấy người này vẫn thắng đường dài. Cái đám kẹt là tám phần còn lại — mua theo đuôi. Thấy chỗ nào đông người mua bán là chạy theo, không cần biết vì sao đông, đông thiệt hay đông diễn.'},
+        {type:'p',x:'Cái lạ nhất, mà cũng buồn cười nhất, là đám này thường tin lời môi giới hơn tin lời cảnh báo. Ông môi giới rót mật vô tai, vẽ ra cây cầu cái sân bay, nói sắp hết hàng — họ gật. Còn ai đó ngồi phân tích cho nghe cái rủi ro pháp lý, cái bẫy thanh khoản, thì họ thấy phiền, thấy người ta cản đường làm giàu của mình. Nghe cái dễ chịu thì tin, nghe cái khó chịu thì né. Mà tiền thì nó không quan tâm mình thích nghe gì.'},
+        {type:'p',x:'Cho nên tui hay nói đám đông không sai, đám đông chỉ trễ. Cái chỗ đông người là chỗ giá đã lên rồi, tin đã ra rồi, người khôn đã vô từ hồi nó còn vắng. Tới lúc đông vui tới mức mình nghe được, thấy được, đủ tin để nhảy vô, thì thường là mình tới trễ một nhịp. Vô lúc đó không phải là sai hẳn, nhưng là mua cái tin lúc nó đã thành giá, chớ không phải mua lúc nó còn rẻ.'},
+        {type:'p',x:'Mà cái trễ đó nó nguy ở chỗ: sóng lên thì đám đông vô sau cùng, sóng xuống thì đám đông cũng là người ra sau cùng — tức là người gánh. Người tạo sóng rút trước, người có nghề rút kế, còn đám mua theo đuôi ngồi lại ôm hàng, tới hồi hoảng thì tám phần đó lại cùng muốn bán một lượt. Cái bẫy pháp lý, cái bẫy giá đỉnh, phần lớn rơi trúng đám này.'},
+        {type:'field_log',field_log:null,note:'[D kể — một lần chú thấy đám đông trễ nhịp rõ nhất, ở vùng nào, lúc nào. Hoặc một lần chính chú suýt bị cuốn theo mà kịp dừng.]'},
+        {type:'p',x:'Tui không có khinh đám đông đâu, tui cũng từng ở trong đó. Chỉ là làm lâu rồi mới hiểu, muốn ra khỏi cái đám tám phần thì không phải nhờ khôn hơn, mà nhờ chịu nghe cái khó nghe, và chịu vô lúc còn vắng, lúc chưa ai vỗ tay. Đứng một mình ở chỗ chưa đông thì lạnh thiệt, mà tiền nó hay nằm ở mấy chỗ lạnh đó.'},
+      ]},
+      {t:'Cơn sốt đất không tạo người giàu — nó chuyển tiền',sub:'',state:'pending'},
+   ]}]},
+  {roman:'III',name:'Dòng tiền',gloss:'Tiền lớn chảy đi đâu thì cuộc chơi ở đó. Coi dòng, đừng coi tin đồn.',
+   os:[{name:'Đọc dòng tiền',tag:'chuỗi bài',bais:[
+      {t:'Ngày mai cần tiền gấp, bán được không — đó mới là câu hỏi thiệt',sub:'thanh khoản đo lúc bán, không phải lúc mua',state:'ready',nen:true,body:[
+        {type:'lead',x:'Lúc mua thì ai cũng là thiên tài. Sale rót mật vô tai, sáng cà phê nghe thêm một cây cầu, chiều nghe thêm một cái sân bay, quy hoạch chạy ngang chạy dọc trên tấm bản đồ nhìn muốn hoa mắt. Ngồi đó nghe một hồi, thấy miếng đất trước mặt mình sắp thành vàng tới nơi.'},
+        {type:'drop',x:'Mà tui hay đổi lại câu hỏi cho gọn. Ngày mai cần tiền gấp, bán được không? Bao nhiêu người khựng lại ở đúng câu đó. Vì mua thì dễ, đặt cọc còn dễ hơn, tới hồi cần tiền mới lòi ra ai đang cầm tài sản, ai đang cầm cục than nóng trong tay mà cứ tưởng là cầm vàng.'},
+        {type:'p',x:'Thanh khoản không nằm ở lúc mua. Nó nằm ở lúc mình cần bán. Thử tưởng tượng hôm nay mua xong, tháng sau kẹt tiền, rao đúng giá — im. Bớt năm phần trăm — vẫn im. Bớt mười phần trăm — điện thoại vẫn lạnh tanh. Tới khúc đó mới thấm, cái thanh khoản mình coi nhẹ hồi mua nó quý hơn vài phần trăm lời rất nhiều. Nhất là khi đồng tiền trong miếng đất đó là tiền vay. Thị trường thì đứng, hàng thì không ra, mà ngân hàng mỗi tháng vẫn đều đặn gửi cho mình cái thiệp mời đóng lãi. Cầm cái thiệp đó không vui gì đâu.'},
+        {type:'p',x:'Muốn biết một miếng đất có thanh khoản hay không, tôi coi một chuyện đơn giản: bỏ hết đám nhà đầu tư ra, miếng này còn ai mua không. Thị trường lúc nào cũng có hai loại người — người mua để ở, và người mua để đầu tư. Hồi thị trường phấn khích thì hai đám cùng xuất hiện, đông vui, giá đẩy nhau lên. Nhưng hễ thị trường khó một cái, nhà đầu tư biến mất trước tiên, biến sạch. Còn lại trơ ra người mua để ở. Cho nên tự hỏi: ngày mai đám đầu tư rút hết, miếng đất của mình còn bán được cho người cần một chỗ sống thiệt không. Trả lời được là có, thanh khoản thường ổn. Trả lời là không, thì nên ngồi lại tính cho kỹ.'},
+        {type:'p',x:'Người ở thiệt họ không mua bằng niềm tin. Họ mua bằng thời gian sống mỗi ngày. Đi làm mất bao lâu, con đi học bao xa, có cái chợ không, có cái bệnh viện không, tối về có ánh đèn hàng xóm hay tối thui một mình. Đó mới là nhu cầu thiệt. Một miếng cách trung tâm vừa phải, chạy chừng mười lăm hai chục phút, thường có tệp khách rộng hơn nhiều — đơn giản vì cái khoảng cách đó người ta chịu được.'},
+        {type:'p',x:'Rồi tới cái bẫy lớn nhất, cái bẫy mà người khôn cũng dính: lẫn lộn giữa một dự án đẹp và một khoản đầu tư hiệu quả. Hai chuyện khác nhau hoàn toàn. Có những đại đô thị quy hoạch bài bản, tiện ích đủ đầy, hình phối cảnh đẹp tới mức nhìn là muốn dọn vô ở liền. Đẹp thiệt, tui không cãi. Nhưng giá bán đã tiệm cận mấy khu trung tâm đã có sẵn hạ tầng, có sẵn người ở, có sẵn cuộc sống — trong khi chỗ mới thì hạ tầng còn dở dang, đường vô còn xe container chạy bụi mù, người ở thiệt chưa tới. Lúc đó phải đặt đúng câu hỏi: cùng một số tiền, tại sao mình chọn chỗ này mà không chọn chỗ kia. Đó là bài toán chi phí cơ hội, và nó là cái tách người tính bằng cái đầu ra khỏi người mua bằng con mắt.'},
+        {type:'p',x:'Một khu đô thị chỉ sống thiệt khi có người tới ở vì họ cần sống và cần làm việc ở đó, chớ không phải vì mua đi bán lại lòng vòng với nhau. Mà muốn có người ở thiệt thì trước hết phải có cái hệ sinh thái kinh tế tạo ra việc làm. Cái đó cần thời gian, không hô một tiếng là có. Quy hoạch chỉ là lời hứa trên giấy. Việc làm, dân cư, thu nhập, dòng vốn — mấy cái đó phải tới đủ, tới đồng bộ, thì giá mới lên bền. Thiếu một chân, cái bàn đứng không vững, giá lên chậm hơn kỳ vọng, có khi đứng luôn mấy năm.'},
+        {type:'p',x:'Còn chuyện lời lãi, phải tính cho tới nơi. Người mua đợt đầu rồi chốt lời sớm thì mừng cho họ. Nhưng người ôm ở đúng đỉnh mới là người gánh rủi ro nặng nhất. Đầu tư không phải cứ thấy giá hôm nay cao hơn hôm qua là lời. Trừ đi chi phí vốn, lãi vay, lạm phát, chi phí cơ hội, cái tốc độ tăng giá thiệt — rất nhiều khoản nhìn thì có lời, tính lại thì đang âm mà chủ nó không hay. Sổ đỏ có dày cỡ nào, mà miếng đất không ra dòng tiền, không lên giá, không bán được, thì nó cũng chỉ là tài sản chết nằm đó. Nó nằm im, còn mình mỗi tháng vẫn è cổ đóng lãi cho nó.'},
+        {type:'field_log',field_log:null,note:'[D kể — chú lắp một miếng thiệt: một chỗ chú thấy giá đã tiệm cận vùng lõi mà người ở thiệt chưa tới, hoặc một miếng chú từng cân giữa đẹp và hiệu quả rồi chọn cái nào, vì sao. Có vùng, có con số càng tốt.]'},
+        {type:'p',x:'Nói cho cùng, cái nghề này kiếm tiền khó lắm, mà mất tiền thì nhanh. Một thương vụ ngon chưa chắc làm mình giàu. Nhưng tránh được một thương vụ tệ, nhiều khi còn đáng giá hơn. Đừng mua chỉ vì bạn bè mua, đừng xuống tiền chỉ vì nghe sale kêu sắp hết hàng, và đừng tin tuyệt đối vô ai — kể cả tui. Tự đi, tự ngó, tự tính. Đó, sơ sơ có nhiêu đó thôi à, mà làm được là đã hơn phân nửa thiên hạ rồi.'},
+      ]},
+      {t:'Tiền lớn đi trước tin tức, tiền nhỏ chạy sau tin đồn',sub:'',state:'pending'},
+      {t:'Kẻ tạo sóng là kẻ mất cọc đầu tiên khi nước rút',sub:'lúc dòng tiền co lại, ai ngồi ai chạy',state:'ready',nen:true,body:[
+        {type:'lead',x:'Có mấy mùa thị trường nó đứng khựng lại, dòng tiền tự nhiên rút đi đâu mất, cả vùng lặng ngắt như ai tắt công tắc. Người ngoài nhìn vô thấy im lìm buồn hiu. Còn tui thì khoái coi đúng mấy lúc đó, vì thị trường lặng mới lòi ra ai là ai.'},
+        {type:'drop',x:'Hồi thị trường nóng, ai cũng giống ai. Sóng lên đẩy tất cả cùng lên, người giỏi người dở đứng chung một thuyền, nhìn không ra. Phải chờ nước rút mới biết ai đang mặc quần, ai đang ở truồng. Mà cái đám lộ ra trước tiên, ngộ thay, lại chính là mấy tay lướt sóng — mấy người tưởng mình nhanh nhất, khôn nhất.'},
+        {type:'p',x:'Lướt sóng sống bằng dòng tiền. Có tiền chảy qua tay liên tục thì họ mua nhanh bán nhanh, ăn cái chênh, tiền quay vòng vòng đẹp lắm. Nhưng hễ dòng tiền chung co lại, người mua kế tiếp ngừng vô, thì cái vòng đó đứng liền. Hàng ôm trong tay bán không ai mua, tiền cọc đặt rồi rút không kịp, lãi vay thì tháng nào cũng tới. Kẻ tạo sóng, người bày ra cuộc chơi cho cả làng nhảy vô, lại thành kẻ mất cọc đầu tiên. Bày tiệc mà chưa kịp ăn, tới hồi trả tiền thì mình đứng đó.'},
+        {type:'p',x:'Cho nên tôi hay coi cái dòng tiền nó co hay nó nở, trước khi coi cái giá. Giá là cái đuôi, dòng tiền là cái đầu. Dòng tiền còn chảy, giá đứng cũng không sao, sớm muộn cũng có người mua. Dòng tiền cạn rồi, giá còn treo trên cao là treo một mình, không có ai đỡ. Nhìn giá thì thấy trễ, nhìn dòng tiền thì thấy sớm — mà trong nghề này, thấy sớm một nhịp là ăn tiền, thấy trễ một nhịp là gánh nợ.'},
+        {type:'p',x:'Có một chuyện nữa tui để ý: mấy mùa hoàng kim, người ta thắng nhiều lắm, thắng tới mức tưởng do mình tài. Kỳ thực phần lớn là thắng nhờ con nước lên, ai đứng đó cũng được nâng lên theo. Tới hồi nước rút mới biết cái tài của mình có bao nhiêu phần thiệt, bao nhiêu phần là hên. Người khôn thì lúc thắng vẫn nhớ hỏi mình câu đó, người say thì tưởng nước sẽ lên hoài.'},
+        {type:'field_log',field_log:null,note:'[D kể — một mùa dòng tiền rút mà chú thấy tận mắt: vùng nào, ai chạy trước ai ngồi lại, chú làm gì lúc đó. Có con số càng nặng.]'},
+        {type:'p',x:'Nói vậy chớ tui không có chê lướt sóng. Nó là một cái nghề, chơi giỏi vẫn ăn. Chỉ là phải biết mình đang cưỡi trên con nước, mà nước thì có lúc lên lúc xuống, không phải cái nền đứng yên. Cưỡi nước thì phải canh lúc nhảy xuống. Ai quên mất mình đang đứng trên nước, tưởng đó là đất, thì tới hồi nước rút mới hoảng. Đó, đơn giản có nhiêu đó, mà quên hoài.'},
+      ]},
+      {t:'Trữ tiền có hai kiểu — kiểu nấp và kiểu rình',sub:'cùng là ôm tiền mặt, mà hai cái đầu khác nhau',state:'ready',body:[
+        {type:'lead',x:'Có mấy mùa cả thị trường ai cũng ôm tiền mặt, không ai chịu xuống tiền. Nhìn bề ngoài giống nhau hết — ai cũng cầm tiền ngồi im. Mà ngồi im thì có hai kiểu ngồi, khác nhau một trời một vực, chỉ người trong cuộc mới biết mình đang ngồi kiểu nào.'},
+        {type:'drop',x:'Kiểu thứ nhất là ngồi nấp. Sợ. Thấy thị trường xuống, thấy tin xấu, thấy chung quanh người ta lỗ, thì rút hết về tiền mặt cho chắc, ôm khư khư, ai rủ gì cũng lắc. Ngồi nấp là để không mất thêm. Cái đó không sai, giữ được vốn trong lúc loạn cũng là giỏi. Nhưng ngồi nấp thì mắt nhắm, tai bịt, co người lại chờ cho qua cơn — và thường thì lúc dám mở mắt ra thì cơ hội ngon đã có người khác hốt rồi.'},
+        {type:'p',x:'Kiểu thứ hai là ngồi rình. Cũng ôm tiền mặt y chang, cũng chưa xuống tiền, mà cái đầu khác hẳn. Người ngồi rình không phải đang trốn, họ đang chờ. Mắt mở thao láo, coi hàng nào ngộp, ai kẹt phải bán gấp, chỗ nào giá rớt về mức đáng mua. Trữ tiền cỡ nào thì trữ, hễ gặp hàng tốt giá tốt là chốt liền, không chần chừ. Với họ, tiền mặt trong lúc thị trường xuống không phải cái hầm trú, mà là khẩu súng lên đạn sẵn, chờ con mồi đi ngang.'},
+        {type:'p',x:'Cùng một hành động — ôm tiền không mua — mà ra từ hai cái đầu ngược nhau. Một cái do sợ, một cái do tính. Cho nên tôi hay nói, coi một người trữ tiền thì đừng coi họ trữ bao nhiêu, coi họ trữ với cái đầu nào. Người khôn thì chia đôi túi tiền: một phần để dành phòng thân, phần kia lên đạn đi săn. Nấp một nửa, rình một nửa. Vừa không chết trong lúc loạn, vừa không bỏ lỡ lúc đáy.'},
+        {type:'p',x:'Còn một chuyện đẩy người ta từ nấp sang rình, ít ai nói ra: cái cảm giác đồng tiền để trong túi nó đang teo lại từ từ. Ôm tiền mặt tưởng là an toàn, mà để lâu quá thì cái an toàn đó cũng có giá của nó — tiền nằm im không sinh gì, mà đồ đạc đất đai ngoài kia cứ nhích lên. Tới một lúc người tỉnh sẽ thấy: ôm tiền mãi cũng là một kiểu mất tiền, chỉ là mất chậm, mất mà không thấy đau.'},
+        {type:'field_log',field_log:null,note:'[D kể — một lần chú chuyển từ thế nấp sang thế rình, hoặc thấy ai làm vậy. Lúc nào, dấu hiệu gì làm chú đổi thế.]'},
+        {type:'p',x:'Nên rốt cuộc, ôm tiền mặt không phải một cái thế cố định, nó là một cái thế chờ. Chờ để nấp, hay chờ để nhảy — cái đó do mình. Người ngồi im vì sợ với người ngồi im để rình, nhìn thì giống, mà tới lúc thời tới, một người còn đang nhắm mắt, một người đã bóp cò.'},
+      ]},
+      {t:'Cuối năm người ta thích cầm tiền hơn cầm đất',sub:'cái nhịp mùa vụ của dòng tiền, ít ai để ý',state:'ready',body:[
+        {type:'lead',x:'Đất đai người ta hay nghĩ nó nằm im một chỗ, mua lúc nào cũng vậy. Mà làm lâu rồi tui thấy nó cũng có mùa, như trái cây vậy. Có mùa người ta hăm hở xuống tiền, có mùa ai cũng thủ thế ôm tiền lại. Biết cái mùa đó thì đỡ mua hớ, mà nhiều khi còn lượm được hàng rẻ.'},
+        {type:'drop',x:'Cái mùa dễ thấy nhất là mấy tháng cuối năm, gần Tết. Cuối năm ai cũng cần tiền. Cần tiền trả nợ, cần tiền lo Tết, cần tiền xoay cho cái năm mới. Doanh nghiệp thì tất toán, cá nhân thì đủ thứ khoản phải chi. Tự nhiên cả xã hội cùng nghiêng về một phía: thích cầm tiền mặt trong tay hơn là để tiền nằm chết trong miếng đất.'},
+        {type:'p',x:'Mà hễ nhiều người cùng cần tiền một lúc, thì có người phải bán. Bán không phải vì đất xấu, mà vì kẹt tiền đúng lúc. Người bán vì kẹt thì không có kiên nhẫn giữ giá, ai trả gần được là gật, miễn ra tiền cho kịp. Cho nên mấy tháng cuối năm hay lòi ra hàng giảm giá, hàng ngộp — không phải vì thị trường sập, mà vì cái nhịp tiền nong nó dồn vô đúng khúc đó.'},
+        {type:'p',x:'Người mua tỉnh thì biết lựa mùa đó mà đi coi hàng. Trong khi thiên hạ lo co tiền lại thủ Tết, mình cầm tiền sẵn đi ngó mấy miếng người ta cần ra gấp, thì có cửa mua được cái giá dễ chịu. Ngược lại, đầu năm ra Giêng, tiền thưởng còn rủng rỉnh, tâm lý hồ hởi, người người tính chuyện đầu tư, thì giá lại được đẩy lên. Cùng một miếng đất, hỏi mua tháng Chạp với hỏi mua tháng Giêng nhiều khi ra hai cái giá khác nhau.'},
+        {type:'p',x:'Tui không có nói cứ cuối năm là chắc chắn rẻ, đầu năm là chắc chắn mắc — thị trường đâu có máy móc vậy. Cái mùa vụ này nó là một dòng chảy nhẹ, chồng lên trên cái chu kỳ lớn. Năm nào thị trường đang lên thì cái nghiêng cuối năm nó mờ, năm nào thị trường đang khó thì nó rõ. Nhưng biết có cái nhịp đó nằm dưới, thì mình canh đúng mùa mà ra tay, đỡ hơn nhắm mắt mua đại lúc người ta đang hưng phấn nhất.'},
+        {type:'field_log',field_log:null,note:'[D kể — một lần chú lượm được hàng nhờ canh đúng mùa dòng tiền co lại, hoặc thấy rõ chênh lệch giá giữa hai mùa. Vùng nào, cỡ bao nhiêu.]'},
+        {type:'p',x:'Rốt cuộc đọc thị trường không chỉ đọc cái lớn — chu kỳ, quy hoạch, hạ tầng. Còn phải đọc cái nhỏ nữa: cái túi tiền của người ta đang rủng rỉnh hay đang cạn, đang mùa tiêu hay mùa thủ. Cái nhỏ đó nó điều khiển hành vi nhiều hơn mình tưởng. Đất thì đứng yên, mà tiền thì có mùa — mình chỉ cần đi ngược cái mùa của đám đông một chút là đủ.'},
+      ]},
+   ]}]},
+  {roman:'IV',name:'Chắc sẽ vậy',gloss:'Đọc hiện tại cho kỹ, đừng đoán tương lai xa. Cái sắp tới nằm trong cái đang có.',
+   os:[{name:'Đoán cái sắp tới',tag:'đang dựng',bais:[
+      {t:'Cái tôi coi để đoán năm năm tới của một vùng',sub:'',state:'pending'},
+   ]}]},
+  {roman:'V',name:'Rồi sao, chốt sao',gloss:'Coi tới rồi thì quyết. Cách tui đặt cược, chừa đường lui, giữ vốn đánh ván sau.',
+   os:[{name:'Đường lui',tag:'đang dựng',bais:[
+      {t:'Giữ vì tiếc, không phải giữ vì đầu tư',sub:'cái khó nhất không phải tìm kèo ngon, mà dám bỏ kèo đã hư',state:'ready',nen:true,body:[
+        {type:'lead',x:'Đi mua bán lâu rồi, tui thấy cái khó nhất trong nghề này không phải là kiếm cho ra một thương vụ ngon. Cái khó nhất là dám thừa nhận một quyết định của mình đã không còn đúng, rồi rút vốn ra, chuyển qua chỗ khác tốt hơn. Nghe nhẹ vậy chớ làm được là trầy trật.'},
+        {type:'drop',x:'Người ta hay giữ một miếng đất, tưởng là vì nó còn tốt. Ngồi lại coi kỹ thì nhiều khi không phải. Giữ vì không muốn thừa nhận hồi đó mình chọn trật. Hai chuyện đó khác nhau xa lắm, mà đứng trong cuộc ít ai chịu tách ra cho rõ. Có những miếng mua năm bảy năm trước, tới nay dân vẫn chưa về, dòng tiền không có, kêu bán thì lạnh tanh, mà chủ đất vẫn nói tỉnh queo: để thêm vài năm nữa.'},
+        {type:'p',x:'Tôi không có ý chê chuyện ôm dài hạn. Ôm dài mà ôm vì có cái mới — có dữ liệu mới, có con đường mới sắp mở, có dòng tiền mới bắt đầu chảy về — thì đó là tính toán, là đầu tư đàng hoàng. Còn ôm chỉ vì tiếc, vì lỡ mua giá cao, vì tháo ra thì phải nhìn nhận cái lỗ — thì cái đó không còn là đầu tư nữa. Cái đó là hy vọng. Mà hy vọng thì không phải một chiến lược.'},
+        {type:'p',x:'Thị trường nó tàn nhẫn ở chỗ đó. Nó không quan tâm mình mua bao nhiêu tiền, cũng không quan tâm mình đã ôm mấy năm. Nó chỉ hỏi đúng một câu: hôm nay có ai chịu mua không. Có người đưa ra cái thâm niên, kêu tui giữ mười năm rồi. Thị trường nó không cộng điểm cho sự kiên trì đâu. Nó chỉ trả tiền cho cái tài sản còn giá trị. Thâm niên ôm hàng là chuyện của mình, không phải chuyện của người mua.'},
+        {type:'field_log',field_log:null,note:'[D kể — chú lắp một vụ thiệt: một miếng chú (hoặc người chú thấy) ôm lâu vì tiếc, cuối cùng ra sao; hoặc một lần chú tự cắt một quyết định đã hư để dời vốn qua chỗ khác. Càng cụ thể càng nặng.]'},
+        {type:'p',x:'Tui hay nghĩ, tiền nó cũng giống nước. Muốn trong thì phải cho nó chảy. Để một chỗ lâu quá, đứng im quá, nhiều khi nó không sinh gì thêm, mà còn đóng rêu. Cho nên rốt cuộc, đừng mất công đi chứng minh mình đúng. Lo làm cho cái tài khoản của mình đúng thì hơn. Hai việc đó nghe giống nhau, mà khác nhau một trời một vực — và người ta thua thường là vì lo cái thứ nhất mà quên cái thứ hai.'},
+      ]},
+      {t:'Vì sao tôi luôn chừa đường lui trước khi xuống tiền',sub:'',state:'pending'},
+   ]}]},
+ ]},
+
+{id:'03',num:'03',title:'Đeo cái mắt kính',side:'người nhìn',eyebrow:'Mặt thứ ba — người nhìn',
+ desc:'Cái hồn một nơi, con người, thế hệ. Mặt có máu người nhất.',
+ tangs:[
+  {roman:'I',name:'Cái hồn một nơi',gloss:'Mỗi chỗ có một cái hồn riêng. Đọc được cái hồn thì hiểu vì sao người ta thương chỗ đó.',
+   os:[{name:'Đọc một nơi',tag:'đang dựng',bais:[
+      {t:'Cái quán cà phê nói thiệt hơn cái bảng giá',sub:'',state:'pending',nen:true},
+      {t:'Cái chợ sáng cho biết vùng sống thiệt hay sống diễn',sub:'',state:'pending'},
+      {t:'Tới vùng lạ, tôi kiếm ai trước tiên',sub:'',state:'pending'},
+   ]}]},
+  {roman:'II',name:'Một con người, một thế hệ',gloss:'Nhìn người thấy cả một lớp người. Nhìn một lớp người thấy cả cái thời.',
+   os:[{name:'Người và thế hệ',tag:'đang dựng',bais:[
+      {t:'Người giữ đất với người lướt đất, nhìn là biết',sub:'',state:'pending',nen:true},
+      {t:'Đời cha mua đất để ở, đời con mua đất để bán',sub:'',state:'pending'},
+   ]}]},
+  {roman:'III',name:'Một chuyện thường',gloss:'Chuyện nhỏ xíu mà lòi ra cả một con người, cả một cái lẽ đời.',
+   os:[
+    {name:'Ngồi một mình',tag:'tản mạn',bais:[
+      {t:'Cuối tuần, một dàn loa xịn, một ly cà phê thơm',sub:'chỗ lặng của người đi cả tuần',state:'ready',body:[
+        {type:'lead',x:'Có một tấm hình cũ, chụp năm hai ngàn không trăm mười ba. Một quán cà phê nhỏ, dàn loa xịn, ánh đèn vàng, mấy bức tranh treo tường. Bên dưới tui ghi đúng một dòng: nhẹ nhàng cuối tuần, dàn loa xịn, nhạc hay, cà phê thơm.'},
+        {type:'p',x:'Có nhiêu đó. Không triết lý, không bài học, không đúc kết gì hết. Chỉ là một buổi cuối tuần ngồi nghe nhạc.'},
+        {type:'p',x:'Mà lạ, cái dòng đó tui còn nhớ, còn mấy cái deal cùng năm thì quên gần hết rồi.'},
+        {type:'p',x:'Người đi đất cả tuần, chạy ngoài nắng, đứng giữa đồng, ngó ranh, nghe người ta mặc cả, cãi cọ, hô giá — tới cuối tuần cái đầu nó ong. Lúc đó không cần thêm thông tin nữa, không cần thêm một cái tin tốt hay tin xấu nào nữa. Chỉ cần một chỗ ngồi yên, một dàn loa ra tiếng cho đàng hoàng, một ly cà phê pha tử tế. Vậy thôi mà đủ.'},
+        {type:'p',x:'Tui để ý, mấy người làm nghề này lâu mà bền, phần lớn đều có một cái chốn riêng như vậy. Người thì cà phê, người thì câu cá, người thì cái ban công với mấy chậu cây. Không phải để trốn việc. Mà để cái đầu nó nguội lại, để sáng thứ hai còn tỉnh mà đọc cho ra cái thị trường đang giở trò gì.'},
+        {type:'p',x:'Cái nghề nhìn tiền bạc đất cát suốt ngày, tưởng đâu khô khan. Mà muốn đi được đường dài với nó, hình như lại phải giữ cho được một góc mềm. Một chỗ mà tiền không chen vào được.'},
+        {type:'field_log',field_log:null,note:'[D kể — chú thêm nếu muốn: cái quán đó, hay cái chốn riêng của chú bây giờ. Chú hay ngồi đâu cho cái đầu nguội lại.]'},
+      ]},
+      {t:'Một bữa nhậu nói thiệt hơn mười buổi họp',sub:'',state:'pending'},
+   ]}]},
+ ]},
+
+{id:'04',num:'04',title:'Gom gom lại',side:'người đào',eyebrow:'Mặt thứ tư — người đào',
+ desc:'Đào sâu một vùng, một câu hỏi. Bài có ngày tháng, có kết luận.',
+ tangs:[
+  {roman:'I',name:'Đào một thị trường',gloss:'Mổ một thị trường tới lớp cuối — giá vì sao cao, luật đổi thì ai lời ai thiệt.',
+   os:[{name:'Mổ thị trường',tag:'đang dựng',bais:[]}]},
+  {roman:'II',name:'Đào một vùng',gloss:'Đào một vùng cụ thể tới tới. Đây là sân nhà — đọc vùng bằng chân, bỏ cơn sốt, coi cái nền.',
+   os:[{name:'Hồ sơ một vùng',tag:'sân nhà — đang dựng',bais:[
+      {t:'Cần Giờ — đọc một vùng trước khi nó thành tin',sub:'thực địa có ngày tháng',state:'pending',nen:true},
+      {t:'Một chuyến đi coi đất không mua gì hết',sub:'',state:'pending'},
+      {t:'Ba ngày ở một vùng — cái thấy rồi, cái còn ngờ',sub:'',state:'pending'},
+   ]}]},
+  {roman:'III',name:'Một câu hỏi chưa có tên',gloss:'Chỗ để mở. Mấy câu hỏi lạ, đào cho vui, đào cho tới. Chừa chỗ cho cái tò mò tới sau.',
+   os:[{name:'Để mở',tag:'chừa chỗ',bais:[
+      {t:'Đọc một trận bóng như đọc một thị trường',sub:'',state:'pending'},
+   ]}]},
+ ]},
+]};
+
+/* SITUATIONS — cửa tình huống, dẫn tới bài/ô có sẵn */
+/* FIELD LOG — ghi chép hiện trường có ngày. Chờ chú điền (phần A trong file điền).
+   Khi có, mỗi cái là {ngay,noi,x}. Trống thì web hiện dòng mời nhẹ. */
+const FLOG=[
+  // {ngay:'17/07', noi:'Nam Ban', x:'[A1 — chú điền: buổi sáng ngồi quán, thấy gì, nghe gì]'},
+];
+
+const SITU=[
+ {q:'Tôi đang tính xuống tiền một miếng',eyebrow:'Trước khi xuống tiền',
+  title:'Trước khi xuống tiền một miếng',
+  desc:'Chưa vội coi giá. Coi cái nền trước, coi người bán trước, coi đường ra trước. Mấy bài này đi đúng thứ tự đó.',
+  refs:[['01',0,0,0],['01',0,0,1],['01',4,0,1],['01',4,0,2]]},
+ {q:'Tôi đang giữ đất, không biết ôm hay buông',eyebrow:'Đang giữ tài sản',
+  title:'Đang giữ, chưa biết ôm hay buông',
+  desc:'Câu hỏi không phải lời bao nhiêu, mà là vùng này còn cái nền không, mình còn đường lui không.',
+  refs:[['01',0,2,0],['02',4,0,0],['02',1,0,1]]},
+ {q:'Tôi muốn hiểu một vùng trước khi bước vào',eyebrow:'Đọc một vùng',
+  title:'Hiểu một vùng trước khi bước vào',
+  desc:'Đọc một vùng bằng chân: cái sàn, dòng người, cái hồn, người ở lại. Bỏ tin quy hoạch, coi cái sống thiệt.',
+  refs:[['01',0,0,1],['01',0,1,0],['03',0,0,0],['04',1,0,0]]},
+ {q:'Tôi muốn coi cách chú đọc thị trường',eyebrow:'Cách đọc',
+  title:'Cách tôi đọc thị trường',
+  desc:'Không phải mẹo. Là cách nhìn — đám đông, dòng tiền, cái vòng, chỗ nào nên ngược chỗ nào nên xuôi.',
+  refs:[['02',1,0,0],['02',1,0,1],['01',0,2,0]]},
+ {q:'Tôi chỉ muốn coi gần đây chú nghĩ gì',eyebrow:'Mới nhất',
+  title:'Mấy cái gần đây',
+  desc:'Bài mới ra, xếp trên xuống. Coi thử hạp thì đi tiếp.',
+  refs:[['01',0,0,0],['01',0,0,1],['02',1,0,0]]},
+];
+
+/* WORKING NOTES — trust layer, chờ chú lắp */
+const NOTES=[
+ {label:'Quan sát hiện trường',items:[
+   {t:'Ghi chép mấy chuyến đi gần đây',desc:'ngày, chỗ, thấy gì',state:'pending'},
+ ]},
+ {label:'Cách tôi làm',items:[
+   {t:'Cách tôi mổ một cái kèo, từng bước',desc:'',state:'pending'},
+   {t:'Một ngày đi đất của tôi trông ra sao',desc:'',state:'pending'},
+   {t:'Cách tôi đánh giá một cơ hội',desc:'',state:'pending'},
+ ]},
+ {label:'Cái tôi từng sai',items:[
+   {t:'Mấy vụ tôi làm sai rồi đổi ý',desc:'không giấu nghề',state:'pending'},
+ ]},
+];
+
+/* THE WAY I THINK — nguyên tắc gốc, chờ chú lắp/sửa */
+const THINK=[
+ {h:'Đọc đất bằng chân, không bằng bảng rao',b:'[D kể — chú viết lại theo lời chú: vì sao chú tin cái thấy tận nơi hơn cái nghe, cái đọc trên giấy.]'},
+ {h:'Trust đến trước, deal đến sau',b:'[D kể — nguyên tắc của chú: người ta tin rồi mới tính chuyện làm ăn, không làm ngược.]'},
+ {h:'Chừa đường lui trước khi bước vào',b:'[D kể — vì sao chú luôn coi đường ra trước khi coi đường vô.]'},
+];
+
+/* ---------- RENDER HOME ---------- */
+function renderHome(){
+  const sl=document.getElementById('situList');
+  sl.innerHTML=SITU.map((s,i)=>`<button class="situ-item" onclick="openSitu(${i})"><span class="situ-q">${s.q}</span><span class="situ-arr">→</span></button>`).join('');
+  const fl=document.getElementById('faceList');
+  fl.innerHTML=DATA.mucs.map((m,i)=>`<button class="face" onclick="openFace(${i})"><span class="face-num">${m.num}</span><span><span class="face-title">${m.title}</span><br><span class="face-side">${m.side}</span></span><span class="face-arr">→</span></button>`).join('');
+}
+
+/* ---------- SITUATION ---------- */
+function openSitu(i){
+  const s=SITU[i];
+  document.getElementById('situCrumb').textContent=s.title;
+  document.getElementById('situEyebrow').textContent=s.eyebrow;
+  document.getElementById('situTitle').textContent=s.title;
+  document.getElementById('situDesc').textContent=s.desc;
+  const body=document.getElementById('situBody');
+  body.innerHTML='<div class="bais" style="border-top:none;padding-top:0">'+s.refs.map(r=>{
+    const b=DATA.mucs[r[0]-0*1] && findBai(r);
+    if(!b) return '';
+    const locked=b.state!=='ready';
+    return `<button class="bai-item${locked?' locked':''}" ${locked?'':`onclick="openBaiByRef('${r.join(',')}')"`}><span class="bai-idx">→</span><span><span class="bai-t">${b.t}</span>${b.nen?'<span class="nen-badge">bài nền</span>':''}${b.sub?`<span class="bai-sub">${b.sub}</span>`:''}${locked?'<span class="bai-sub"> · sắp có</span>':''}</span></button>`;
+  }).join('')+'</div>';
+  go('situResult');
+}
+function findBai(r){
+  try{return DATA.mucs[mucIdx(r[0])].tangs[r[1]].os[r[2]].bais[r[3]];}catch(e){return null;}
+}
+function mucIdx(id){return DATA.mucs.findIndex(m=>m.id===id);}
+
+/* ---------- FACE ---------- */
+function openFace(i){
+  const m=DATA.mucs[i];
+  document.getElementById('faceCrumb').textContent=m.title;
+  document.getElementById('faceEyebrow').textContent=m.eyebrow;
+  document.getElementById('faceTitle').textContent=m.title;
+  document.getElementById('faceDesc').textContent=m.desc;
+  const body=document.getElementById('faceBody');
+  body.innerHTML=m.tangs.map((t,ti)=>{
+    const os=t.os.map((o,oi)=>{
+      const hasReady=o.bais.some(b=>b.state==='ready');
+      const hasAny=o.bais.length>0;
+      const locked=!hasAny;
+      return `<button class="o${locked?' locked':''}" ${locked?'':`onclick="openO(${i},${ti},${oi})"`}><span class="o-dot"></span><span class="o-name">${o.name}</span><span class="o-tag">${o.tag}</span></button>`;
+    }).join('');
+    return `<div class="tang"><div class="tang-head"><span class="tang-roman">${t.roman}</span><span class="tang-name">${t.name}</span></div><div class="tang-gloss">${t.gloss}</div>${os}</div>`;
+  }).join('');
+  go('face');
+}
+
+/* open an O -> show its article list inline on face screen */
+function openO(mi,ti,oi){
+  const m=DATA.mucs[mi], t=m.tangs[ti], o=t.os[oi];
+  const body=document.getElementById('faceBody');
+  const list=o.bais.map((b,bi)=>{
+    const locked=b.state!=='ready';
+    return `<button class="bai-item${locked?' locked':''}" ${locked?'':`onclick="openBai(${mi},${ti},${oi},${bi})"`}><span class="bai-idx">${String(bi+1).padStart(2,'0')}</span><span><span class="bai-t">${b.t}</span>${b.nen?'<span class="nen-badge">bài nền</span>':''}${b.sub?`<span class="bai-sub">${b.sub}</span>`:''}${locked?'<span class="bai-sub"> · sắp có</span>':''}</span></button>`;
+  }).join('');
+  document.getElementById('faceEyebrow').textContent=m.eyebrow+' · tầng '+t.roman;
+  document.getElementById('faceTitle').textContent=o.name;
+  document.getElementById('faceDesc').textContent=t.gloss;
+  document.getElementById('faceCrumb').innerHTML=`<button onclick="openFace(${mi})">${m.title}</button> <span class="sep">/</span> <span class="here">${o.name}</span>`;
+  body.innerHTML='<div class="bais">'+list+'</div>';
+  window.scrollTo(0,0);
+}
+
+/* ---------- READER ---------- */
+let curRef=null;
+function openBai(mi,ti,oi,bi){
+  const m=DATA.mucs[mi], t=m.tangs[ti], o=t.os[oi], b=o.bais[bi];
+  curRef=[mi,ti,oi,bi];
+  document.getElementById('readKicker').textContent=`${m.title} · ${t.name} · ${o.name}`;
+  document.getElementById('readTitle').textContent=b.t;
+  document.getElementById('readCrumb').innerHTML=`<button onclick="go('home')">Trang đầu</button> <span class="sep">/</span> <button onclick="openFace(${mi})">${m.title}</button> <span class="sep">/</span> <button onclick="openO(${mi},${ti},${oi})">${o.name}</button> <span class="sep">/</span> <span class="here">đọc</span>`;
+  const bd=document.getElementById('readBody');
+  if(b.state==='ready' && b.body){
+    bd.innerHTML=b.body.map(seg=>{
+      if(seg.type==='lead')return `<p class="lead">${seg.x}</p>`;
+      if(seg.type==='drop')return `<p class="drop">${seg.x}</p>`;
+      if(seg.type==='dk')return '';  /* format cũ [D kể] — bỏ, không render */
+      if(seg.type==='field_log'){
+        if(!seg.field_log)return '';  /* chưa có dữ liệu thì không render gì cả — publish mindset */
+        const fl=seg.field_log;
+        const meta=[fl.place,fl.date].filter(Boolean).join(' · ');
+        const paras=(fl.body||'').split('\n').filter(s=>s.trim()).map(s=>`<p>${s.trim()}</p>`).join('');
+        return `<div class="flog"><div class="fl-meta">${meta}</div><div class="fl-body">${paras}</div></div>`;
+      }
+      if(seg.type==='rule')return `<div class="rrule"></div>`;
+      return `<p>${seg.x}</p>`;
+    }).join('');
+  }else{
+    bd.innerHTML=`<p class="pending-note">Bài này đang viết. Khung đã dựng sẵn, chờ chú lắp chuyện thật vào. Ngoặc [D kể] trong file là chỗ để đổ chi tiết vùng đất, con số, thương vụ.</p>`;
+  }
+  // nav trước/sau trong cùng ô
+  const nav=document.getElementById('readNav');
+  let h='';
+  if(bi>0){const p=o.bais[bi-1];h+=`<button onclick="openBai(${mi},${ti},${oi},${bi-1})"><span class="rnav-dir">← Bài trước</span>${p.t}</button>`;}else{h+='<span></span>';}
+  if(bi<o.bais.length-1){const n=o.bais[bi+1];h+=`<button class="rnav-r" onclick="openBai(${mi},${ti},${oi},${bi+1})"><span class="rnav-dir">Bài sau →</span>${n.t}</button>`;}else{h+='<span></span>';}
+  nav.innerHTML=h;
+  go('reader');
+}
+function openBaiByRef(str){
+  const r=str.split(',');
+  openBai(mucIdx(r[0]),+r[1],+r[2],+r[3]);
+}
+
+/* ---------- NOTES ---------- */
+function renderNotes(){
+  document.getElementById('notesBody').innerHTML=NOTES.map(g=>{
+    const items=g.items.map(it=>{
+      const locked=it.state!=='ready';
+      return `<button class="wn-item${locked?' locked':''}"><span class="wn-dot"></span><span><span class="wn-t">${it.t}</span>${it.desc?`<span class="wn-desc">${it.desc}</span>`:''}${locked?'<span class="wn-desc"> · sắp có</span>':''}</span></button>`;
+    }).join('');
+    return `<div class="wn-group"><div class="wn-glabel">${g.label}</div>${items}</div>`;
+  }).join('');
+}
+
+/* ---------- THINK ---------- */
+function renderThink(){
+  document.getElementById('thinkBody').innerHTML=THINK.map((t,i)=>`<div class="tw-item"><div class="tw-n">${String(i+1).padStart(2,'0')}</div><div class="tw-h">${t.h}</div><div class="tw-b">${t.b}</div></div>`).join('');
+}
+
+/* ---------- INIT ---------- */
+function renderFlog(){
+  const el=document.getElementById('flogHome');
+  if(!FLOG.length){
+    el.innerHTML='<div class="sec-eyebrow">Sổ tay hiện trường</div><div class="flog-empty">Mấy ghi chép đi thực địa gần đây sẽ nằm đây — có ngày, có chỗ. Đang gom.</div>';
+    return;
+  }
+  el.innerHTML='<div class="sec-eyebrow">Mới nhất từ hiện trường</div><div class="flog-list">'+
+    FLOG.slice(0,4).map(f=>`<button class="flog-item" onclick="go('notes')"><div class="flog-meta">${f.noi} · ${f.ngay}</div><div class="flog-x">${f.x}</div></button>`).join('')+'</div>';
+}
+renderHome();renderNotes();renderThink();renderFlog();
+</script>
+</body>
+</html>
