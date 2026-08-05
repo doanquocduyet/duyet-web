@@ -136,6 +136,11 @@ body{background:var(--ink);color:var(--text-0);font-family:var(--sans);font-size
 .rbody .iam{display:block;margin:2.6rem 0 0;padding-top:1.6rem;border-top:1px solid var(--gold-line)}
 .rbody .iam p{font-family:var(--serif);font-size:1.08rem;line-height:1.78;color:var(--text-0);margin:0}
 .rbody .iam .iam-open{color:var(--gold-dim);font-style:italic}
+.rbody .iam p+p,.rbody p+p.r-step{margin-top:.85rem}
+.rbody .r-step{position:relative;padding-left:1.15rem;font-family:var(--serif);font-size:1.05rem;line-height:1.72;color:var(--text-0)}
+.rbody .r-step:before{content:'';position:absolute;left:0;top:.72em;width:.5rem;height:1px;background:var(--gold-dim)}
+.rbody .r-chot{margin-top:1.5rem;padding-top:1.1rem;border-top:1px solid var(--gold-line);font-family:var(--serif);font-size:1.06rem;line-height:1.7;color:var(--text-0)}
+.rbody .iam .r-chot{border-top:none;padding-top:0;margin-top:1.2rem}
 
 /* ===== trang About / Trao đổi ===== */
 .about-hero{font-family:var(--serif);font-size:clamp(1.7rem,4.6vw,2.6rem);font-weight:400;line-height:1.28;letter-spacing:-.01em;color:var(--text-0);max-width:32rem;margin-bottom:1.4rem}
@@ -164,7 +169,20 @@ body{background:var(--ink);color:var(--text-0);font-family:var(--sans);font-size
 .gate-about:hover{color:var(--gold)}
 
 /* breadcrumb */
-.crumb{font-size:.8rem;color:var(--text-2);margin-bottom:2rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.crumb{font-size:.8rem;color:var(--text-2);margin-bottom:2rem;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.crumb-back{background:none;border:none;padding:.1rem .1rem .1rem 0;margin-right:.1rem;color:var(--text-2);cursor:pointer;display:inline-flex;align-items:center;transition:color .2s}
+.crumb-back:hover{color:var(--gold)}
+.posbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:.7rem;padding:.72rem 1.2rem;background:rgba(22,20,15,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--gold-line);transition:opacity .32s ease,transform .32s ease}
+.posbar.pb-dim{opacity:.28}
+.posbar.pb-hide{opacity:0;transform:translateY(-100%);pointer-events:none}
+.posbar-back{background:none;border:none;padding:.15rem;color:var(--text-2);cursor:pointer;display:flex;align-items:center;flex-shrink:0;transition:color .2s}
+.posbar-back:hover{color:var(--gold)}
+.posbar-crumb{flex:1;min-width:0;font-family:var(--sans);font-size:.76rem;letter-spacing:.01em;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.posbar-crumb .pb-face{color:var(--text-2);background:none;border:none;padding:0;font:inherit;cursor:pointer;transition:color .2s}
+.posbar-crumb .pb-face:hover{color:var(--gold-dim)}
+.posbar-crumb .pb-sep{margin:0 .5rem;opacity:.45}
+.posbar-crumb .pb-here{color:var(--gold-dim)}
+.posbar-count{flex-shrink:0;font-family:var(--sans);font-size:.72rem;letter-spacing:.05em;color:var(--text-2)}
 .crumb button{background:none;border:none;color:var(--text-2);cursor:pointer;font-size:.8rem;font-family:var(--sans);padding:0;transition:color .3s}
 .crumb button:hover{color:var(--gold)}
 .crumb .sep{color:var(--gold-dim)}
@@ -302,7 +320,7 @@ body{background:var(--ink);color:var(--text-0);font-family:var(--sans);font-size
 
     <!-- cuối trang: dẫn qua Cách tôi ra quyết định + thông tin, không mời chào -->
     <div class="invite">
-      <p class="invite-line">Mỗi thương vụ có những biến số riêng của nó. Nên tôi hiếm khi kết luận chỉ từ vài dòng trên mạng — có những điều chỉ hiện ra khi đặt bản đồ, quy hoạch và thực địa cạnh nhau.</p>
+      <p class="invite-line">Mỗi deal đều có cái phải coi riêng. Giá rao, giấy tờ, bản đồ, quy hoạch — mỗi thứ cho mình một phần, và có những thứ phải xuống tận nơi mới thấy.</p>
       <p class="invite-more"><button onclick="go('decision')">Cách tôi ra quyết định →</button></p>
       <p class="invite-line invite-plain">Phần lớn thời gian của tôi ở ngoài hiện trường.</p>
       <div class="invite-ways">
@@ -322,7 +340,7 @@ body{background:var(--ink);color:var(--text-0);font-family:var(--sans);font-size
 <!-- CÁCH TÔI RA QUYẾT ĐỊNH -->
 <section id="decision" class="screen">
   <div class="wrap">
-    <div class="crumb"><button onclick="go('home')">Trang đầu</button><span class="sep">/</span><span class="here">Cách tôi ra quyết định</span></div>
+    <div class="crumb"><button class="crumb-back" onclick="go('home')" aria-label="Về trang đầu"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button><span class="here">Cách tôi ra quyết định</span></div>
 
     <h2 class="about-hero">Tôi không đi tìm thương vụ tốt. Tôi đi loại những thương vụ tệ.</h2>
     <p class="about-hero-sub">Trong nghề này, tránh sai một lần thường đáng hơn tìm thêm một cơ hội mới. Phần lớn công việc không nằm trước màn hình — nó nằm ngoài hiện trường, và trong mấy câu hỏi phải đặt ra trước khi gật đầu cho ai xuống tiền.</p>
@@ -391,7 +409,7 @@ body{background:var(--ink);color:var(--text-0);font-family:var(--sans);font-size
 <!-- SITUATION RESULT -->
 <section id="situResult" class="screen">
   <div class="wrap">
-    <div class="crumb"><button onclick="go('home')">Trang đầu</button><span class="sep">/</span><span class="here" id="situCrumb"></span></div>
+    <div class="crumb"><button class="crumb-back" onclick="go('home')" aria-label="Về trang đầu"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button><span class="here" id="situCrumb"></span></div>
     <div class="mt-eyebrow" id="situEyebrow"></div>
     <h2 class="mt-title" id="situTitle"></h2>
     <p class="mt-desc" id="situDesc"></p>
@@ -403,7 +421,7 @@ body{background:var(--ink);color:var(--text-0);font-family:var(--sans);font-size
 <!-- FACE DETAIL -->
 <section id="face" class="screen">
   <div class="wrap">
-    <div class="crumb"><button onclick="go('home')">Trang đầu</button><span class="sep">/</span><span class="here" id="faceCrumb"></span></div>
+    <div class="crumb"><button class="crumb-back" onclick="go('home')" aria-label="Về trang đầu"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button><span class="here" id="faceCrumb"></span></div>
     <div class="mt-eyebrow" id="faceEyebrow"></div>
     <h2 class="mt-title" id="faceTitle"></h2>
     <p class="mt-desc" id="faceDesc"></p>
@@ -414,8 +432,12 @@ body{background:var(--ink);color:var(--text-0);font-family:var(--sans);font-size
 
 <!-- READER -->
 <section id="reader" class="screen">
+  <div class="posbar" id="posbar">
+    <button class="posbar-back" id="posbarBack" aria-label="Quay lại"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <div class="posbar-crumb" id="posbarCrumb"></div>
+    <div class="posbar-count" id="posbarCount"></div>
+  </div>
   <div class="wrap wrap-read">
-    <div class="crumb" id="readCrumb"></div>
     <div class="kicker" id="readKicker"></div>
     <h1 class="rtitle" id="readTitle"></h1>
     <div class="rbody" id="readBody"></div>
@@ -427,7 +449,7 @@ body{background:var(--ink);color:var(--text-0);font-family:var(--sans);font-size
 <!-- WORKING NOTES -->
 <section id="notes" class="screen">
   <div class="wrap">
-    <div class="crumb"><button onclick="go('home')">Trang đầu</button><span class="sep">/</span><span class="here">Sổ tay hiện trường</span></div>
+    <div class="crumb"><button class="crumb-back" onclick="go('home')" aria-label="Về trang đầu"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button><span class="here">Sổ tay hiện trường</span></div>
     <div class="mt-eyebrow">Không phải trang giới thiệu</div>
     <h2 class="mt-title">Sổ tay hiện trường</h2>
     <p class="wn-intro">Đọc mười bài rồi vẫn chưa biết người viết làm thật hay chỉ viết hay. Chỗ này để trả lời câu đó — ghi chép đi thực địa, cách tôi mổ một cái kèo, mấy lần tôi làm sai rồi đổi ý. Không thành tích, không khoe. Chỉ là dấu vết của người làm.</p>
@@ -439,7 +461,7 @@ body{background:var(--ink);color:var(--text-0);font-family:var(--sans);font-size
 <!-- THE WAY I THINK -->
 <section id="think" class="screen">
   <div class="wrap wrap-read">
-    <div class="crumb"><button onclick="go('home')">Trang đầu</button><span class="sep">/</span><span class="here">Tôi nhìn thị trường thế nào</span></div>
+    <div class="crumb"><button class="crumb-back" onclick="go('home')" aria-label="Về trang đầu"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button><span class="here">Tôi nhìn thị trường thế nào</span></div>
     <div class="mt-eyebrow">Vài nguyên tắc gốc</div>
     <h2 class="mt-title">Tôi nhìn thị trường thế nào</h2>
     <div class="tw-list" id="thinkBody"></div>
@@ -536,7 +558,7 @@ const DATA={
           },
           {
            "type": "iam",
-           "x": "nếu nghe tin một vùng sắp mở đường lớn, tui không chạy đi mua liền theo cái tin đó. Tui xuống coi ba thứ. Một, con đường này rồi ai sẽ đi trên đó, đi để làm gì — có lý do thiệt để người ta dọn về không, hay chỉ là đường nối hai chỗ vắng. Hai, chỗ tui định mua nằm ở khúc người ta dừng lại hay khúc người ta chạy ngang — cái này đứng ngoài đường một buổi là thấy. Ba, cái vùng này có trọng lực sẵn không, hay mọi thứ đang phải bơm mới có. Nếu ba cái đó đều yếu mà giá đã chạy trước rồi, thì tui đứng ngoài, dù cái tin có thơm cỡ nào. Còn nếu vùng đã có trọng lực sẵn, mấy dòng chảy đã gặp nhau, mà đường mới chỉ là cái tới sau — thì đó mới là chỗ tui chịu xuống tiền. Mua cái đã có rồi, đường tới là thêm; chớ đừng mua cái chưa có gì, rồi ngồi chờ con đường làm ra tất cả."
+           "x": "nếu nghe tin một vùng sắp mở đường lớn, tui không chạy đi mua liền theo cái tin đó. Tui xuống coi ba thứ.\n- Con đường này rồi ai sẽ đi trên đó, đi để làm gì — có lý do thiệt để người ta dọn về không, hay chỉ là đường nối hai chỗ vắng.\n- Chỗ tui định mua nằm ở khúc người ta dừng lại hay khúc người ta chạy ngang — cái này đứng ngoài đường một buổi là thấy.\n- Cái vùng này có trọng lực sẵn không, hay mọi thứ đang phải bơm mới có.\nNếu ba cái đó đều yếu mà giá đã chạy trước rồi, thì tui đứng ngoài, dù cái tin có thơm cỡ nào. Còn nếu vùng đã có trọng lực sẵn, mấy dòng chảy đã gặp nhau, mà đường mới chỉ là cái tới sau — thì đó mới là chỗ tui chịu xuống tiền.\n>> Mua cái đã có rồi, đường tới là thêm; chớ đừng mua cái chưa có gì rồi ngồi chờ con đường làm ra tất cả."
           }
          ]
         },
@@ -1143,6 +1165,24 @@ const DATA={
        "tag": "chuỗi bài",
        "bais": [
         {
+         "t": "Đứng đâu trong dòng chảy",
+         "sub": "người dựng nên khối tài sản lớn thường không khôn hơn, chỉ đứng đúng chỗ và đứng lâu",
+         "state": "ready",
+         "nen": true,
+         "body": [
+          {"type":"lead","x":"Người làm nên khối tài sản lớn trong mỗi thời kỳ của một xứ, thường không phải người khôn hơn hay may hơn. Là người thấy sớm cái xứ đó đang muốn đi về đâu, rồi đứng đúng chỗ dòng chảy đi qua, và ở lại đủ lâu."},
+          {"type":"drop","x":"Mỗi khi một xứ bước vào một thời kỳ đi lên, tự nhiên nổi lên một lớp người ôm khối tài sản lớn hẳn phần còn lại. Nhìn vô ai cũng hỏi: mấy người đó khôn hơn thiên hạ sao, hay may hơn, hay đơn giản có sẵn vốn dày hơn từ đầu. Mấy cái đó đều có phần. Nhưng ngồi coi lâu, tui thấy cái gốc không nằm ở đó — cái gốc là họ thấy sớm cái xứ này đang muốn đi về đâu, rồi bỏ ra nhiều năm đi cùng chiều với cái hướng đó."},
+          {"type":"p","x":"Phần đông người ta đầu tư bằng cách nhìn cái bảng giá. Thấy miếng đất đang sốt thì nhào vô, thấy chỗ nào đang được nhắc tới rần rần thì đổ tiền theo, nhìn cái kết quả cuối cùng rồi mới quyết. Mà tới hồi cái kết quả đã hiện lên bảng giá cho mọi người cùng thấy, thì phần ngon nhất người ta ăn xong rồi, mình vô là vô khúc đuôi."},
+          {"type":"p","x":"Người đi trước thì làm ngược. Ít nhìn cái bảng giá, dành thời gian coi cái nằm sau bảng giá: coi cái xứ này đang tính làm gì trong mười năm, hai chục năm tới, tiền của chung sắp đổ vô đâu, đường lớn sắp mở tới đâu, chỗ nào được chọn làm trọng điểm, chỗ nào bị bỏ lại. Rồi tự hỏi một câu: nếu mấy cái tính đó thành thiệt, thì dòng tiền lớn nó sẽ phải chảy qua những đâu, trước khi cái sự phát triển kia hiện ra thành con số."},
+          {"type":"p","x":"Bởi thị trường nói cho cùng chỉ là chỗ phản chiếu lại cái dòng tiền của cả nền kinh tế nó chảy tới đâu. Khi một xứ dốc tiền của chung vô làm đường làm hạ tầng, thì kéo theo một dây dài: nhà thầu, vật liệu, kho bãi, khu công nghiệp, rồi tới đất, tới nhà, tới quán xá, tới đủ thứ ăn theo, mỗi thứ hưởng một kiểu. Ai thấy được cái dây đó trước khi đám đông thấy, người đó đứng trước một bước. Mà trong cuộc này, đứng trước một bước là đủ."},
+          {"type":"p","x":"Nhưng có một chỗ phải nói cho rõ, kẻo hiểu lệch. Đọc được cái hướng của trên không có nghĩa là tin dự án nào cũng trúng, ngành nào cũng lên, miếng đất nào dính hơi một chút cũng tăng. Cái hướng lớn là cái hướng lớn thôi; bên dưới nó, thị trường vẫn có lúc lên lúc xuống, doanh nghiệp vẫn có đứa sống đứa chết, chỗ này làm nhanh chỗ kia làm ì, miếng đất vẫn có cái bị hét quá giá. Cái mình nắm được là cái hướng đi dài hạn, cái ưu tiên mà người ta theo đuổi năm này qua năm khác. Khi cái hướng đó đủ rõ và được giữ lâu, thì xác suất dòng tiền còn tiếp tục chảy về mấy vùng đó nó cao hơn hẳn. Vậy thôi, không hơn. Mà trong đầu tư, nghiêng được cái xác suất về phía mình đã là quý lắm rồi."},
+          {"type":"p","x":"Cho nên tui hay nghĩ, đầu tư giỏi không phải là đoán trúng cái giá ngày mai. Đoán giá ngày mai là trò của người lướt sóng, mà sóng thì ai đoán hoài cũng có ngày chết. Đầu tư giỏi là đọc trúng cái quỹ đạo của mười năm, hai chục năm; đọc trúng cái quỹ đạo rồi thì khỏi cần chạy theo từng cơn sóng nhỏ, cứ chọn đúng chỗ, đúng vùng, rồi để thời gian làm phần còn lại."},
+          {"type":"p","x":"Mà đây mới là chỗ tui muốn nhấn: đọc trúng, chưa bao giờ là đủ. Cùng một cái quy hoạch, cùng một cái hướng, mười người đọc ra kết quả khác nhau một trời một vực. Người thì vay quá tay, tới hồi thị trường khựng một cái là gãy. Người đọc trúng vùng mà mua sai miếng. Người không đủ sức ngồi qua một đợt điều chỉnh, chịu không nổi cái lúc giá đứng im hay tụt nhẹ, bán tháo. Người vừa lời một chút đã vội chốt, để tuột mất cái phần lớn nằm ở khúc sau. Đọc trúng chỉ là mở được cánh cửa; đi qua được cửa đó hay không, là chuyện của cái gan, của cách giữ mình, của sức chờ."},
+          {"type":"p","x":"Coi lại mấy xứ đã đi lên, chỗ nào cũng lặp lại một điều: khối tài sản lớn nhất thường được dựng lên bởi người đứng đúng chỗ dòng chảy đi qua, rồi ở lại đủ lâu. Không phải người chạy nhanh nhất. Người đứng đúng chỗ, và chịu đứng lâu."},
+          {"type":"iam","x":"nếu nghề này có một cái gọi là bí quyết, thì với tui nó nằm ở bốn chỗ, mà cả bốn phải có cùng lúc.\n- Đọc được cái xứ này đang dựng tương lai theo hướng nào.\n- Thấy được dòng tiền lớn sẽ phải đi qua đâu.\n- Chọn được cái tài sản thiệt sự nằm trong dòng chảy đó, chớ không phải cái chỉ ăn theo cái tên.\n- Và đủ tĩnh để đi cùng nó vài năm, chớ không nhảy ra ngay khi vừa thấy chút lời.\nCho nên tui ít khi ngồi đoán ngày mai thị trường lên hay xuống. Tui coi mười năm, hai chục năm tới cái xứ này muốn trở thành cái gì; coi được cái đó rồi, thì cái mình chọn không còn là miếng đất nào đang sốt, mà là mình muốn đứng ở khúc nào của dòng chảy.\n>> Câu hỏi đổi, thì cách mình nhìn đồng tiền cũng đổi theo."}
+         ]
+        },
+        {
          "t": "Sáu lớp tài sản, và cái lớp nằm dưới cùng không ai thấy",
          "sub": "đầu tư đất đi đường dài thì bắt đầu từ đâu",
          "state": "ready",
@@ -1318,12 +1358,12 @@ const DATA={
    "title": "Có mấy cái hay hay",
    "side": "người nghĩ",
    "eyebrow": "Mặt thứ hai — người nghĩ",
-   "desc": "Cách nghĩ về đám đông, dòng tiền, chu kỳ. Không dạy đời, chỉ bày cách coi.",
+   "desc": "Kinh qua nghiệm lại về đám đông, dòng tiền, chu kỳ.",
    "tangs": [
     {
      "roman": "I",
      "name": "Cái vòng",
-     "gloss": "Cái gì cũng có vòng của nó — lên rồi xuống, nóng rồi nguội. Coi mình đang ở khúc nào.",
+     "gloss": "Cái gì cũng có chu kỳ của nó, lên rồi xuống, nóng rồi nguội.",
      "os": [
       {
        "name": "Cái đầu người làm nghề",
@@ -1443,7 +1483,7 @@ const DATA={
           },
           {
            "type": "iam",
-           "x": "nếu nói về chuyện rải tiền vô mấy loại tài sản, tôi không cố đoán mùa tới cái nào sẽ nóng để dồn vô — tui đoán trật hoài, mà tui nghĩ ít ai đoán trúng đều. Cái tui làm là chia ra, đừng để mùa đông của một loại cuốn sạch mình. Phần tui hiểu rõ nhất, đọc được bằng chân, thì tui để nhiều — với tui đó là đất. Phần tui không rành thì tui để ít, hoặc thôi. Và tui giữ một cái ngưỡng biết đủ cho riêng mình: tới mức đó thì tui không cố nhoài theo cái đỉnh cuối. Vì cái đỉnh cuối đó, mười lần thì hết bảy tám lần nó là cửa vô mùa đông. Tui thà rời tiệc sớm một chút, còn hơn ở lại tới lúc đèn tắt."
+           "x": "nói chuyện rải tiền vô mấy loại tài sản, tôi không cố đoán mùa tới cái nào nóng để dồn vô, đoán trật hoài, mà mấy ai đoán trúng đều. Thôi thì chia ra, đừng để mùa đông của một loại cuốn sạch mình. Phần nào hiểu rõ nhất, đọc được bằng chân thì để nhiều — với tui là đất; phần không rành thì để ít, hoặc thôi. Rồi giữ cho mình một cái ngưỡng biết đủ, tới đó là dừng, không nhoài theo cái đỉnh cuối, vì cái đỉnh cuối mười lần hết bảy tám lần là cửa vô mùa đông. Thà rời tiệc sớm một chút, còn hơn ở lại tới lúc đèn tắt."
           }
          ]
         },
@@ -1596,7 +1636,7 @@ const DATA={
           },
           {
            "type": "iam",
-           "x": "tôi tự xếp mình vô kiểu thứ tư, người làm bài bản — nhưng thành thật mà nói, đứng cho vững ở kiểu đó khó hơn nói nhiều. Cái tôi cảnh giác nhất với chính mình là mấy lúc thị trường nóng, tự nhiên thấy mình muốn nhảy nhanh, muốn ăn liền — đó là lúc kiểu thứ tư trong người đang tính tuột xuống thành kiểu thứ nhất mà mình không hay. Nên tui giữ một cái nếp: trước khi xuống tiền, tui hỏi lại mình đang chơi bằng vốn gì, chịu được rủi ro cỡ nào, chờ được bao lâu. Trả lời xong ba câu đó mà vẫn thấy hợp thì mới đi. Còn thấy mình đang trả lời cho có, đang tự gạt mình để kịp con sóng — thì đó là lúc tui nên đứng lại, chớ không phải lúc nên bước tới."
+           "x": "tôi tự xếp mình vô kiểu thứ tư, người làm bài bản — nhưng thành thật mà nói, đứng cho vững ở kiểu đó khó hơn nói nhiều. Cái tui cảnh giác nhất với chính mình là mấy lúc thị trường nóng, tự nhiên thấy mình muốn nhảy nhanh, muốn ăn liền — đó là lúc kiểu thứ tư trong người đang tính tuột xuống thành kiểu thứ nhất mà mình không hay.\nNên tui giữ một cái nếp: trước khi xuống tiền, tui hỏi lại mình ba câu.\n- Mình đang chơi bằng vốn gì — tiền nhàn hay tiền vay.\n- Mình chịu được rủi ro cỡ nào nếu miếng này nằm im.\n- Mình chờ được bao lâu, thiệt lòng chớ không phải nói cho có.\nTrả lời xong ba câu đó mà vẫn thấy hợp thì mới đi. Còn thấy mình đang trả lời cho có, đang tự gạt mình để kịp con sóng — thì đó là lúc tui nên đứng lại, chớ không phải lúc nên bước tới.\n>> Kiểu nhà đầu tư không phải cái nhãn dán một lần. Nóng lên là tuột hạng, mà mình thường không hay."
           }
          ]
         },
@@ -1661,7 +1701,7 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Giai đoạn bốn: ai cũng thành chuyên gia. Tới đây thì không ai hỏi tui mua đâu nữa. Họ chỉ ngược lại cho tui chỗ ngon, phân tích logic kinh khủng. Anh chủ quán cà phê, chị chủ quán bún bò, anh bác sĩ, giờ ai cũng có vài miếng đất, sẵn sàng chia sẻ bí kíp. Mấy ngày sau tui lướt báo, thấy khu họ nhắc tăng giá vù vù thiệt. Làm nghề bao năm, vậy mà có lúc tui cũng thoáng nghĩ: chắc mua theo họ cũng được. Tới mức đó thì tín hiệu rõ như ban ngày rồi — thị trường đang đỉnh chóp, đang bay phấp phới."
+           "x": "Giai đoạn bốn: ai cũng thành chuyên gia. Tới đây thì không ai hỏi mua đâu nữa, họ chỉ ngược lại chỗ ngon, phân tích logic kinh khủng. Anh chủ quán cà phê, chị chủ quán bún bò, anh bác sĩ, giờ ai cũng có vài miếng đất, sẵn sàng chia sẻ bí kíp. Mấy ngày sau lướt báo, thấy khu họ nhắc tăng giá vù vù thiệt. Làm nghề bao năm, vậy mà có lúc cũng thoáng nghĩ: chắc mua theo họ cũng được. Tới mức đó thì tín hiệu rõ như ban ngày rồi — thị trường đang đỉnh chóp, đang bay phấp phới."
           },
           {
            "type": "field_log",
@@ -1677,7 +1717,7 @@ const DATA={
           },
           {
            "type": "iam",
-           "x": "tôi không dùng bàn nhậu để canh mua đúng đáy bán đúng đỉnh — cái đó không ai làm được đều. Tui dùng nó như một cái nhiệt kế. Khi cả bàn né chuyện đất như né hủi, tui bắt đầu để ý, đi coi hàng, vì đó thường là lúc lạnh nhất mà cũng rẻ nhất. Khi cả bàn ai cũng thành thầy, ai cũng chỉ tui mua đâu, thì tui bắt đầu dè lại, coi lại hàng mình đang ôm. Không phải vì tui giỏi hơn ai, mà vì cái nhiệt kế đó nó ít khi nói dối. Còn cụ thể lúc này thị trường đang ở giai đoạn mấy, thì tùy vùng, tùy lúc — cái đó ngồi lại nói riêng mới rõ được."
+           "x": "tôi không dùng bàn nhậu để canh mua đúng đáy bán đúng đỉnh, cái đó không ai làm được đều. Dùng nó như một cái nhiệt kế thôi. Khi cả bàn né chuyện đất như né hủi, tui bắt đầu để ý, đi coi hàng, vì đó thường là lúc lạnh nhất mà cũng rẻ nhất. Khi cả bàn ai cũng thành thầy, ai cũng chỉ mình mua đâu, thì bắt đầu dè lại, coi lại hàng đang ôm. Không phải vì mình giỏi hơn ai, mà vì cái nhiệt kế đó ít khi nói dối. Còn cụ thể lúc này thị trường đang ở giai đoạn mấy, thì tùy vùng, tùy lúc — ngồi lại nói riêng mới rõ."
           }
          ]
         },
@@ -1838,7 +1878,7 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Nói vậy không phải xúi bà con rút hết tiền đi ôm đất. Tiền mặt vẫn phải có — để xoay, để chờ, để chụp cơ hội. Cái đó tui nói ở bài khác rồi. Ở đây tui chỉ muốn chỉ ra một chỗ khuất: cầm cục tiền ngồi yên không phải là giữ, như nhiều người tưởng. Ngồi yên trong lúc đất chạy, là mỗi ngày một lùi."
+           "x": "Nói vậy không phải xúi bà con rút hết tiền đi ôm đất. Tiền mặt vẫn phải có — để xoay, để chờ, để chụp cơ hội. Ở đây tui chỉ muốn chỉ ra một chỗ khuất: cầm cục tiền ngồi yên không phải là giữ, như nhiều người tưởng. Ngồi yên trong lúc đất chạy, là mỗi ngày một lùi."
           },
           {
            "type": "iam",
@@ -2261,14 +2301,65 @@ const DATA={
           },
           {
            "type": "iam",
-           "x": "có người hỏi tui đang ôm một miếng lỗ, giờ nên gồng tiếp hay buông. Tui không trả lời bằng chuyện đoán thị trường sắp lên hay sắp xuống — cái đó tui không biết, mà ai nói biết chắc thì tui cũng dè. Tui hỏi ngược lại hai câu. Câu thứ nhất: sức mình cầm cự tới đâu, đang gánh nợ cỡ nào, mỗi tháng trả lãi có làm mình nghẹt không. Nếu đang nặng nợ, khả năng cầm cự mỏng, thì đừng cố gồng — vì thị trường có ấm lại cũng không ấm trong một hai tháng, mà gồng tới lúc đuối thì mình bán ở chỗ tệ nhất, bị ép giá luôn. Câu thứ hai: miếng mình đang giữ nó là miếng gì. Nếu tài chính mình vững, có dòng tiền khác nuôi được, mà miếng đất lại nằm chỗ có tương lai thiệt — hạ tầng đang tới, đô thị đang lan ra, người ta còn về ở — thì giữ được, vì đất kiểu đó nó là chuyện đường dài. Còn nếu miếng đó chỉ mua theo cơn sốt, không ai ở, không khai thác được gì, thì giữ thêm cũng chỉ là giữ cho cái tiếc của mình. Gọn lại: coi cái sức của mình trước, coi cái chất của miếng đất sau — hai cái đó trả lời, chớ không phải cái tin đồn thị trường sắp sốt lại."
+           "x": "có người hỏi tui đang ôm một miếng lỗ, giờ nên gồng tiếp hay buông. Tui không trả lời bằng chuyện đoán thị trường sắp lên hay sắp xuống — cái đó tui không biết, mà ai nói biết chắc thì tui cũng dè. Tui hỏi ngược lại hai câu.\n- Sức mình cầm cự tới đâu: đang gánh nợ cỡ nào, mỗi tháng trả lãi có làm mình nghẹt không. Nếu đang nặng nợ, khả năng cầm cự mỏng, thì đừng cố gồng — vì thị trường có ấm lại cũng không ấm trong một hai tháng, mà gồng tới lúc đuối thì mình bán ở chỗ tệ nhất, bị ép giá luôn.\n- Miếng mình đang giữ nó là miếng gì: nếu tài chính vững, có dòng tiền khác nuôi được, mà đất lại nằm chỗ có tương lai thiệt — hạ tầng đang tới, đô thị đang lan ra, người ta còn về ở — thì giữ được, vì đất kiểu đó là chuyện đường dài. Còn nếu miếng đó chỉ mua theo cơn sốt, không ai ở, không khai thác được gì, thì giữ thêm cũng chỉ là giữ cho cái tiếc của mình.\n>> Coi cái sức của mình trước, coi cái chất của miếng đất sau. Hai cái đó trả lời, chớ không phải cái tin đồn thị trường sắp sốt lại."
           }
          ]
         },
         {
-         "t": "Vì sao tôi luôn chừa đường lui trước khi xuống tiền",
-         "sub": "",
-         "state": "pending"
+         "t": "Mất 150 triệu, có khi lại là một quyết định lời",
+         "sub": "cọc nhỏ để còn đường lui — tới lúc nước rút mới biết đường lui đáng bao nhiêu",
+         "state": "ready",
+         "nen": true,
+         "body": [
+          {
+           "type": "lead",
+           "x": "Có một lô đất ở Cần Giờ tui từng xuống cọc ngay lúc thị trường đang rất nóng. Giá lúc đó khoảng năm tỷ."
+          },
+          {
+           "type": "drop",
+           "x": "Thời điểm đó mua bán nhanh lắm, tâm lý thị trường cũng khác bây giờ. Có những miếng vừa cọc xong đã có người hỏi lại. Nhiều người sẵn sàng cọc lớn, một phần để chắc deal, một phần vì nghĩ nếu chủ đổi ý bẻ cọc thì mình cũng kiếm được một khoản. Tui lúc đó cũng có FOMO chớ — thị trường chạy như vậy mà nói mình hoàn toàn tỉnh táo thì không thật. Thậm chí có lúc còn nghĩ, miếng này ngon, cọc nhiều chút cũng được, chủ có bẻ cọc thì càng lời."
+          },
+          {
+           "type": "p",
+           "x": "Nhưng làm đất vài năm, ăn vài cú rồi, tui có một cái tật là lúc đang ham nhất vẫn hay chừa cho mình một đường lui. Deal khoảng năm tỷ, tui chỉ cọc ba trăm triệu. Không phải vì lúc đó tui nghĩ thị trường sắp xuống — tui không biết. Nếu biết được cú 2022 phía trước thì đã chẳng xuống cọc làm gì. Tui chỉ nghĩ ba trăm triệu đủ để giữ deal, còn nếu có chuyện gì thay đổi thì đó là số tiền mình còn có thể quyết định bỏ."
+          },
+          {
+           "type": "p",
+           "x": "Rồi chuyện tới nhanh hơn mình tưởng. Năm 2022, sau những biến cố lớn trên thị trường, thanh khoản bất động sản quay đầu rất mạnh. Tiền bắt đầu khó, tâm lý người mua đổi gần như chỉ trong một thời gian ngắn. Những thứ trước đó tính bằng chuyện mua được bao nhiêu, bán lời bao nhiêu, tự nhiên phải tính lại bằng một câu khác: nếu thị trường đứng luôn thì mình chịu được tới đâu? Lô Cần Giờ đó cũng vậy. Đi tiếp thì phải bỏ phần tiền còn lại vào một tài sản mà thanh khoản và mặt bằng giá đã khác lúc đặt cọc. Cái giá năm tỷ mình đồng ý trước đó không tự nhiên thành giá đúng chỉ vì mình đã đưa ba trăm triệu."
+          },
+          {
+           "type": "p",
+           "x": "Đây là đoạn dễ mắc nhất. Bỏ thì mất cọc. Đi tiếp thì khỏi mất ba trăm triệu. Nghe rất hợp lý. Nhưng ba trăm triệu đã nằm trên bàn rồi. Quyết định tiếp theo không còn là làm sao cứu ba trăm triệu, mà là có nên đưa thêm hơn bốn tỷ nữa vào cùng quyết định đó hay không. Tui với anh em ngồi lại, tính hết. Cuối cùng xác định bỏ cọc."
+          },
+          {
+           "type": "p",
+           "x": "Mất tiền thì tiếc. Tiền của mình đã tiếc, tiền có phần của anh em đi cùng càng khó chịu. Nhưng tui nghĩ thà nhận một khoản lỗ mình còn nhìn thấy đáy, hơn là vì tiếc khoản cọc mà kéo cả đội vào một vị thế lớn hơn rất nhiều trong lúc thị trường đang đổi. Quyết bỏ rồi, tui vẫn không bỏ luôn ba trăm triệu. Tui quay lại nói chuyện với chủ."
+          },
+          {
+           "type": "p",
+           "x": "Chủ đất cũng là người dễ thương, lại có mối quan hệ người quen nên còn đường để ngồi xuống nói. Tui nói thật tình hình, nói với nhau nhiều lần, tìm cách để hai bên cùng bớt thiệt. Hợp đồng đã cọc rồi, về lý thì mình bỏ là mình chịu — tui hiểu chuyện đó, nên cũng không vào nói theo kiểu tiền của mình thì nhất định phải lấy lại. May là cuối cùng chủ đồng ý trả lại một nửa. Tui đem về được một trăm năm chục triệu cho anh em."
+          },
+          {
+           "type": "p",
+           "x": "Mất một trăm năm chục triệu. Deal không thành. Nếu nhìn kiểu thành tích thì chẳng có gì để kể — không mua được đất, không bán được hàng, không có khoản lời nào hết. Nhưng khoảng một năm sau, tui thấy chính lô đó được rao lại quanh ba tỷ rưỡi. Từ khoảng năm tỷ xuống còn khoảng ba tỷ rưỡi. Tất nhiên giá rao không phải giá giao dịch, và một thời điểm sau đó cũng không dùng để chứng minh quyết định trước đó chắc chắn đúng. Nhưng nó cho tui một cách nhìn khá rõ về khoản một trăm năm chục triệu mình đã mất."
+          },
+          {
+           "type": "p",
+           "x": "Nếu ngày đó vì tiếc ba trăm triệu tiền cọc mà cố đi tiếp một deal năm tỷ, thì cái mình bảo vệ được là ba trăm triệu, còn cái mình đưa ra chịu rủi ro là hơn bốn tỷ còn lại. Cuối cùng tui mất một trăm năm chục triệu để không phải làm chuyện đó. Nhiều năm làm ăn, tui thấy có những khoản tiền mất đi nhìn rất đau lúc nó xảy ra, nhưng vài năm sau nhìn lại mới biết nó đã mua cho mình cái gì. Deal Cần Giờ đó với tui là một khoản như vậy."
+          },
+          {
+           "type": "p",
+           "x": "Tui cũng không kể nó để nói mình giỏi cắt lỗ. Ngay từ đầu tui vẫn bị cuốn theo thị trường, vẫn xuống cọc ở vùng giá nóng, vẫn có cái ham của người đang đứng giữa một con sóng lớn. Nếu tỉnh hoàn toàn thì câu chuyện đã chẳng bắt đầu. Cái may của tui là lúc đang ham vẫn chưa đặt mình vào thế hết đường quay lại. Cọc ba trăm triệu thay vì một khoản lớn hơn cho tui quyền lựa chọn. Đến lúc thị trường đổi, tui dùng cái quyền đó. Rồi khi đã quyết định mất, vẫn quay lại làm thêm một việc nữa, ngồi với chủ, nói cho hết câu chuyện, lấy được đồng nào về cho anh em thì lấy."
+          },
+          {
+           "type": "p",
+           "x": "Một trăm năm chục triệu lấy lại được không làm một deal xấu thành deal tốt. Nhưng đó là một trăm năm chục triệu của đồng đội. Với tui, vậy là đáng để ngồi nói tới cùng. Sau nhiều năm tui càng thích một câu rất đơn giản: ăn ít, sống lâu. Lúc thị trường lên mạnh, câu đó nghe chẳng hấp dẫn — người ta đang nhân hai, nhân ba, mình còn ngồi tính đường lui thì có khi thấy mình chậm. Tới lúc nước rút mới biết đường lui đáng giá bao nhiêu."
+          },
+          {
+           "type": "iam",
+           "x": "tui không cần đúng hết. Tui chỉ cần sau một lần mình sai, mình còn tiền, còn anh em, còn cơ hội để làm deal tiếp theo. Gặp một kèo nóng mà trong đầu chưa thấy đường lui, thì việc đầu tiên tui làm không phải tính lời — là tính cái phần mình lỡ có bỏ được không, bỏ thì mất bao nhiêu, mất chừng đó mình còn đứng dậy nổi không. Nếu số tiền lỡ mà lớn tới mức bỏ không nổi, thì đó không còn là cọc giữ chỗ, đó là mình đã tự khóa mình vào rồi. Còn cụ thể một vụ nên cọc bao nhiêu, giữ lại khoản nào, cái đó tùy kèo, tùy túi, ngồi lại nói riêng mới rõ được."
+          }
+         ]
         }
        ]
       }
@@ -2509,7 +2600,7 @@ const DATA={
           },
           {
            "type": "drop",
-           "x": "Ngẫm lại thì tui thấy một cái nghịch lý của chính mình. Bao nhiêu năm tui đuổi theo tự do. Mà càng đi xa, tui càng nhận ra cái mình kiếm không phải tự do. Là một nơi đủ bình yên để trở về."
+           "x": "Ngẫm lại thì thấy một cái nghịch lý của chính mình. Bao nhiêu năm đuổi theo tự do, mà càng đi xa, càng nhận ra cái mình kiếm không phải tự do — là một nơi đủ bình yên để trở về."
           },
           {
            "type": "p",
@@ -2517,7 +2608,7 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Tui thích mở đường. Thích mấy thứ chưa ai làm. Thích lấy một ý mơ hồ trong đầu rồi biến nó thành cái chạy được ngoài đời. Có người kêu đó là khởi nghiệp, có người kêu là sáng tạo. Với tui nó chỉ là cách mình tồn tại thôi. Nhưng làm càng lâu càng hiểu một điều: đi đầu không lãng mạn như người ta tưởng. Người ta nhìn thấy cái kết quả. Ít ai thấy mấy lần mình ngồi tự nghi ngờ chính mình, mấy đêm không ngủ. Đi đầu tức là chấp nhận bước vô chỗ chưa có bản đồ."
+           "x": "Tui thích mở đường, thích mấy thứ chưa ai làm, thích lấy một ý mơ hồ trong đầu rồi biến nó thành cái chạy được ngoài đời. Có người kêu đó là khởi nghiệp, có người kêu là sáng tạo; với mình nó chỉ là cách tồn tại thôi. Nhưng làm càng lâu càng hiểu: đi đầu không lãng mạn như người ta tưởng. Người ta nhìn thấy cái kết quả, ít ai thấy mấy lần ngồi tự nghi ngờ chính mình, mấy đêm không ngủ. Đi đầu tức là chấp nhận bước vô chỗ chưa có bản đồ."
           },
           {
            "type": "p",
@@ -2549,6 +2640,62 @@ const DATA={
        "tag": "trầm",
        "bais": [
         {
+         "t": "Mấy khúc đường vòng, hóa ra không có khúc nào bỏ đi",
+         "sub": "đi rộng cho mình con mắt, đi sâu cho mình cái nghề — thiếu cái nào cũng cụt",
+         "state": "ready",
+         "nen": true,
+         "body": [
+          {
+           "type": "lead",
+           "x": "Tui làm qua kha khá thứ tưởng chẳng dính gì tới nhau. Buôn bán, đất đai, đầu tư, công nghệ, thương hiệu, vận hành, rồi cả cây cối ruộng vườn. Có thứ theo lâu, có thứ đi ngang một đoạn rồi thôi. Có việc nên, có việc trật. Có khúc nhìn lại chính mình cũng không biết mấy cái đang làm rồi sẽ nối với nhau ở đâu."
+          },
+          {
+           "type": "drop",
+           "x": "Hồi trẻ tui tin một người giỏi là người biết mình muốn gì thiệt sớm, chọn đúng một đường rồi đi cho sâu. Học một ngành, làm một nghề, mỗi năm giỏi hơn chút, mười năm sau thành người có nghề. Đường đó nhìn rõ ràng, gọn gàng, ai cũng khen. Còn người làm nhiều thứ, đổi tới đổi lui, có lúc phải bắt đầu lại — nhìn lộn xộn thấy rõ. Tui thuộc nhóm thứ hai. Nói thiệt, có lúc cũng tủi, thấy người ta đi thẳng băng còn mình đi vòng vo."
+          },
+          {
+           "type": "p",
+           "x": "Mãi sau này mới ngộ ra, có khi nó không lộn xộn như mình tưởng. Nhiều thứ lúc làm không biết để làm gì, vài năm sau tự nhiên thành đúng cái mình cần cho một việc khác hẳn. Có người mình gặp từ hồi nào đó chẳng đâu vô đâu, lâu sau mới hiểu vì sao cái duyên đó đáng. Có mấy vụ trật, lúc trật chỉ thấy mất tiền mất thời gian, về sau ngồi lại mới thấy mình mua được một thứ khác: cái kinh nghiệm để lần sau khỏi đóng lại đúng cái học phí đó. Học phí đóng rồi thì ráng đừng đóng lần hai."
+          },
+          {
+           "type": "p",
+           "x": "Cái này tui thấm nhất là hồi đứng trước mấy quyết định không có đáp án sẵn. Miếng đất này nên mua hay không. Cái vùng kia mười năm nữa thành gì. Miếng đang cầm nên giữ, nên bán, hay làm cái gì đó trên đó. Cái mô hình nhìn hay trên giấy, liệu chạy nổi mỗi ngày không. Người này có hợp đi với mình đường dài không. Mấy câu đó hiếm khi nằm gọn trong một ngành. Mà đứng trước tụi nó, có nhiều cái kính để nhìn thì đỡ hơn nhiều so với chỉ có một cái."
+          },
+          {
+           "type": "p",
+           "x": "Lấy đúng chuyện đất mà nói. Muốn hiểu một miếng đất, biết mỗi bất động sản thôi chưa đủ. Phải rành pháp lý, quy hoạch, đường sá, dòng tiền, rồi cả địa hình, nước, cây, khí hậu, người mua, và cái cách một chỗ từ từ hình thành nên đời sống của nó. Cùng một miếng, người môi giới nhìn ra một món hàng. Con mắt tài chính nhìn ra một tài sản. Người làm nông nhìn ra đất, nước, độ dốc, cái nắng cái gió. Người làm thương hiệu nhìn ra một câu chuyện. Còn nhìn bằng con mắt của người sắp dọn về sống ở đó, thì rốt cuộc câu hỏi lại gọn trơn: mình có muốn để một phần đời mình ở đây không."
+          },
+          {
+           "type": "p",
+           "x": "Mỗi cách nhìn cho mình thấy một mảng khác. Cái lợi lớn nhất của việc đi qua nhiều nghề, tui nghĩ nằm ở đó — không phải để biết nhiều rồi kể mình biết nhiều, mà để đứng trước một chuyện, trong tay không phải chỉ có một cái kính. Làm một nghề lâu quá cũng có mặt trái của nó: cái kinh nghiệm cho mình tốc độ, mà nhiều khi cũng làm mình tin quá vô mấy cái từng đúng. Người làm tài chính quen nhìn cái gì cũng ra con số. Người làm thị trường quen nhìn ra khách hàng. Người làm đất quen nhìn ra giá. Không ai sai, mà cái kính nào cũng có cái khuất của nó."
+          },
+          {
+           "type": "p",
+           "x": "Riết rồi tui thành cái tật: một chuyện gỡ hoài không ra, thay vì ráng thêm, tui dừng lại hỏi mình có đang nhìn nó bằng trật cái kính không. Có mấy bài toán tưởng của đất, gỡ mãi mới thấy nó là bài toán vận hành. Có bài tưởng chuyện bán mua, hóa ra là chuyện niềm tin. Có bài tưởng chuyện tiền, cạy ra thì thấy nó là chuyện thời gian. Có bài tưởng về đất, cuối cùng lại về con người. Và có khi một thứ học được ở ngành khác lại gỡ được đúng cái mà người trong ngành nhìn lâu quá, quen quá, tới mức coi nó là chuyện đương nhiên. Với tui, đa lĩnh vực là chỗ đó — không phải biết mỗi thứ một ít, mà là mang được cách nghĩ từ chỗ này qua chỗ khác."
+          },
+          {
+           "type": "p",
+           "x": "Càng về sau mấy thứ mình từng làm càng tự nối lại. Công nghệ làm tui nghĩ khác về chuyện mở rộng cái gì đó lớn ra. Đầu tư dạy tui phân biệt giá với giá trị — hai thứ đó không phải một, mà lẫn lộn nó là chết. Đất dạy tui về vị trí, về chu kỳ, về thời gian. Thương hiệu cho tui thấy cái giá trị người ta cảm nhận nhiều khi khác xa cái giá trị nằm trên bảng tính. Vận hành thì dạy một câu chát: một ý tưởng hay cỡ nào mà không chạy nổi mỗi ngày thì cũng chỉ là ý tưởng. Còn đất với cây dạy tui cái này, cái mà tiền không mua được — có những thứ không ép nhanh hơn được, dù mình có tiền hay có nôn cỡ nào. Cây tới mùa mới ra trái, năn nỉ nó cũng không ra sớm hơn."
+          },
+          {
+           "type": "p",
+           "x": "Không trường nào dạy hết mấy thứ đó trong một cái chương trình. Mà ngoài đời, tụi nó lại hiện ra cùng một lúc trong đúng một quyết định. Cho nên giờ tui ít ngồi ngó lại mấy đoạn đường cũ rồi hỏi cái nào phí. Có việc không đưa mình tới chỗ mình định tới, mà cho mình một con mắt sau này cần xài. Có mấy lần đổi hướng tưởng làm lại từ đầu, thiệt ra chưa bao giờ về số không — mình vác theo hết cái đã học, người đã gặp, mấy lần đã sai, và cả mấy thứ nhờ đó mà biết chắc là mình không muốn làm nữa."
+          },
+          {
+           "type": "p",
+           "x": "Nói vậy chớ đi rộng cũng có cái bẫy của nó. Cả đời chỉ thử mà không chịu đi sâu chỗ nào, thì biết rộng thiệt mà khó làm ra được cái gì cho ra hồn. Đi rộng không thay được đi sâu — nó chỉ giúp mình biết chỗ nào đáng để đào xuống. Chưa biết thì thử cho đủ để hiểu; kiếm được cái đáng làm rồi thì làm cho đủ lâu để có cái nghề thiệt trong tay. Đi sâu cho mình cái nghề, đi rộng cho mình con mắt. Thiếu cái nào cũng cụt một khúc."
+          },
+          {
+           "type": "p",
+           "x": "Cái này cũng làm tui nghĩ khác về cách mình hay hỏi tụi nhỏ. Mình hỏi hơi sớm: lớn lên làm gì, học ngành gì, theo nghề nào — như thể đời có sẵn một đáp án đúng, quan trọng là kiếm ra nó cho lẹ. Có đứa biết sớm thiệt, chọn trúng thì đó là cái phước lớn. Mà cũng có đứa phải làm rồi mới biết mình thích gì, phải ở trong một chỗ rồi mới biết mình hợp không, phải thử vài thứ mới biết mình thiệt sự khá ở đâu. Đổi hướng đâu phải lúc nào cũng là thiếu kiên định. Nhiều khi mình đổi chỉ vì làm rồi mới có thêm cái dữ kiện mà ngồi không nghĩ hoài không ra. Làm rồi mới biết. Có nhiêu đó thôi mà phải đi một quãng mới thấm."
+          },
+          {
+           "type": "p",
+           "x": "Giờ được quay lại, tui cũng không chắc mình sẽ chọn một con đường thẳng hơn. Bỏ mấy khúc vòng đó đi, chắc tui tới một chỗ nào đó sớm hơn thiệt. Mà chưa chắc tui nhìn được mấy cái mình đang nhìn thấy bây giờ. Nên tui cũng thôi không quan tâm một người đi thẳng hay đi vòng nữa. Tui để ý cái khác: đi qua hết bấy nhiêu chỗ rồi, cuối cùng họ thấy được cái gì mà hồi trước họ không thấy. Đường vòng hay đường thẳng, rốt cuộc cũng chỉ để tới được cái chỗ mình nhìn ra thứ người khác chưa nhìn ra. Tới được đó thì đường nào cũng không uổng."
+          }
+         ]
+        },
+        {
          "t": "Làm việc thông minh, và làm việc chăm chỉ",
          "sub": "thông minh không rớt từ trên trời — nó ra từ cặm cụi làm cho tới",
          "state": "ready",
@@ -2572,11 +2719,11 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Làm nghề đất cũng y vậy. Tui đọc được một vùng không phải nhờ ngồi nhà nghĩ cho hay. Nhờ đi. Đi tới nơi, đứng ở đó, coi, hỏi, lội, có khi đi trật, về, rồi đi lại. Mỗi lần đi là mỗi lần đụng cái mình chưa biết, rồi vỡ ra thêm một chút. Cái vốn đọc đất của tui là gom từ mấy lần cặm cụi đó, chớ không phải từ một cái công thức thông minh nào. Ai chỉ tui công thức mà không chịu đi, tui cũng không tin cái công thức đó."
+           "x": "Làm nghề đất cũng y vậy. Tui đọc được một vùng không phải nhờ ngồi nhà nghĩ cho hay, mà nhờ đi. Đi tới nơi, đứng ở đó, coi, hỏi, lội, có khi đi trật, về, rồi đi lại. Mỗi lần đi là mỗi lần đụng cái mình chưa biết, rồi vỡ ra thêm một chút. Cái vốn đọc đất gom từ mấy lần cặm cụi đó, chớ không phải từ một công thức thông minh nào. Ai chỉ công thức mà không chịu đi, tui cũng không tin cái công thức đó."
           },
           {
            "type": "p",
-           "x": "Cho nên tui không tin người giỏi mà lười. Tui tin người vừa chịu khó nghĩ, vừa chịu khó làm. Nghĩ để khỏi làm bậy, làm để cái nghĩ nó thành thiệt. Còn nghĩ mà không làm thì mãi mãi chỉ là cái nghĩ, đẹp trong đầu mình, không giúp được ai, không tới đâu hết. Một ngày cặm cụi, tui thấy đáng hơn mười ngày ngồi tính cho nó hoàn hảo."
+           "x": "Cho nên tui không tin người giỏi mà lười, chỉ tin người vừa chịu khó nghĩ, vừa chịu khó làm. Nghĩ để khỏi làm bậy, làm để cái nghĩ nó thành thiệt. Còn nghĩ mà không làm thì mãi mãi chỉ là cái nghĩ, đẹp trong đầu mình, không giúp được ai, không tới đâu hết. Một ngày cặm cụi, đáng hơn mười ngày ngồi tính cho nó hoàn hảo."
           }
          ]
         },
@@ -2660,7 +2807,7 @@ const DATA={
           },
           {
            "type": "iam",
-           "x": "trước mỗi quyết định lớn, tôi không hỏi nước này thắng thì được bao nhiêu. Tui hỏi ngược lại một câu: nếu nước cờ này sai, mình có đủ sức đứng dậy không, và đủ sức để mấy người đi cùng không phải gánh thay mình không. Trả lời được câu đó rồi mới tính tới chuyện lời lãi. Còn nếu câu trả lời là không — thì dù kèo có thơm cỡ nào, đó cũng là nước cờ tui không đi. Không phải vì tui nhát. Vì tui biết cái giá của một nước sai, tui thấy nó trên mặt mấy người tui từng ngồi ăn cơm chung rồi."
+           "x": "trước mỗi quyết định lớn, tôi không hỏi nước này thắng thì được bao nhiêu. Tui hỏi ngược lại một câu: nếu nước cờ này sai, mình có đủ sức đứng dậy không, và đủ sức để mấy người đi cùng không phải gánh thay mình không. Trả lời được câu đó rồi mới tính tới chuyện lời lãi. Còn nếu câu trả lời là không — thì dù kèo có thơm cỡ nào, đó cũng là nước cờ mình không đi. Không phải vì nhát, mà vì biết cái giá của một nước sai — thấy nó trên mặt mấy người từng ngồi ăn cơm chung rồi."
           }
          ]
         }
@@ -2740,11 +2887,11 @@ const DATA={
          "body": [
           {
            "type": "lead",
-           "x": "Có mấy vùng tui theo lâu rồi, theo từ hồi nó còn chưa ai nhắc tới. Cần Giờ là một trong mấy vùng đó. Không phải tui theo vì nghe sốt — ngược lại, tui coi nó kỹ từ lúc nó còn im lìm, để tới chừng người ta bắt đầu nói về nó thì tui đã đứng ở đó lâu rồi."
+           "x": "Có mấy vùng tui theo lâu rồi, theo từ hồi còn chưa ai nhắc tới, Cần Giờ là một trong số đó. Không phải theo vì nghe sốt — ngược lại, coi nó kỹ từ lúc còn im lìm, để tới chừng người ta bắt đầu nói về nó thì mình đã đứng ở đó lâu rồi."
           },
           {
            "type": "drop",
-           "x": "Đọc một vùng, tui không đọc bằng cái tin trên báo. Tui đọc bằng chân, bằng mấy chuyến đi tới đứng tận nơi, ngó tận mắt. Cái tin thì ai cũng đọc được, mà đọc tin thì luôn trễ — tới lúc thành tin là giá đã chạy. Còn đứng tận chỗ, cảm cái nhịp của vùng đất, thì mình thấy trước cái mà tin chưa kịp nói."
+           "x": "Đọc một vùng, tui không đọc bằng cái tin trên báo, mà đọc bằng chân, bằng mấy chuyến đi tới đứng tận nơi, ngó tận mắt. Cái tin thì ai cũng đọc được, mà đọc tin thì luôn trễ — tới lúc thành tin là giá đã chạy. Còn đứng tận chỗ, cảm cái nhịp của vùng đất, thì thấy trước cái mà tin chưa kịp nói."
           },
           {
            "type": "field_log",
@@ -2756,19 +2903,19 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Cái câu hỏi đứng trên phà đó, tôi không trả lời vội. Nhưng nó là cái hướng để tôi đọc. Một vùng mà gom được hai thứ — cảng biển và đô thị biển — thì nó khác hẳn một vùng chỉ có một trong hai. Cảng biển là dòng chảy hàng hóa, là công ăn việc làm, là cái lý do kinh tế để người ta tới. Đô thị biển là chỗ người ta ở, người ta sống, người ta nghỉ. Một nơi có cả hai thì cái nền nó dày theo kiểu riêng, không giống mấy khu chỉ có nhà đầu tư mua đi bán lại."
+           "x": "Cái câu hỏi đứng trên phà đó, tôi không trả lời vội, nhưng nó là cái hướng để đọc. Một vùng mà gom được hai thứ — cảng biển và đô thị biển — thì khác hẳn một vùng chỉ có một trong hai. Cảng biển là dòng chảy hàng hóa, là công ăn việc làm, là cái lý do kinh tế để người ta tới; đô thị biển là chỗ người ta ở, người ta sống, người ta nghỉ. Một nơi có cả hai thì cái nền nó dày theo kiểu riêng, không giống mấy khu chỉ có nhà đầu tư mua đi bán lại."
           },
           {
            "type": "p",
-           "x": "Nhưng tôi cũng không phải đứng đó mà mơ. Đọc một vùng phải đọc cả cái chưa tới. Hạ tầng lớn thì làm lâu, có khi kéo nhiều năm. Cảng, đường, cầu — nghe thì hoành tráng, mà từ lúc vẽ tới lúc chạy thiệt là một quãng dài, đủ để người nóng ruột chết trước khi vùng kịp lên. Cho nên đọc Cần Giờ, tui đọc cái tiềm năng dài hạn của nó, mà cũng đọc luôn cái giá phải trả về thời gian và cái kiên nhẫn cần có."
+           "x": "Nhưng cũng không phải đứng đó mà mơ. Đọc một vùng phải đọc cả cái chưa tới. Hạ tầng lớn thì làm lâu, có khi kéo nhiều năm; cảng, đường, cầu — nghe thì hoành tráng, mà từ lúc vẽ tới lúc chạy thiệt là một quãng dài, đủ để người nóng ruột chết trước khi vùng kịp lên. Cho nên đọc Cần Giờ, tui đọc cái tiềm năng dài hạn của nó, mà cũng đọc luôn cái giá phải trả về thời gian, cái kiên nhẫn cần có."
           },
           {
            "type": "p",
-           "x": "Đó là chỗ tui hay nói với anh em: đọc một vùng không phải để hô lên nó sắp sốt. Mà để hiểu nó sâu tới mức, tới chừng nó thành tin, thành sóng, mình đã ở trong tư thế của người hiểu, chớ không phải người chạy theo. Cái vùng nào tui đọc, tui đọc để dẫn, không đọc để đu."
+           "x": "Đó là chỗ tui hay nói với anh em: đọc một vùng không phải để hô lên nó sắp sốt, mà để hiểu nó sâu tới mức, tới chừng nó thành tin, thành sóng, mình đã ở trong tư thế của người hiểu, chớ không phải người chạy theo. Vùng nào đọc, thì đọc để dẫn, không đọc để đu."
           },
           {
            "type": "iam",
-           "x": "nếu là chuyện Cần Giờ, tôi không vội hô mua hay khuyên ai xuống tiền ngay — vì cái vùng này cái hay của nó nằm ở dài hạn, mà dài hạn thì phải người có đủ vốn và đủ kiên nhẫn mới chơi được. Cái tui làm là đứng ở đó sớm, đọc cho kỹ, để khi cái vùng này thật sự chuyển mình thì tui đã hiểu nó tường tận. Còn cụ thể lúc nào nên vào, miếng nào, giá nào — cái đó tùy từng người, từng túi tiền, ngồi lại nói riêng mới rõ được. Nhưng cái hướng thì tui thấy rồi: nơi vừa có cảng, vừa có đô thị biển, thì đường dài khó mà tầm thường."
+           "x": "nếu là chuyện Cần Giờ, tôi không vội hô mua hay khuyên ai xuống tiền ngay, vì cái hay của vùng này nằm ở dài hạn, mà dài hạn thì phải người đủ vốn, đủ kiên nhẫn mới chơi được. Cái tui làm là đứng ở đó sớm, đọc cho kỹ, để khi vùng thật sự chuyển mình thì mình đã hiểu nó tường tận. Còn cụ thể lúc nào nên vào, miếng nào, giá nào — cái đó tùy người, tùy túi tiền, ngồi lại nói riêng mới rõ. Nhưng cái hướng thì thấy rồi: nơi vừa có cảng, vừa có đô thị biển, đường dài khó mà tầm thường."
           }
          ]
         },
@@ -2828,7 +2975,7 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Cái tui đi tìm không phải cái đám tới rồi đi đó. Tui tìm người ở lại. Người mua miếng đất để cất nhà cho gia đình ở thiệt. Người mở cái quán, cái tiệm, tính làm ăn lâu dài ở đó. Người dời cả nhà về, cho con đi học trường gần đó. Mấy người đó không tới vì sốt, nên họ cũng không đi khi hết sốt. Họ ở lại, và chính họ mới là cái làm vùng đất đó sống được."
+           "x": "Cái tui đi tìm không phải cái đám tới rồi đi đó, mà là người ở lại. Người mua miếng đất để cất nhà cho gia đình ở thiệt. Người mở cái quán, cái tiệm, tính làm ăn lâu dài ở đó. Người dời cả nhà về, cho con đi học trường gần đó. Mấy người đó không tới vì sốt, nên cũng không đi khi hết sốt; họ ở lại, và chính họ mới là cái làm vùng đất đó sống được."
           },
           {
            "type": "field_log",
@@ -2840,7 +2987,7 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Cho nên khi đọc một vùng, tôi hay coi cái tỷ lệ ngầm đó: bao nhiêu phần là người tới rồi đi, bao nhiêu phần là người ở lại. Vùng nào toàn người tới rồi đi thì dù giá đang nóng cỡ nào, tui cũng dè — vì cái nóng đó không có gốc, tới hồi nguội là nguội thẳng. Vùng nào bắt đầu có người ở lại, có nhà lên đèn, có quán mở đều, có con nít đi học — thì dù giá đang im, tui vẫn để ý, vì cái vùng đó đang xây cái nền thiệt."
+           "x": "Cho nên khi đọc một vùng, tôi hay coi cái tỷ lệ ngầm đó: bao nhiêu phần là người tới rồi đi, bao nhiêu phần là người ở lại. Vùng nào toàn người tới rồi đi thì dù giá đang nóng cỡ nào cũng dè — vì cái nóng đó không có gốc, tới hồi nguội là nguội thẳng. Vùng nào bắt đầu có người ở lại, có nhà lên đèn, có quán mở đều, có con nít đi học — thì dù giá đang im, vẫn để ý, vì vùng đó đang xây cái nền thiệt."
           },
           {
            "type": "p",
@@ -2848,7 +2995,7 @@ const DATA={
           },
           {
            "type": "iam",
-           "x": "nếu đọc một vùng mà thấy toàn người tới rồi đi, không có mấy người ở lại, thì dù giá đang chạy tui cũng chưa xuống tiền — tui chờ coi cái vùng đó có ai chịu ở lại không đã. Còn nếu thấy đã bắt đầu có người dời về ở thiệt, có quán mở đều, có cái sống thường ngày nhen nhóm, thì dù giá còn im tui vẫn coi là dấu hiệu tốt. Cái tui mua, rốt cuộc, không phải miếng đất — tui mua cái tương lai có người sống trên miếng đất đó. Không có người ở lại thì miếng đất đẹp cỡ nào cũng chỉ là đất trống chờ người khác tới ôm lại giùm."
+           "x": "nếu đọc một vùng mà thấy toàn người tới rồi đi, không có mấy người ở lại, thì dù giá đang chạy tui cũng chưa xuống tiền, chờ coi vùng đó có ai chịu ở lại không đã. Còn nếu thấy đã bắt đầu có người dời về ở thiệt, có quán mở đều, có cái sống thường ngày nhen nhóm, thì dù giá còn im vẫn coi là dấu hiệu tốt. Cái mình mua, rốt cuộc, không phải miếng đất — mà là cái tương lai có người sống trên miếng đất đó. Không có người ở lại thì miếng đất đẹp cỡ nào cũng chỉ là đất trống chờ người khác tới ôm lại giùm."
           }
          ]
         }
@@ -3085,7 +3232,7 @@ const DATA={
           },
           {
            "type": "iam",
-           "x": "khi ai đó giới thiệu cho tôi một khu rất tiềm năng, tui thích hỏi một câu: tiền ở đâu sẽ đến đây. Nếu câu trả lời là nghe nói sắp — thì tui nghe tiếp, mà chưa vội. Nếu câu trả lời chỉ là đất quanh đây đang tăng dữ lắm — thì tui càng cẩn thận. Còn nếu người ta chỉ ra được ai đang tới, doanh nghiệp nào đang làm ăn, ngành nào đang lớn lên, hạ tầng nào đang giải quyết một nhu cầu thật, thu nhập được tạo ra ở đâu, và vì sao mấy thứ đó cuối cùng đẻ ra nhu cầu xài đất — thì lúc đó tui mới bắt đầu quan tâm. Tui không cố tìm nơi giá đất sắp tăng. Tui tìm nơi giá trị đang được tạo ra mà thị trường chưa phản ánh hết. Hai chuyện nghe khá giống nhau, mà làm lâu rồi sẽ thấy khác nhau nhiều lắm. Chọn đúng thị trường thì chưa chắc mua đâu cũng thắng; nhưng chọn sai thị trường thì một miếng rất đẹp cũng bắt mình ngồi ngắm nó rất lâu. Nên sau khi biết mình đang chơi trò gì, việc kế tiếp chưa phải đi coi đất — hãy chọn đúng cái ao trước. Bài sau mình mới đi tìm cá."
+           "x": "khi ai đó giới thiệu cho tôi một khu rất tiềm năng, tui thích hỏi một câu: tiền ở đâu sẽ đến đây. Nếu câu trả lời là nghe nói sắp — thì nghe tiếp, mà chưa vội. Nếu chỉ là đất quanh đây đang tăng dữ lắm — thì càng cẩn thận. Còn nếu người ta chỉ ra được ai đang tới, doanh nghiệp nào đang làm ăn, ngành nào đang lớn lên, hạ tầng nào đang giải quyết một nhu cầu thật, thu nhập được tạo ra ở đâu, và vì sao mấy thứ đó cuối cùng đẻ ra nhu cầu xài đất — thì lúc đó mới bắt đầu quan tâm. Tui không cố tìm nơi giá đất sắp tăng, mà tìm nơi giá trị đang được tạo ra mà thị trường chưa phản ánh hết. Hai chuyện nghe khá giống nhau, mà làm lâu rồi sẽ thấy khác nhau nhiều lắm. Chọn đúng thị trường thì chưa chắc mua đâu cũng thắng; nhưng chọn sai thị trường thì một miếng rất đẹp cũng bắt mình ngồi ngắm nó rất lâu. Nên sau khi biết mình đang chơi trò gì, việc kế tiếp chưa phải đi coi đất — hãy chọn đúng cái ao trước. Bài sau mình mới đi tìm cá."
           }
          ]
         },
@@ -3161,11 +3308,11 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Có một việc tui luôn cố làm: tìm lý do để bỏ. Khi thích một tài sản, con người rất dễ đi kiếm thông tin để chứng minh mình đã chọn đúng. Tui cố làm ngược lại — hỏi coi điểm xấu ở đâu. Tại sao chủ bán? Tại sao miếng này rẻ? Tại sao sáu tháng chưa bán? Có chuyện gì mình chưa biết? Nếu đường không mở thì sao? Nếu không chuyển được mục đích thì sao? Nếu ba năm giá không tăng thì sao? Nếu cần bán trong ba tháng thì ai mua? Một tài sản đi qua được càng nhiều câu hỏi khó thì tui càng yên tâm. Còn thứ chỉ đẹp khi mọi giả định tốt đều xảy ra thì tui thường để người khác kiếm tiền — tui không cần ăn hết mọi cơ hội trên thị trường."
+           "x": "Có một việc tui luôn cố làm: tìm lý do để bỏ. Khi thích một tài sản, con người rất dễ đi kiếm thông tin để chứng minh mình đã chọn đúng; tui cố làm ngược lại, hỏi coi điểm xấu ở đâu. Tại sao chủ bán? Tại sao miếng này rẻ? Tại sao sáu tháng chưa bán? Có chuyện gì mình chưa biết? Nếu đường không mở thì sao? Nếu không chuyển được mục đích thì sao? Nếu ba năm giá không tăng thì sao? Nếu cần bán trong ba tháng thì ai mua? Một tài sản đi qua được càng nhiều câu hỏi khó thì càng yên tâm. Còn thứ chỉ đẹp khi mọi giả định tốt đều xảy ra thì thường để người khác kiếm tiền — không cần ăn hết mọi cơ hội trên thị trường."
           },
           {
            "type": "iam",
-           "x": "còn một chuyện nghe buồn cười mà rất thật: đừng yêu đất quá sớm. Có những miếng vừa bước xuống xe là tui đã thích — một hàng cây đẹp, một con suối, một quả đồi, buổi chiều nắng xuống rất đẹp; đứng đó là bắt đầu tưởng tượng căn nhà ở đâu, hồ cá chỗ nào, sáng uống cà phê nhìn ra sao. Tui thích cái đẹp, tui cũng thích đất có cảm xúc. Nhưng tiền vẫn là tiền. Mua để ở thì cảm xúc có giá trị rất lớn. Còn mua để đầu tư thì tui phải biết mình đang trả thêm bao nhiêu cho cái cảm xúc đó, và người mua sau có chịu trả lại cho mình hay không — có khi có, mà có khi chỉ mình thấy đẹp. Cho nên cái nếp tui giữ là đừng cố mua trong ngày đầu tiên mình thấy thích. Về nhà ngủ một đêm, sáng mở lại số liệu; vẫn thấy tốt thì đi tiếp. Một miếng đất tốt không tự nhiên thành xấu chỉ vì mình suy nghĩ thêm hai mươi bốn tiếng. Còn nếu chỉ cần hai mươi bốn tiếng là người khác mua mất, thì thôi, chúc mừng người đó. Cơ hội thì chưa bao giờ chỉ có một, mà tiền của mình thì có giới hạn."
+           "x": "còn một chuyện nghe buồn cười mà rất thật: đừng yêu đất quá sớm. Có những miếng vừa bước xuống xe là tui đã thích — một hàng cây đẹp, một con suối, một quả đồi, buổi chiều nắng xuống rất đẹp; đứng đó là bắt đầu tưởng tượng căn nhà ở đâu, hồ cá chỗ nào, sáng uống cà phê nhìn ra sao. Tui thích cái đẹp, thích đất có cảm xúc. Nhưng tiền vẫn là tiền. Mua để ở thì cảm xúc có giá trị rất lớn; còn mua để đầu tư thì phải biết mình đang trả thêm bao nhiêu cho cái cảm xúc đó, và người mua sau có chịu trả lại hay không — có khi có, mà có khi chỉ mình thấy đẹp. Cho nên cái nếp tui giữ là đừng cố mua trong ngày đầu tiên thấy thích. Về nhà ngủ một đêm, sáng mở lại số liệu, vẫn thấy tốt thì đi tiếp. Một miếng đất tốt không tự nhiên thành xấu chỉ vì mình suy nghĩ thêm hai mươi bốn tiếng. Còn nếu chỉ cần hai mươi bốn tiếng là người khác mua mất, thì thôi, chúc mừng người đó. Cơ hội chưa bao giờ chỉ có một, mà tiền của mình thì có giới hạn."
           }
          ]
         },
@@ -3181,7 +3328,7 @@ const DATA={
           },
           {
            "type": "drop",
-           "x": "Trước một chuyến đi, tui coi bản đồ khá kỹ: đường nào vô, cách trung tâm bao xa, chợ, trường, bệnh viện, khu sản xuất, khu dân cư, mấy tuyến lớn. Tui coi cả ảnh vệ tinh cũ nếu có, để biết khu đó đổi thế nào trong vài năm. Một vùng ba năm trước gần như trống mà hôm nay nhà cửa bắt đầu nối nhau — đó là một thông tin. Một nơi ba năm trước đã được giới thiệu rất hay mà hôm nay vẫn y vậy — đó là một thông tin khác. Tui thích nhìn sự thay đổi hơn nhìn một tấm ảnh đẹp ở hiện tại."
+           "x": "Trước một chuyến đi, tui coi bản đồ khá kỹ: đường nào vô, cách trung tâm bao xa, chợ, trường, bệnh viện, khu sản xuất, khu dân cư, mấy tuyến lớn. Coi cả ảnh vệ tinh cũ nếu có, để biết khu đó đổi thế nào trong vài năm. Một vùng ba năm trước gần như trống mà hôm nay nhà cửa bắt đầu nối nhau — đó là một thông tin. Một nơi ba năm trước đã được giới thiệu rất hay mà hôm nay vẫn y vậy — đó là một thông tin khác. Tui thích nhìn sự thay đổi hơn nhìn một tấm ảnh đẹp ở hiện tại."
           },
           {
            "type": "p",
@@ -3193,7 +3340,7 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Tới đất rồi, tui chưa vội ngắm view — view đẹp thì ai cũng thấy. Tui đi một vòng quanh ranh trước. Hình đất ra sao, mốc giới ở đâu, diện tích trên giấy với cảm nhận ngoài thực địa có hợp lý không, có dấu hiệu xài chồng lấn không, lối vô hiện tại nằm đâu, người bên cạnh đang đi đường nào, nước mưa thoát về đâu, phần đất thấp nằm chỗ nào. Đất đồi thì tui nhìn độ dốc. Đất gần suối thì nhìn dấu nước. Đất nông nghiệp thì nhìn cây đang sống ra sao, nguồn nước ở đâu, máy móc vô được không. Đất có nhà thì nhìn chất lượng công trình và cách khu đất đang được xài."
+           "x": "Tới đất rồi, tui chưa vội ngắm view — view đẹp thì ai cũng thấy. Đi một vòng quanh ranh trước: hình đất ra sao, mốc giới ở đâu, diện tích trên giấy với cảm nhận ngoài thực địa có hợp lý không, có dấu hiệu xài chồng lấn không, lối vô hiện tại nằm đâu, người bên cạnh đang đi đường nào, nước mưa thoát về đâu, phần đất thấp nằm chỗ nào. Đất đồi thì nhìn độ dốc, đất gần suối thì nhìn dấu nước, đất nông nghiệp thì nhìn cây đang sống ra sao, nguồn nước ở đâu, máy móc vô được không, đất có nhà thì nhìn chất lượng công trình và cách khu đất đang được xài."
           },
           {
            "type": "p",
@@ -3201,7 +3348,7 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Tui rất quan tâm hàng xóm. Nhiều người coi đất chỉ nhìn bên trong ranh; tui nhìn cả bên ngoài. Ai đang sống cạnh mình, họ xài đất thế nào, khu này có tranh chấp gì không, gần đó có trang trại, nhà máy, nghĩa trang, bãi rác, đường xe tải hay nguồn ồn nào không. Mua một tài sản lớn thì người hàng xóm lâu năm đôi khi là một trong mấy người tui muốn gặp nhất."
+           "x": "Tui rất quan tâm hàng xóm. Nhiều người coi đất chỉ nhìn bên trong ranh; mình nhìn cả bên ngoài. Ai đang sống cạnh, họ xài đất thế nào, khu này có tranh chấp gì không, gần đó có trang trại, nhà máy, nghĩa trang, bãi rác, đường xe tải hay nguồn ồn nào không. Mua một tài sản lớn thì người hàng xóm lâu năm đôi khi là một trong mấy người tui muốn gặp nhất."
           },
           {
            "type": "p",
@@ -3209,7 +3356,7 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Tui thích quay lại lúc trời mưa. Một ngày nắng đẹp rất dễ làm người ta yêu một miếng đất; còn mưa thì thành thật hơn. Đường đất bắt đầu lộ chất lượng. Chỗ trũng hiện ra. Nước chảy hướng nào thấy liền. Có nơi mùa khô ô tô vô rất đẹp, mùa mưa câu chuyện khác hẳn. Nếu thương vụ đủ lớn thì bỏ thêm một ngày quay lại là chi phí rất nhỏ. Tài sản dính chuyện kinh doanh thì tui thích coi vô nhiều khung giờ — sáng có người không, tối ra sao, cuối tuần với ngày thường khác nhau thế nào. Một mặt bằng được khoe là vị trí rất đông thì tui muốn biết đông vào lúc nào, và mấy người đi ngang đó là ai."
+           "x": "Tui thích quay lại lúc trời mưa. Một ngày nắng đẹp rất dễ làm người ta yêu một miếng đất, còn mưa thì thành thật hơn: đường đất bắt đầu lộ chất lượng, chỗ trũng hiện ra, nước chảy hướng nào thấy liền. Có nơi mùa khô ô tô vô rất đẹp, mùa mưa câu chuyện khác hẳn. Thương vụ đủ lớn thì bỏ thêm một ngày quay lại là chi phí rất nhỏ. Tài sản dính chuyện kinh doanh thì thích coi vô nhiều khung giờ — sáng có người không, tối ra sao, cuối tuần với ngày thường khác nhau thế nào. Một mặt bằng được khoe là vị trí rất đông thì muốn biết đông vào lúc nào, và mấy người đi ngang đó là ai."
           },
           {
            "type": "p",
@@ -3237,7 +3384,7 @@ const DATA={
           },
           {
            "type": "iam",
-           "x": "trên đường về, tôi hay tự hỏi một câu: nếu ngày mai có người khác mua mất miếng này, mình có tiếc không. Có những lần câu trả lời là không — vậy là nhẹ đầu. Có lần thấy hơi tiếc, mà vẫn chưa đủ dữ liệu — tui chấp nhận. Thà bỏ qua một thương vụ tốt, còn hơn cố biến một thương vụ mình chưa hiểu thành một thương vụ tốt. Cơ hội thì còn nhiều; uy tín, thời gian và vốn của mình thì đáng để dành cho mấy việc mình hiểu rõ. Đi coi một miếng đất đôi khi chỉ mất một giờ. Hiểu được một vùng đất có thể mất nhiều năm. Tui chọn dành thời gian cho vế sau."
+           "x": "trên đường về, tôi hay tự hỏi một câu: nếu ngày mai có người khác mua mất miếng này, mình có tiếc không. Có lần câu trả lời là không — vậy là nhẹ đầu. Có lần thấy hơi tiếc, mà vẫn chưa đủ dữ liệu — thì chấp nhận. Thà bỏ qua một thương vụ tốt, còn hơn cố biến một thương vụ mình chưa hiểu thành một thương vụ tốt. Cơ hội thì còn nhiều; uy tín, thời gian và vốn của mình thì đáng để dành cho mấy việc mình hiểu rõ. Đi coi một miếng đất đôi khi chỉ mất một giờ, hiểu được một vùng đất có thể mất nhiều năm — tui chọn dành thời gian cho vế sau."
           }
          ]
         },
@@ -3265,15 +3412,15 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Với pháp lý, tui không thích chữ chắc là. Chắc chuyển được. Chắc tách được. Nhà bên cạnh làm được mà. Trước giờ ở đây ai cũng làm vậy. Mấy câu đó tui nghe hoài, và thường ghi nhận như một đầu mối để đi kiểm, chớ không phải một kết luận. Nếu phương án kiếm tiền của tui phụ thuộc vô chuyện chuyển mục đích, tách thửa, xây dựng, mở đường hay một thủ tục nào đó, thì tui muốn kiểm đúng việc đó theo quy định và hồ sơ thực tế ngay tại thời điểm giao dịch. Miếng đất mười tỷ mà phương án kiếm tiền treo trên một chữ chắc, thì chữ đó hơi đắt."
+           "x": "Với pháp lý, tui không thích chữ chắc là. Chắc chuyển được. Chắc tách được. Nhà bên cạnh làm được mà. Trước giờ ở đây ai cũng làm vậy. Mấy câu đó nghe hoài, thường ghi nhận như một đầu mối để đi kiểm, chớ không phải một kết luận. Nếu phương án kiếm tiền phụ thuộc vô chuyện chuyển mục đích, tách thửa, xây dựng, mở đường hay một thủ tục nào đó, thì phải kiểm đúng việc đó theo quy định và hồ sơ thực tế ngay tại thời điểm giao dịch. Miếng đất mười tỷ mà phương án kiếm tiền treo trên một chữ chắc, thì chữ đó hơi đắt."
           },
           {
            "type": "p",
-           "x": "Tui cũng phân biệt rất rõ giữa tài sản hiện tại và tài sản mình kỳ vọng nó trở thành. Hôm nay là đất nông nghiệp thì tui định giá nó trên cơ sở đất nông nghiệp. Khả năng chuyển mục đích sau này có thể cộng thêm phần kỳ vọng, mà tui không thích trả nguyên cái giá của đất ở cho một việc chưa xong. Tách thửa, đường quy hoạch, đổi công năng cũng vậy. Lợi nhuận cao thường nằm ở cái khoảng cách giữa hiện tại và tương lai — tui vẫn thích khoảng cách đó, chỉ cần biết mình đang trả bao nhiêu tiền cho kỳ vọng, và nếu kỳ vọng không xảy ra thì cái còn lại đáng bao nhiêu."
+           "x": "Tui cũng phân biệt rất rõ giữa tài sản hiện tại và tài sản mình kỳ vọng nó trở thành. Hôm nay là đất nông nghiệp thì định giá trên cơ sở đất nông nghiệp. Khả năng chuyển mục đích sau này có thể cộng thêm phần kỳ vọng, mà không nên trả nguyên cái giá của đất ở cho một việc chưa xong. Tách thửa, đường quy hoạch, đổi công năng cũng vậy. Lợi nhuận cao thường nằm ở cái khoảng cách giữa hiện tại và tương lai — tui vẫn thích khoảng cách đó, chỉ cần biết mình đang trả bao nhiêu cho kỳ vọng, và nếu kỳ vọng không xảy ra thì cái còn lại đáng bao nhiêu."
           },
           {
            "type": "p",
-           "x": "Quy hoạch thì tui không coi để biết mỗi câu có dính hay không. Tui muốn biết khu đất này trong bức tranh lớn được định hướng ra sao, kế hoạch sử dụng đất liên quan thế nào, có hành lang hay giới hạn nào ảnh hưởng tới khả năng xài không, hạ tầng xung quanh đang ở giai đoạn nào. Có lần một thông tin quy hoạch làm tài sản hấp dẫn hơn. Có lần kiểm xong tui bỏ luôn. Cũng có trường hợp quy hoạch không xấu, chỉ khác hoàn toàn câu chuyện người bán đang kể — chuyện đó bình thường. Người bán có góc nhìn của người bán, môi giới có thông tin của môi giới, còn tui có trách nhiệm với tiền của mình nên tui kiểm phần của tui."
+           "x": "Quy hoạch thì tui không coi để biết mỗi câu có dính hay không, mà muốn biết khu đất này trong bức tranh lớn được định hướng ra sao, kế hoạch sử dụng đất liên quan thế nào, có hành lang hay giới hạn nào ảnh hưởng tới khả năng xài không, hạ tầng xung quanh đang ở giai đoạn nào. Có lần một thông tin quy hoạch làm tài sản hấp dẫn hơn; có lần kiểm xong thì bỏ luôn. Cũng có trường hợp quy hoạch không xấu, chỉ khác hoàn toàn câu chuyện người bán đang kể — chuyện đó bình thường. Người bán có góc nhìn của người bán, môi giới có thông tin của môi giới, còn mình có trách nhiệm với tiền của mình nên kiểm phần của mình."
           },
           {
            "type": "p",
@@ -3281,7 +3428,7 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Pháp lý với quy hoạch tương đối rõ rồi, tui mới nói chuyện giá một cách nghiêm túc. Hai miếng nằm cạnh nhau vẫn có thể khác giá rất nhiều vì hình dáng, mặt tiền, đường, loại đất, khả năng xài, nhu cầu tiền của chủ, và thời điểm. Tui không lấy một tin đăng trên mạng làm giá thị trường. Tui kiếm mấy tài sản tương đồng đang bán, hỏi mức chủ thiệt sự chịu giao dịch, kiếm mấy giao dịch gần đây nếu có, hỏi nhiều nguồn, rồi chỉnh theo từng khác biệt."
+           "x": "Pháp lý với quy hoạch tương đối rõ rồi, tui mới nói chuyện giá một cách nghiêm túc. Hai miếng nằm cạnh nhau vẫn có thể khác giá rất nhiều vì hình dáng, mặt tiền, đường, loại đất, khả năng xài, nhu cầu tiền của chủ, và thời điểm. Không lấy một tin đăng trên mạng làm giá thị trường; kiếm mấy tài sản tương đồng đang bán, hỏi mức chủ thiệt sự chịu giao dịch, kiếm mấy giao dịch gần đây nếu có, hỏi nhiều nguồn, rồi chỉnh theo từng khác biệt."
           },
           {
            "type": "p",
@@ -3289,11 +3436,11 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Tui luôn tính giá vốn thật. Giá chủ bán chỉ là con số đầu tiên; sau đó còn thuế, phí, hoa hồng, chi phí vốn, lãi vay, pháp lý, đo đạc, làm đường, hàng rào, cải tạo, xây dựng — cộng hết. Mua hai chục tỷ, bỏ thêm hai tỷ xử lý, giữ hai năm thêm chi phí vốn, thì đừng tự kể với mình câu chuyện tui mua có hai chục tỷ. Giá vốn của mình cao hơn. Tới hồi bán hai lăm tỷ nghe có vẻ lời năm tỷ, mà tính hết mọi thứ đôi khi chẳng còn bao nhiêu. Tui thích tính kỹ từ đầu, vì nó làm mình bớt phấn khích — mà trong đầu tư, bớt phấn khích một chút thường có lợi."
+           "x": "Tui luôn tính giá vốn thật. Giá chủ bán chỉ là con số đầu tiên; sau đó còn thuế, phí, hoa hồng, chi phí vốn, lãi vay, pháp lý, đo đạc, làm đường, hàng rào, cải tạo, xây dựng — cộng hết. Mua hai chục tỷ, bỏ thêm hai tỷ xử lý, giữ hai năm thêm chi phí vốn, thì đừng tự kể với mình câu chuyện mua có hai chục tỷ, giá vốn thiệt cao hơn. Tới hồi bán hai lăm tỷ nghe có vẻ lời năm tỷ, mà tính hết mọi thứ đôi khi chẳng còn bao nhiêu. Tính kỹ từ đầu làm mình bớt phấn khích — mà trong đầu tư, bớt phấn khích một chút thường có lợi."
           },
           {
            "type": "p",
-           "x": "Tui cũng hay tự làm khó cái thương vụ mình đang thích. Nếu giá hai năm tới đứng yên thì sao. Nếu việc mình tính làm bị chậm một năm thì sao. Nếu chi phí tăng hai chục phần trăm thì sao. Nếu cần tiền phải bán sớm thì sao. Nếu phương án đẹp nhất không xảy ra thì cái tài sản hiện tại còn giá trị gì. Tui không cần mọi kịch bản đều đẹp — làm ăn mà kịch bản nào cũng đẹp thì thường là mình đang tính thiếu cái gì đó. Tui chỉ cần biết nếu vài chuyện không thuận xảy ra cùng lúc, mình có chịu được không."
+           "x": "Tui cũng hay tự làm khó cái thương vụ mình đang thích. Nếu giá hai năm tới đứng yên thì sao. Nếu việc mình tính làm bị chậm một năm thì sao. Nếu chi phí tăng hai chục phần trăm thì sao. Nếu cần tiền phải bán sớm thì sao. Nếu phương án đẹp nhất không xảy ra thì cái tài sản hiện tại còn giá trị gì. Không cần mọi kịch bản đều đẹp — làm ăn mà kịch bản nào cũng đẹp thì thường là đang tính thiếu cái gì đó. Chỉ cần biết nếu vài chuyện không thuận xảy ra cùng lúc, mình có chịu được không."
           },
           {
            "type": "p",
@@ -3301,11 +3448,11 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Và có một câu tui hỏi từ khá sớm: nếu mình mua hôm nay, vài năm nữa ai có lý do để mua lại tài sản này. Tui không thích câu trả lời lúc đó chắc giá lên sẽ có người mua. Tui muốn hình dung cụ thể hơn — người địa phương mua để ở, một doanh nghiệp cần quỹ đất, người có tài sản muốn một chỗ nghỉ dưỡng, nhà đầu tư muốn làm tiếp, người sản xuất cần đất. Mỗi tài sản có một thị trường người mua riêng, và tài sản càng lớn thì câu hỏi này càng nặng. Một miếng trăm tỷ lên trăm rưỡi trên bảng định giá thì nghe rất vui, mà tới lúc bán phải có một người thiệt sự có trăm rưỡi và thấy nó đáng. Con số trên giấy không tự chuyển khoản cho mình."
+           "x": "Và có một câu tui hỏi từ khá sớm: mua hôm nay, vài năm nữa ai có lý do để mua lại tài sản này. Không thích câu trả lời lúc đó chắc giá lên sẽ có người mua; muốn hình dung cụ thể hơn — người địa phương mua để ở, một doanh nghiệp cần quỹ đất, người có tài sản muốn một chỗ nghỉ dưỡng, nhà đầu tư muốn làm tiếp, người sản xuất cần đất. Mỗi tài sản có một thị trường người mua riêng, tài sản càng lớn thì câu hỏi này càng nặng. Một miếng trăm tỷ lên trăm rưỡi trên bảng định giá thì nghe rất vui, mà tới lúc bán phải có một người thiệt sự có trăm rưỡi và thấy nó đáng. Con số trên giấy không tự chuyển khoản cho mình."
           },
           {
            "type": "iam",
-           "x": "trước khi đặt cọc, tôi muốn mọi việc đủ rõ để ký xong khỏi phải cầu nguyện. Đọc lại hồ sơ, kiểm lại mấy điều kiện quan trọng, cam kết nào ảnh hưởng trực tiếp tới quyết định mua thì đưa vô văn bản cho rõ — mốc thanh toán, trách nhiệm các bên, tình trạng tài sản, điều kiện công chứng, xử lý tiền cọc nếu có chuyện. Tui không thích kiểu anh em tin nhau, ghi đơn giản thôi. Tin nhau thì càng nên viết rõ, viết rõ để sau này khỏi ngồi nhớ coi hôm đó ai nói câu gì. Một bản thỏa thuận tốt giúp những người tử tế làm việc với nhau dễ hơn. Tui cũng không đặt cọc giữ chỗ rồi mới bắt đầu tìm hiểu — có lúc thị trường buộc quyết nhanh, tui hiểu; mà nhanh tới đâu thì mấy điểm có thể làm thương vụ chết vẫn phải kiểm trước. Bỏ lỡ một cơ hội thì tui chịu được. Vướng vô một thương vụ mà mình biết chưa đủ thì khó chịu hơn nhiều."
+           "x": "trước khi đặt cọc, tôi muốn mọi việc đủ rõ để ký xong khỏi phải cầu nguyện. Đọc lại hồ sơ, kiểm lại mấy điều kiện quan trọng, cam kết nào ảnh hưởng trực tiếp tới quyết định mua thì đưa vô văn bản cho rõ — mốc thanh toán, trách nhiệm các bên, tình trạng tài sản, điều kiện công chứng, xử lý tiền cọc nếu có chuyện. Tui không thích kiểu anh em tin nhau, ghi đơn giản thôi; tin nhau thì càng nên viết rõ, để sau này khỏi ngồi nhớ coi hôm đó ai nói câu gì. Một bản thỏa thuận tốt giúp những người tử tế làm việc với nhau dễ hơn. Cũng không đặt cọc giữ chỗ rồi mới bắt đầu tìm hiểu — có lúc thị trường buộc quyết nhanh, tui hiểu, mà nhanh tới đâu thì mấy điểm có thể làm thương vụ chết vẫn phải kiểm trước. Bỏ lỡ một cơ hội thì chịu được; vướng vô một thương vụ mà mình biết chưa đủ thì khó chịu hơn nhiều."
           }
          ]
         },
@@ -3345,15 +3492,15 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Đất có một đặc điểm hơi khó chịu: mình kiểm soát được giá mua khá nhiều, còn giá bán tương lai thì thị trường quyết phần lớn. Tui có thể kỳ vọng ba năm nữa khu đó tăng ba chục phần trăm, mà thị trường thì chẳng có nghĩa vụ gì phải làm đúng kế hoạch của tui. Giá mua hôm nay thì tui biết. Cho nên tui luôn muốn có một khoảng an toàn ngay từ đầu. Đánh giá tài sản chừng hai chục tỷ mà mua được mười bảy vì chủ có lý do cần bán nhanh, thì ngay cả khi thị trường đi ngang một thời gian, tui vẫn còn chỗ thở. Còn mua hai hai với lý do hai năm nữa chắc lên ba chục, thì từ ngày đầu tiên tui đã đặt mình vô cái thế phải chờ tương lai chứng minh mình đúng. Tui không thích cái cảm giác đó lắm. Người ta hay nói lợi nhuận được tạo ra lúc mua — tui thấy khá đúng, nhất là với đất. Mua tốt cho mình cái quyền kiên nhẫn."
+           "x": "Đất có một đặc điểm hơi khó chịu: mình kiểm soát được giá mua khá nhiều, còn giá bán tương lai thì thị trường quyết phần lớn. Mình có thể kỳ vọng ba năm nữa khu đó tăng ba chục phần trăm, mà thị trường thì chẳng có nghĩa vụ gì phải làm đúng kế hoạch của mình. Giá mua hôm nay thì biết chắc. Cho nên tui luôn muốn có một khoảng an toàn ngay từ đầu. Đánh giá tài sản chừng hai chục tỷ mà mua được mười bảy vì chủ có lý do cần bán nhanh, thì ngay cả khi thị trường đi ngang một thời gian, vẫn còn chỗ thở. Còn mua hai hai với lý do hai năm nữa chắc lên ba chục, thì từ ngày đầu tiên đã đặt mình vô cái thế phải chờ tương lai chứng minh mình đúng — cái cảm giác đó không thích lắm. Người ta hay nói lợi nhuận được tạo ra lúc mua, tui thấy khá đúng, nhất là với đất. Mua tốt cho mình cái quyền kiên nhẫn."
           },
           {
            "type": "p",
-           "x": "Mà tui cũng không ép một deal tốt tới chết. Có người rất giỏi mặc cả, tài sản hai chục tỷ họ ép thêm được hai trăm triệu và thấy đó là chiến thắng. Tui thường nhìn thêm coi hai trăm đó có đáng không. Nếu người bán đã đưa một mức tốt, tài sản mình muốn mua, hồ sơ ổn, hai bên nói chuyện tử tế — thì đôi khi tui dừng đúng lúc. Lý do rất thực tế: sau khi đặt cọc, tui vẫn cần họ hợp tác. Công chứng. Bàn giao. Hồ sơ. Đo đạc nếu cần. Xử lý mấy việc còn lại. Có khi vài tháng sau vẫn cần gọi hỏi một chuyện cũ. Mà biết đâu họ còn tài sản khác. Một deal mà hai bên đứng dậy đều thấy mình vừa bị người kia thắng, thường mở đầu cho rất nhiều chuyện không đáng có. Tui thích kiếm tiền cùng người khác hơn là kiếm tiền từ việc làm người khác khó chịu."
+           "x": "Mà tui cũng không ép một deal tốt tới chết. Có người rất giỏi mặc cả, tài sản hai chục tỷ ép thêm được hai trăm triệu và thấy đó là chiến thắng. Tui thường nhìn thêm coi hai trăm đó có đáng không. Nếu người bán đã đưa một mức tốt, tài sản mình muốn mua, hồ sơ ổn, hai bên nói chuyện tử tế — thì đôi khi dừng đúng lúc. Lý do rất thực tế: sau khi đặt cọc, mình vẫn cần họ hợp tác. Công chứng. Bàn giao. Hồ sơ. Đo đạc nếu cần. Có khi vài tháng sau vẫn cần gọi hỏi một chuyện cũ. Mà biết đâu họ còn tài sản khác. Một deal mà hai bên đứng dậy đều thấy mình vừa bị người kia thắng, thường mở đầu cho rất nhiều chuyện không đáng có. Tui thích kiếm tiền cùng người khác hơn là kiếm tiền từ việc làm người khác khó chịu."
           },
           {
            "type": "p",
-           "x": "Đặt cọc là lúc tui chậm lại một nhịp. Hai bên vừa đồng ý giá thì tâm lý đang vui — mà đây cũng là lúc dễ bỏ sót nhất. Tui quay lại mấy việc căn bản: ai nhận cọc, ai phải ký, tài sản có đúng như hồ sơ mình đã kiểm chưa, đang thế chấp hay có nghĩa vụ nào cần giải quyết không, công chứng bao lâu, lịch thanh toán ra sao, ai chịu thuế phí gì, bàn giao thế nào. Điều kiện quan trọng thì ghi rõ: giao dịch phụ thuộc việc gì phải xong trước công chứng thì ghi việc đó; tài sản đang thế chấp thì thống nhất cách giải chấp; trên đất có người đang xài thì thống nhất chuyện bàn giao; có tài sản gắn liền với đất thì ghi rõ cái gì đi cùng. Thương vụ lớn thì tui càng muốn người chuyên môn đọc lại trước khi ký — một giờ của luật sư thường rẻ hơn một năm tranh chấp."
+           "x": "Đặt cọc là lúc tui chậm lại một nhịp. Hai bên vừa đồng ý giá thì tâm lý đang vui — mà đây cũng là lúc dễ bỏ sót nhất. Quay lại mấy việc căn bản: ai nhận cọc, ai phải ký, tài sản có đúng như hồ sơ đã kiểm chưa, đang thế chấp hay có nghĩa vụ nào cần giải quyết không, công chứng bao lâu, lịch thanh toán ra sao, ai chịu thuế phí gì, bàn giao thế nào. Điều kiện quan trọng thì ghi rõ: giao dịch phụ thuộc việc gì phải xong trước công chứng thì ghi việc đó; tài sản đang thế chấp thì thống nhất cách giải chấp; trên đất có người đang xài thì thống nhất chuyện bàn giao; có tài sản gắn liền với đất thì ghi rõ cái gì đi cùng. Thương vụ lớn thì càng muốn người chuyên môn đọc lại trước khi ký — một giờ của luật sư thường rẻ hơn một năm tranh chấp."
           },
           {
            "type": "p",
@@ -3361,7 +3508,7 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Đoạn này tui khá thích. Người có tài sản có thứ tui cần; tui có vốn, có quan hệ, có khả năng triển khai, hoặc một thứ họ cần. Hai bên ngồi xuống coi có cách nào ghép lợi ích với nhau. Có deal mua đứt. Có deal hợp tác. Có deal góp vốn. Có tài sản chủ không muốn bán hết mà sẵn sàng cùng làm. Có người có đất rất tốt mà thiếu vốn; có người có vốn mà không muốn tự vận hành; có doanh nghiệp có năng lực triển khai mà không muốn bỏ trọn tiền mua đất. Nếu chỉ biết hỏi giá cuối bao nhiêu thì bỏ qua khá nhiều khả năng. Tất nhiên cấu trúc càng phức tạp thì giấy tờ càng phải rõ — tui không làm một deal mơ hồ chỉ vì nghe nó thông minh. Cấu trúc tốt phải làm quyền lợi và trách nhiệm rõ hơn, chớ không làm rối hơn."
+           "x": "Đoạn này tui khá thích. Người có tài sản có thứ mình cần; mình có vốn, có quan hệ, có khả năng triển khai, hoặc một thứ họ cần. Hai bên ngồi xuống coi có cách nào ghép lợi ích với nhau. Có deal mua đứt, có deal hợp tác, có deal góp vốn. Có tài sản chủ không muốn bán hết mà sẵn sàng cùng làm. Có người có đất rất tốt mà thiếu vốn; có người có vốn mà không muốn tự vận hành; có doanh nghiệp có năng lực triển khai mà không muốn bỏ trọn tiền mua đất. Nếu chỉ biết hỏi giá cuối bao nhiêu thì bỏ qua khá nhiều khả năng. Tất nhiên cấu trúc càng phức tạp thì giấy tờ càng phải rõ — tui không làm một deal mơ hồ chỉ vì nghe nó thông minh. Cấu trúc tốt phải làm quyền lợi và trách nhiệm rõ hơn, chớ không làm rối hơn."
           },
           {
            "type": "p",
@@ -3369,11 +3516,11 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Công chứng xong chưa phải là hết. Tui muốn bàn giao thực tế: mốc giới, chìa khóa nếu có nhà, hồ sơ, hợp đồng thuê nếu đang cho thuê, thông tin người đang quản lý, điện nước và mấy nghĩa vụ liên quan. Đất lớn hoặc tài sản ở xa thì tui muốn có người trông hoặc một cách kiểm định kỳ khá sớm — tài sản vài chục tỷ mà mua xong để đó sáu tháng không ai ghé qua thì tui thấy hơi kỳ. Tui cũng gom toàn bộ hồ sơ thương vụ thành một bộ riêng: pháp lý, hợp đồng, chứng từ thanh toán, bản đồ, hình hiện trạng lúc nhận bàn giao, tài liệu quy hoạch, mấy khoản chi đã phát sinh. Vài năm có nhiều tài sản rồi thì trí nhớ không đáng tin như mình tưởng — hồ sơ thì đáng tin hơn."
+           "x": "Công chứng xong chưa phải là hết. Tui muốn bàn giao thực tế: mốc giới, chìa khóa nếu có nhà, hồ sơ, hợp đồng thuê nếu đang cho thuê, thông tin người đang quản lý, điện nước và mấy nghĩa vụ liên quan. Đất lớn hoặc tài sản ở xa thì muốn có người trông hoặc một cách kiểm định kỳ khá sớm — tài sản vài chục tỷ mà mua xong để đó sáu tháng không ai ghé qua thì hơi kỳ. Cũng gom toàn bộ hồ sơ thương vụ thành một bộ riêng: pháp lý, hợp đồng, chứng từ thanh toán, bản đồ, hình hiện trạng lúc nhận bàn giao, tài liệu quy hoạch, mấy khoản chi đã phát sinh. Vài năm có nhiều tài sản rồi thì trí nhớ không đáng tin như mình tưởng — hồ sơ thì đáng tin hơn."
           },
           {
            "type": "iam",
-           "x": "có một kiểu deal tôi đặc biệt thích: chủ có tài sản tốt, tui hiểu tài sản đó, giá và cấu trúc đủ để tui kiếm tiền, người bán cũng đạt được cái họ muốn, hồ sơ sạch, hai bên nói chuyện nhanh và làm đúng cái đã thống nhất, ký xong vẫn ngồi ăn với nhau bình thường. Mấy deal như vậy nhẹ lắm, mà thường sau một deal lại sinh ra deal khác — người có tài sản tốt thường quen người có tài sản tốt, người làm ăn tử tế giới thiệu nhau khá nhanh. Cho nên tui không có nhu cầu biến mọi cuộc gặp thành một thương vụ. Có người gặp hôm nay, hai năm sau mới làm chung. Có người chẳng bao giờ mua bán gì với nhau mà trao đổi được rất nhiều thông tin tốt. Kèo tốt thường đi qua con người trước khi đi qua internet. Nên khi bước vô một thương vụ, tui khá nghiêm túc: cái gì quan trọng thì kiểm, cái gì đã nói thì cố làm đúng, có thay đổi thì báo sớm, phần lợi của mình nói rõ mà phần người khác được gì cũng nói rõ. Không cần làm màu, không cần cố chứng minh mình khôn hơn người đối diện. Cuối cùng vẫn là tiền thật, tài sản thật, uy tín thật. Tui thích một thương vụ mà vài năm sau nhìn lại, mình kiếm được tiền và vẫn gọi được cho mấy người từng ngồi cùng bàn để nói: có cái này hay, anh em coi thử làm được với nhau không. Với tui đó là một deal đẹp."
+           "x": "có một kiểu deal tôi đặc biệt thích: chủ có tài sản tốt, mình hiểu tài sản đó, giá và cấu trúc đủ để mình kiếm tiền, người bán cũng đạt được cái họ muốn, hồ sơ sạch, hai bên nói chuyện nhanh và làm đúng cái đã thống nhất, ký xong vẫn ngồi ăn với nhau bình thường. Mấy deal như vậy nhẹ lắm, mà thường sau một deal lại sinh ra deal khác — người có tài sản tốt thường quen người có tài sản tốt, người làm ăn tử tế giới thiệu nhau khá nhanh. Cho nên tui không có nhu cầu biến mọi cuộc gặp thành một thương vụ. Có người gặp hôm nay, hai năm sau mới làm chung; có người chẳng bao giờ mua bán gì với nhau mà trao đổi được rất nhiều thông tin tốt. Kèo tốt thường đi qua con người trước khi đi qua internet. Nên khi bước vô một thương vụ, tui khá nghiêm túc: cái gì quan trọng thì kiểm, cái gì đã nói thì cố làm đúng, có thay đổi thì báo sớm, phần lợi của mình nói rõ mà phần người khác được gì cũng nói rõ. Không cần làm màu, không cần cố chứng minh mình khôn hơn người đối diện. Cuối cùng vẫn là tiền thật, tài sản thật, uy tín thật. Tui thích một thương vụ mà vài năm sau nhìn lại, mình kiếm được tiền và vẫn gọi được cho mấy người từng ngồi cùng bàn để rủ: có cái này hay, anh em coi thử làm được với nhau không. Với tui đó là một deal đẹp."
           }
          ]
         },
@@ -3409,11 +3556,11 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Tui hay hỏi rất thực tế: bỏ một đồng vô đây thì tài sản tốt hơn ở chỗ nào. Dễ xài hơn? Dễ vô hơn? Pháp lý rõ hơn? Ra được tiền? Dễ bán hơn? Chưa thấy câu trả lời thì tui để tiền trong tài khoản. Có những miếng tui mua vài năm gần như không làm gì; trong lúc đó khu tự phát triển, đường tốt lên, dân cư tăng, giá trị tăng theo. Chủ đất không phải lúc nào cũng cần làm dự án trên đất của mình. Biết để yên đúng lúc cũng là một việc."
+           "x": "Tui hay hỏi rất thực tế: bỏ một đồng vô đây thì tài sản tốt hơn ở chỗ nào. Dễ xài hơn? Dễ vô hơn? Pháp lý rõ hơn? Ra được tiền? Dễ bán hơn? Chưa thấy câu trả lời thì để tiền yên trong tài khoản. Có những miếng mua vài năm gần như không làm gì; trong lúc đó khu tự phát triển, đường tốt lên, dân cư tăng, giá trị tăng theo. Chủ đất không phải lúc nào cũng cần làm dự án trên đất của mình — biết để yên đúng lúc cũng là một việc."
           },
           {
            "type": "p",
-           "x": "Có vài việc nhỏ thì tui khá thích làm. Ranh chưa rõ thì làm rõ ranh. Đường vô xấu mà xử lý một khoản hợp lý là tốt hơn nhiều thì tui coi. Đất bừa bộn, cây cối che hết hình dáng thì dọn sạch một phần — nhiều khi giúp người khác nhìn ra giá trị dễ hơn. Hồ sơ thiếu thứ có thể hoàn thiện hợp pháp thì làm. Tui ưu tiên mấy việc ít tiền, ít rủi ro, mà làm tài sản dễ hiểu hơn. Một miếng đất người mua tới nơi nhìn được ranh, thấy được đường, hiểu được mình làm gì trên đó, thì dễ nói chuyện hơn một miếng phải đứng giữa bụi cây rồi tưởng tượng."
+           "x": "Có vài việc nhỏ thì tui khá thích làm. Ranh chưa rõ thì làm rõ ranh. Đường vô xấu mà xử lý một khoản hợp lý là tốt hơn nhiều thì coi. Đất bừa bộn, cây cối che hết hình dáng thì dọn sạch một phần — nhiều khi giúp người khác nhìn ra giá trị dễ hơn. Hồ sơ thiếu thứ có thể hoàn thiện hợp pháp thì làm. Ưu tiên mấy việc ít tiền, ít rủi ro, mà làm tài sản dễ hiểu hơn: một miếng đất người mua tới nơi nhìn được ranh, thấy được đường, hiểu được mình làm gì trên đó, thì dễ nói chuyện hơn một miếng phải đứng giữa bụi cây rồi tưởng tượng."
           },
           {
            "type": "p",
@@ -3421,7 +3568,7 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Ví dụ tui mua vì cho rằng khu đó sẽ hưởng lợi từ một tuyến đường và hoạt động kinh tế quanh nó. Hai năm sau đường chậm, doanh nghiệp không vô như tính, dân cư cũng không tăng — thì tui phải nhìn lại. Tui không thích giữ một tài sản thêm năm năm chỉ để chứng minh cái quyết định mua ban đầu của mình là đúng. Sai thì sửa."
+           "x": "Ví dụ mua vì cho rằng khu đó sẽ hưởng lợi từ một tuyến đường và hoạt động kinh tế quanh nó. Hai năm sau đường chậm, doanh nghiệp không vô như tính, dân cư cũng không tăng — thì tui phải nhìn lại. Không thích giữ một tài sản thêm năm năm chỉ để chứng minh cái quyết định mua ban đầu là đúng. Sai thì sửa."
           },
           {
            "type": "p",
@@ -3429,19 +3576,19 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Tui tính cả thời gian quản lý của mình nữa. Một mô hình lời hai chục triệu một tháng mà tuần nào cũng gọi mình xử lý việc, thì chưa chắc tui thích bằng cho thuê đơn giản được mười hai triệu rồi gần như quên nó đi. Mỗi người tính mỗi khác. Tui thì khá coi trọng sự nhẹ đầu."
+           "x": "Tui tính cả thời gian quản lý của mình nữa. Một mô hình lời hai chục triệu một tháng mà tuần nào cũng gọi mình xử lý việc, thì chưa chắc thích bằng cho thuê đơn giản được mười hai triệu rồi gần như quên nó đi. Mỗi người tính mỗi khác; tui thì khá coi trọng sự nhẹ đầu."
           },
           {
            "type": "p",
-           "x": "Tui cũng không mặc định đất phải giữ lâu. Mua với kế hoạch năm năm không có nghĩa đúng năm thứ năm mới được bán. Sáu tháng sau có người trả một mức mà lợi nhuận đã đạt kỳ vọng — tui coi. Thị trường đổi và luận điểm ban đầu không còn đúng — tui coi. Có tài sản khác tốt hơn và cần chuyển vốn — tui coi. Giá tăng quá nhanh so với giá trị thiệt — cũng coi. Tui không gắn tình cảm quá nhiều vô tài sản đầu tư. Tiền sau khi bán vẫn là vốn của mình, nó có thể đi qua một chỗ tốt hơn. Tui quan tâm hiệu quả của cả cái danh mục, hơn là chuyện phải thắng thiệt lớn trên từng miếng."
+           "x": "Tui cũng không mặc định đất phải giữ lâu. Mua với kế hoạch năm năm không có nghĩa đúng năm thứ năm mới được bán. Sáu tháng sau có người trả một mức mà lợi nhuận đã đạt kỳ vọng — coi. Thị trường đổi và luận điểm ban đầu không còn đúng — coi. Có tài sản khác tốt hơn và cần chuyển vốn — coi. Giá tăng quá nhanh so với giá trị thiệt — cũng coi. Tui không gắn tình cảm quá nhiều vô tài sản đầu tư; tiền sau khi bán vẫn là vốn của mình, nó có thể đi qua một chỗ tốt hơn. Cái quan tâm là hiệu quả của cả danh mục, hơn là chuyện phải thắng thiệt lớn trên từng miếng."
           },
           {
            "type": "p",
-           "x": "Bán cũng cần chuẩn bị. Tui không thích tới lúc cần tiền mới gọi một loạt môi giới rồi nói bán gấp. Nếu xác định có thể ra hàng thì tui chuẩn bị trước: hồ sơ đầy đủ, thông tin quy hoạch cập nhật, hiện trạng rõ, hình ảnh đàng hoàng, giá bán có cơ sở, mấy điểm mạnh và cả mấy vấn đề người mua cần biết. Người mua có năng lực thường hỏi rất nhanh và đúng chỗ — mình trả lời vòng vo là họ biết liền. Tài sản lớn càng vậy: người có khả năng bỏ vài chục hay vài trăm tỷ không thiếu chỗ để coi, họ thiếu mấy cơ hội đủ rõ để đáng dành thời gian nghiên cứu. Tui thích đưa thông tin tương đối đầy đủ ngay từ đầu — hợp thì đi sâu, không hợp thì thôi, đỡ mất giờ của cả hai."
+           "x": "Bán cũng cần chuẩn bị. Tui không thích tới lúc cần tiền mới gọi một loạt môi giới rồi nói bán gấp. Nếu xác định có thể ra hàng thì chuẩn bị trước: hồ sơ đầy đủ, thông tin quy hoạch cập nhật, hiện trạng rõ, hình ảnh đàng hoàng, giá bán có cơ sở, mấy điểm mạnh và cả mấy vấn đề người mua cần biết. Người mua có năng lực thường hỏi rất nhanh và đúng chỗ — trả lời vòng vo là họ biết liền. Tài sản lớn càng vậy: người có khả năng bỏ vài chục hay vài trăm tỷ không thiếu chỗ để coi, họ thiếu mấy cơ hội đủ rõ để đáng dành thời gian nghiên cứu. Tui thích đưa thông tin tương đối đầy đủ ngay từ đầu — hợp thì đi sâu, không hợp thì thôi, đỡ mất giờ của cả hai."
           },
           {
            "type": "iam",
-           "x": "thỉnh thoảng tôi tự hỏi một câu về miếng đất mình đang giữ: nếu hôm nay nó chưa phải của mình, và mình đang cầm đúng số tiền bằng giá của nó, thì mình có mua nó lại không. Nếu có thì giữ tiếp rất dễ. Nếu không thì phải coi lại tại sao mình vẫn giữ. Có thể đang có việc sắp xong nên chưa bán. Có thể đang cho thuê tốt. Có thể bán bây giờ chưa đáng. Mấy lý do đó đều được. Nhưng nếu nghĩ một hồi mà chẳng thấy lý do gì ngoài đất này tui mua lâu rồi, thì tui coi lại. Tui không cần có thiệt nhiều miếng — nhiều đất quá mà miếng nào cũng một chút chuyện thì cũng mệt. Tui thích vài thứ mình biết rõ hơn. Mua một tài sản về thì phải biết mình sẽ quản nó ra sao, làm được gì với nó, khi nào nên giữ, và nếu cần bán thì ai có khả năng mua. Còn mua xong cất sổ vô két cũng được — miễn đó thiệt sự là kế hoạch của mình, chớ không phải vì mình chưa nghĩ tới."
+           "x": "thỉnh thoảng tôi tự hỏi một câu về miếng đất mình đang giữ: nếu hôm nay nó chưa phải của mình, và mình đang cầm đúng số tiền bằng giá của nó, thì có mua nó lại không. Có thì giữ tiếp rất dễ. Không thì phải coi lại tại sao mình vẫn giữ. Có thể đang có việc sắp xong nên chưa bán, có thể đang cho thuê tốt, có thể bán bây giờ chưa đáng — mấy lý do đó đều được. Nhưng nếu nghĩ một hồi mà chẳng thấy lý do gì ngoài đất này mua lâu rồi, thì tui coi lại. Không cần có thiệt nhiều miếng — nhiều đất quá mà miếng nào cũng một chút chuyện thì cũng mệt, tui thích vài thứ mình biết rõ hơn. Mua một tài sản về thì phải biết mình quản nó ra sao, làm được gì với nó, khi nào nên giữ, và nếu cần bán thì ai có khả năng mua. Còn mua xong cất sổ vô két cũng được — miễn đó thiệt sự là kế hoạch của mình, chớ không phải vì chưa nghĩ tới."
           }
          ]
         },
@@ -3473,7 +3620,7 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Tiền lời thì tui tính tiền thật. Mua mười tỷ, bán mười ba, nói lời ba tỷ thì nghe đã. Nhưng còn tiền môi giới, thuế phí, tiền vay, tiền làm hàng rào, làm đường, dọn đất, chạy tới chạy lui, rồi tiền bỏ thêm trong lúc giữ. Trừ hết còn một tỷ tám thì lời một tỷ tám. Tui thích tính vậy — vì tiền là tiền của mình, tính cho nhiều lên cũng chẳng ai trả thêm. Tui còn coi mình bỏ mười tỷ vô đó ba năm để kiếm một tỷ tám có đáng không; nếu ba năm đó có một kèo khác khỏe hơn, ít việc hơn mà cũng ra gần bấy nhiêu, thì lần sau mình biết chọn. Có những deal lời mà làm mệt quá — lần sau tui né."
+           "x": "Tiền lời thì tui tính tiền thật. Mua mười tỷ, bán mười ba, nói lời ba tỷ thì nghe đã. Nhưng còn tiền môi giới, thuế phí, tiền vay, tiền làm hàng rào, làm đường, dọn đất, chạy tới chạy lui, rồi tiền bỏ thêm trong lúc giữ — trừ hết còn một tỷ tám thì lời một tỷ tám. Tính vậy vì tiền là tiền của mình, tính cho nhiều lên cũng chẳng ai trả thêm. Còn coi mình bỏ mười tỷ vô đó ba năm để kiếm một tỷ tám có đáng không; nếu ba năm đó có một kèo khác khỏe hơn, ít việc hơn mà cũng ra gần bấy nhiêu, thì lần sau biết chọn. Có những deal lời mà làm mệt quá — lần sau tui né."
           },
           {
            "type": "p",
@@ -3493,7 +3640,7 @@ const DATA={
           },
           {
            "type": "p",
-           "x": "Mấy kèo bỏ qua tui cũng coi lại. Có miếng tui đi coi hai ba lần, hỏi rất nhiều người, cuối cùng không mua. Một năm sau nó tăng gấp rưỡi. Tiếc chớ — ai nói không tiếc chắc tu hơi cao. Nhưng tui coi lại tại sao hồi đó mình bỏ. Nếu lúc đó giấy tờ chưa rõ, giá cao, mình chưa hiểu khu đó, hoặc tiền của mình không phù hợp, thì bỏ vẫn đúng. Mình đâu thể mua hết đất ngoài đường; có miếng người khác lời thì để người ta lời, mình còn tiền thì còn kèo khác. Tui sợ nhất là bỏ một kèo xong thấy người khác thắng, lần sau quyết tâm không để mất cơ hội nữa — cái tâm lý đó dễ làm mình mua đúng mấy thứ bình thường mình đã bỏ."
+           "x": "Mấy kèo bỏ qua tui cũng coi lại. Có miếng đi coi hai ba lần, hỏi rất nhiều người, cuối cùng không mua; một năm sau nó tăng gấp rưỡi. Tiếc chớ — ai nói không tiếc chắc tu hơi cao. Nhưng coi lại tại sao hồi đó mình bỏ: nếu lúc đó giấy tờ chưa rõ, giá cao, mình chưa hiểu khu đó, hoặc tiền của mình không phù hợp, thì bỏ vẫn đúng. Mình đâu thể mua hết đất ngoài đường; có miếng người khác lời thì để người ta lời, mình còn tiền thì còn kèo khác. Tui sợ nhất là bỏ một kèo xong thấy người khác thắng, lần sau quyết tâm không để mất cơ hội nữa — cái tâm lý đó dễ làm mình mua đúng mấy thứ bình thường mình đã bỏ."
           },
           {
            "type": "p",
@@ -3510,6 +3657,202 @@ const DATA={
           {
            "type": "iam",
            "x": "làm riết rồi tôi chẳng thấy có bí quyết gì ghê gớm. Hiểu miếng đất mình mua. Biết tiền của mình đang nằm ở đâu. Chơi với người đàng hoàng. Có lời thì đừng tưởng mình thành thiên tài. Gặp lúc khó cũng đừng hoảng. Và quan trọng nhất là còn tiền để chơi kèo sau. Tui vẫn còn mua bán, còn đi coi đất, còn làm deal, nên chắc chắn còn sai — chỉ mong lần sau đừng sai y chang lần trước. Deal nào kiếm được tiền thì tốt; deal nào không kiếm được tiền thì ít nhất cũng phải biết mình mất tiền vì cái gì. Với tui vậy là được."
+          }
+         ]
+        },
+        {
+         "t": "Hồi sốt, ai cũng nên uống paracetamol",
+         "sub": "một deal lời một cục, mà cái nhớ nhất không phải cục lời — là mấy đêm ráp tiền, ráp người, ráp ngày công chứng",
+         "state": "ready",
+         "nen": true,
+         "body": [
+          {
+           "type": "lead",
+           "x": "Có những deal sau này ngồi tính lại thấy lời một cục, mà lúc đang làm thì mất ngủ mấy đêm liền. Tui nhớ nhất một lô khoảng chín trăm mét, mặt tiền đường Duyên Hải, Cần Giờ. Mua mười một tỷ, bán mười bảy tỷ, sau thuế phí với một số chi phí khác thì thực thu đâu đó khoảng mười sáu tỷ rưỡi. Một deal lời rất nhiều. Giờ nhìn mấy con số đó thấy ghê, mà nhớ cái thời đó còn thấy ghê hơn."
+          },
+          {
+           "type": "drop",
+           "x": "Hồi thị trường sốt, người mua của mình nhiều khi cũng đâu phải mua để giữ. Ảnh mua của mình rồi ảnh cũng tính bán tiếp. Miếng này lúc đó tui bán mười bảy tỷ, anh mua cũng đã có bài bán tiếp đâu đó khoảng mười chín tỷ. Tiền chưa chạy xong mà giá đã chạy trước rồi. Đúng là hồi sốt ai cũng nên uống paracetamol."
+          },
+          {
+           "type": "p",
+           "x": "Tui lúc đó cũng đâu chạy một lô. Có lúc năm bảy lô cùng lúc, cọc chỗ này, tiền về chỗ kia, ngày công chứng cái này sát ngày thanh toán cái khác, nên đêm nằm không phải nghĩ mình lời bao nhiêu, toàn nghĩ tiền đâu mà chồng. Người mua này có chắc mua không, nếu ảnh bỏ cọc thì sao, nếu ảnh không bỏ mà lại bán tiếp cho một người khác thì câu chuyện chồng thêm một tầng nữa, ai ký với ai, tiền đi đường nào, ngày nào phải có, công chứng trễ một hai hôm thì cái gì phía sau bị kẹt. Lúc thị trường chạy mạnh, trên giấy thấy mình giàu nhanh lắm. Tới lúc cầm một lúc mấy deal mới biết cái làm mình mất ngủ là thời gian và dòng tiền."
+          },
+          {
+           "type": "p",
+           "x": "Anh mua miếng Duyên Hải này ở Hà Nội, cũng làm bất động sản lâu năm, cực kỳ rành nghề, nhất là pháp lý. Tui may mắn gặp ảnh, càng làm càng học được một cục. Hai bên hiểu chuyện nên nói với nhau khá thẳng, cái gì làm được, cái gì chưa được, rủi ro nằm đâu. Chớ thực tế lúc ảnh mới đặt cọc thì ảnh cũng chưa phải chủ tài sản, chưa có quyền gì để đem miếng đất đó đi bán như một người đã đứng tên. Nhưng thị trường lúc đó chạy nhanh, cơ hội tới thì người ta vẫn tìm cách cấu trúc để đi tiếp. Cao lắm có chuyện thì cãi nhau, kiện tụng, rồi ai về nhà nấy, nhưng nguyên một chuỗi giao dịch phía sau sẽ rối tung. Tui mua mười một tỷ, đã có đầu ra mười bảy tỷ, biên như vậy thì ai chẳng muốn làm cho xong. Chỉ có điều muốn lấy được cục lời đó phải ráp cho được từng người trong chuỗi."
+          },
+          {
+           "type": "p",
+           "x": "Rồi xuất hiện một cô mua sau cùng, dạng cá mập. Có người mua là mừng như vớ được vàng, nhưng cô không chịu thanh toán một lần, phải chia ra nhiều lần. Tui đồng ý ngay. Thời đó quan trọng là deal chạy được, tiền về được, cấu trúc nào hai bên chịu được thì làm, chớ cứ bắt mọi thứ đẹp đúng ý mình có khi cuối cùng chẳng có gì. Tưởng ráp được người mua là khỏe, ai dè quay lại chị chủ bán ban đầu thì thêm chuyện khác."
+          },
+          {
+           "type": "p",
+           "x": "Chị này kỹ kinh khủng. Chị không chịu ký hợp đồng ủy quyền toàn phần, phải làm hợp đồng chuyển nhượng. Tiền bạc cũng phải theo cách chị thấy an toàn, ra ngân hàng, làm sổ tiết kiệm, không cầm tiền mặt kiểu đó, cũng không đơn giản chuyển khoản xong là thôi. Đi công chứng hay đi đâu chị cũng ôm khư khư cuốn sổ đỏ. Lúc đó tui thấy mệt thiệt, vì bài của mình cần giao dịch chạy, sang tên lòng vòng vừa mất thời gian vừa phát sinh đủ thứ, trong đầu tui cứ nghĩ làm ủy quyền toàn phần cho gọn chớ sang tên làm gì."
+          },
+          {
+           "type": "p",
+           "x": "Nhưng làm với chị một thời gian lại học thêm được một kiểu khác. Tài sản của người ta cả chục tỷ, người ta kỹ là đúng. Mình cần nhanh là chuyện của mình, đâu thể bắt người khác phải bớt kỹ để cái deal của mình chạy cho tiện. Tui phải gom đủ tiền, rồi nói chuyện với chị nhiều lần. Có lúc nghĩ thôi chắc chịu, có lúc lại mặt dày nói tiếp. Tui cố hiểu chính xác chị sợ cái gì, chị cần cái gì để sau khi ký có thể thật sự buông tay, không còn dính gì tới tài sản đó nữa. Cuối cùng chị mới đồng ý ký ủy quyền toàn phần, nhưng phải có thêm một văn bản đi kèm, đại ý xác nhận sau đó chị không còn liên quan gì tới tài sản, phần còn lại mình chịu. Tui chịu thêm một khoản phí nữa để xử cho xong."
+          },
+          {
+           "type": "p",
+           "x": "Được cái này rồi tưởng thở được. Gần tới ngày công chứng, phía cô cá mập lại xuất hiện thêm một biến số: người đứng tên mua cuối cùng không phải cô. Lại ngồi. Hai ngày gặp nhau, trao đổi, đàm phán, thương lượng lại. Mỗi bên đều có cái lý của mình, mà lúc đó deal đã đi tới đây rồi, ai cũng muốn xong nhưng chẳng ai muốn mình là người ôm phần rủi ro cuối cùng. Muốn tất cả cùng bước vào phòng công chứng thì có những khoản tui phải chịu thiệt thêm, thuế, phí, rồi một số chi phí phát sinh khác, tính tới tính lui cuối cùng bán mười bảy tỷ nhưng tiền thực thu khoảng mười sáu tỷ rưỡi."
+          },
+          {
+           "type": "p",
+           "x": "Vẫn còn một chuyện nữa. Bên mua giữ lại mười phần trăm, chờ tới khi tên họ lên sổ mới thanh toán phần còn lại. Đứng bên mua thì tui hiểu, bỏ một cục tiền lớn ai chẳng muốn sổ sang tên mình rồi mới trả hết. Nhưng đứng bên tui thì cũng cấn. Tài sản đã sang tên người ta mà tiền mình còn thiếu mười phần trăm, lúc đó mình có giữ cuốn sổ trong tay thì cũng vui thôi, tên trên sổ là người ta rồi, giữ làm gì được. Lại thêm một tờ giấy. Các bên phải làm thêm cam kết, công chứng rõ ràng, khóa nghĩa vụ của phần tiền còn lại, tui thấy đủ yên tâm mới chịu đi tiếp. Rồi cuối cùng cũng xong. Mua mười một tỷ. Bán mười bảy tỷ. Thực thu khoảng mười sáu tỷ rưỡi. Lời một cục."
+          },
+          {
+           "type": "p",
+           "x": "Nhưng kỳ lạ là giờ nhớ lại, tui không nhớ cảm giác cầm cục lời đó rõ bằng mấy đêm nằm ráp tiền, ráp ngày công chứng, nhớ chị chủ đi đâu cũng ôm cuốn sổ đỏ, nhớ anh người mua Hà Nội ngồi nói từng chuyện pháp lý, nhớ cô cá mập chia tiền ra mấy đợt, nhớ sát ngày ký lại lòi ra thêm một người đứng tên, nhớ cái mười phần trăm còn treo ở cuối, rồi hết giấy này tới giấy khác để mọi người cùng thấy mình an toàn. Hồi đó thị trường lên dữ quá, người nào mua cũng thấy mình hay. Tui cũng vậy thôi. Mua mười một bán mười bảy, kể lại nghe giống mình giỏi lắm. Giờ ngồi biết lại mới thấy trong đó có bao nhiêu phần là mình làm được, bao nhiêu phần là thị trường cho, bao nhiêu phần là nhờ gặp đúng người."
+          },
+          {
+           "type": "p",
+           "x": "Anh người mua đầu tiên rất tử tế, làm nghề lâu năm, hiểu chuyện, tui học được từ ảnh nhiều. Chị chủ kỹ tới mức lúc làm nhiều khi phát mệt, nhưng nhờ vậy tui lại học thêm cách một người bảo vệ tài sản của họ. Người mua sau cùng cũng là người từng trải, ai cũng giữ phần của mình, rồi cuối cùng vẫn tìm được chỗ để cùng nhau đi hết giao dịch. Đời làm ăn, gặp được người tử tế nhiều khi còn may hơn gặp được deal ngon. Chớ một chuỗi như vậy, người mua của mình lại có người mua, tiền người này chờ tiền người kia, một bên đổi ý, một chữ ký không ra, một ngày công chứng lệch đi, là đủ thứ phía sau chồng lên nhau. Hợp đồng thì có, cọc thì có, cùng lắm kéo nhau đi kiện cũng được, nhưng rồi tiền nằm đó, đất nằm đó, người đi tới đi lui, ai cũng mệt."
+          },
+          {
+           "type": "iam",
+           "x": "có lẽ vì từng đi qua mấy đoạn như vậy nên sau này tui nhìn cục lời không còn phấn khích nhanh như hồi trước. Gặp một deal mà con số nói lời đậm, tui hay nhìn coi từ lúc mình nói deal này lời tới lúc tiền thật về đủ còn bao nhiêu cửa phải đi qua, bao nhiêu người phải đồng ý, bao nhiêu lần tiền phải chạy đúng ngày, nếu một mắt xích đổi ý thì mình còn xoay được không. Biên lời đẹp mà cái chuỗi để lấy được nó dài quá, nhiều người quá, thì cái lời đó chưa chắc là của mình — nó mới là cái lời trên giấy, còn phải đi hết chuỗi mới biết. Hồi đó lướt năm bảy lô một lúc, giờ kêu làm lại y chang chắc tui cũng rén. Tuổi trẻ, thị trường, máu làm ăn, rồi chắc cũng có chút điên. May là qua được. Mà lời được. Còn giờ có nên ôm một chuỗi dài như vậy nữa không, cái đó tùy thời, tùy sức, ngồi lại nói riêng mới rõ được."
+          }
+         ]
+        },
+        {
+         "t": "Một miếng tính ra lời mà tui vẫn bỏ, coi như một vụ kể lại từ đầu tới cuối",
+         "sub": "trên giấy nó lời, ngoài đất vài thứ nhỏ kéo ngược lại — và sau đó thì sao",
+         "state": "ready",
+         "nen": true,
+         "body": [
+          {
+           "type": "lead",
+           "x": "Nói tám bước nãy giờ nghe cũng khô, thôi tui kể lại nguyên một vụ cho dễ hình dung. Có lần tui đi coi một miếng ở Nam Ban, khoảng năm ngàn chín trăm mét, mặt tiền đường hơn một trăm hai chục mét. Nhìn sơ qua thì khá thơm."
+          },
+          {
+           "type": "drop",
+           "x": "Giá chủ muốn bán khoảng một triệu tám một mét, đất có quy hoạch thổ cư, theo phương án lúc đó có thể làm thủ tục chuyển mục đích rồi tách ra chừng hai mươi mốt lô, mỗi lô cỡ hai trăm ba chục tới ba trăm mét. Tui ngồi tính khá kỹ. Sau tiền đất, chi phí pháp lý, hạ tầng, mấy khoản phải bỏ thêm để đưa hàng ra được thị trường, vốn đâu chừng hai triệu rưỡi một mét. Bán quanh ba triệu tám một mét thì mỗi lô trên dưới một tỷ. View không có gì xuất sắc, mà tầm tiền đó ở khu này dễ tiếp cận hơn, thanh khoản tui đánh giá ổn — làm thuận thì sáu tới mười tháng đi gần hết hàng. Kể cả thị trường chậm hơn dự kiến, cần bán nhanh chịu bớt lời thì vẫn còn một khoảng an toàn. Tính trên giấy, đây là một deal đáng làm."
+          },
+          {
+           "type": "p",
+           "x": "Người bán là dân địa phương, cần bán tương đối gấp để lấy tiền mua một vườn cà phê chỗ khác. Giá đầu vào được, lý do bán nghe hợp lý, bài toán đầu ra có, biên lời có. Nếu chỉ ngồi trên bàn tính tiền thì chắc tui mua rồi. Nhưng miếng nào càng thấy thích, tui càng coi kỹ."
+          },
+          {
+           "type": "p",
+           "x": "Tui nhờ đo đạc lại, chuẩn ranh, kiểm giấy tờ vì sổ cấp từ khá lâu, rồi rà thêm mấy phần kỹ thuật với pháp lý cho chắc cái phương án chuyển mục đích, tách thửa mình đang tính thực tế làm được. Tui không muốn bỏ một cục tiền xuống rồi mới phát hiện cái mình mua trên giấy khác với cái mình tưởng mình mua ngoài đất. Càng đi sâu thì bắt đầu lòi ra chuyện."
+          },
+          {
+           "type": "p",
+           "x": "Đầu tiên là con đường vào. Có một đoạn liên quan tới phần đất cũ của hàng xóm, trước đó từng cắm mốc ranh ra gần giữa đường. Sau này đường mở lại, nhìn ngoài thực địa vẫn đi bình thường, nhưng khi tui lần lại câu chuyện cũ thì thấy cái rủi ro chưa thật sự biến mất. Chuyện thứ hai là ranh đất thực tế có chỗ lệch so với bản vẽ cũ, muốn làm tiếp phải đo lại, ra bản vẽ mới rồi mới xúc tiến mấy bước sau. Hai chuyện đó chưa chắc giết chết một thương vụ — làm đất lâu rồi, gặp thứ phải chỉnh, phải đo lại, phải xử thêm cũng không lạ. Còn lại sạch, mình hiểu rõ đường giải quyết thì vẫn làm được."
+          },
+          {
+           "type": "p",
+           "x": "Cái làm tui dừng lại nằm ở đoạn sau. Tui hỏi sâu thêm một buổi nữa, ráp những gì nghe được với hồ sơ, ranh đất, câu chuyện con đường, và cái cách người bán muốn kết thúc giao dịch — trong bụng bắt đầu thấy cấn. Khó diễn cái cấn đó thành một dòng trong Excel. Nó thường là nhiều chi tiết nhỏ, đứng riêng thì không đáng bao nhiêu, đặt cạnh nhau lại thấy có gì đó chưa ổn. Trong khi người bán đang cần tiền, muốn bán xong là buông tay. Tới đó tui thôi."
+          },
+          {
+           "type": "p",
+           "x": "Cũng tiếc chớ. Một miếng năm ngàn chín, mặt tiền hơn trăm hai, đầu vào một triệu tám, chia chừng hai mươi mốt sản phẩm, tính nhanh biên lời khá đẹp. Bỏ một deal như vậy đâu có sung sướng gì. Nhưng tui nghĩ đơn giản: lời dự kiến vẫn chỉ là tiền trên giấy. Còn một cái ranh đang có vấn đề, một đoạn đường từng có tranh chấp, một bộ hồ sơ phải làm lại, và một người bán muốn buông tay — nếu có chuyện thì người ôm nó sau cùng là mình. Cái tui sợ nhất lúc đó chưa hẳn là mất tiền. Thanh khoản chậm, với giá vốn đó, bán gấp tui tính vẫn có thể còn trên hai chục phần trăm. Cái tui ngại là tài sản mắc vô một chuyện pháp lý không biết bao lâu mới tháo. Tiền nằm đó, người nằm đó, cơ hội khác đi qua cũng nằm đó."
+          },
+          {
+           "type": "p",
+           "x": "Vài tháng sau tui nghe miếng này có người mua, giá mua được cũng tốt. Lúc đó tui có nghĩ lại — chuyện bình thường thôi, mình bỏ một miếng, người khác mua được, trong đầu kiểu gì cũng chạy lại mấy con số cũ coi có phải mình kỹ quá không. Hơn một năm sau tui đi ngang, thấy miếng đất gần như vẫn vậy, chưa triển khai được gì. Hỏi sâu thêm mới biết chuyện ranh phát sinh tranh chấp, hàng xóm có đơn kiện, phần pháp lý vì vậy chưa làm tiếp được, đất cứ để đó."
+          },
+          {
+           "type": "p",
+           "x": "Tui kể chuyện này không phải để nói tui nhìn đâu cũng đúng. Người mua sau đủ thời gian, đủ nguồn lực, xử được tranh chấp rồi làm tiếp thì biết đâu cuối cùng họ vẫn kiếm được tiền — một quyết định đầu tư đâu thể kết luận hay dở chỉ bằng việc nhìn người khác vài năm sau. Tui chỉ nhớ cái cảm giác lúc mình bỏ miếng đó. Trên giấy nó lời. Ngoài đất nó cũng đẹp vừa đủ để bán. Giá vào có khoảng an toàn. Người bán có lý do cần tiền thật. Gần như mọi thứ đều đang kéo mình về phía mua. Chỉ có vài thứ nhỏ kéo ngược lại."
+          },
+          {
+           "type": "p",
+           "x": "Làm lâu rồi tui thấy mấy lúc như vậy khó nhất không phải tìm thêm lý do để mua, mà là đủ bình tĩnh để nghe cái gì đang làm mình thấy không yên. Rồi quay lại hồ sơ, đo đạc, con người, câu chuyện xung quanh miếng đất, coi cái cảm giác đó có căn cứ hay chỉ là mình nhát. Lần đó, tui bỏ. Sau này biết chuyện xảy ra, tui cũng không dám nói mình giỏi hay nhìn xa hơn ai — tui thấy mình may nhiều hơn. Và có lẽ phải cảm ơn cái trực giác được trả bằng khá nhiều năm đi coi đất, làm deal, có lúc đúng, có lúc sai, có lúc ham, có lúc tiếc."
+          },
+          {
+           "type": "iam",
+           "x": "tiền của mình thì còn có lúc mình liều được. Nhưng đi cùng đồng đội, tui nghĩ khác. Có những khoản lời nhìn rất ngon, bỏ đi sẽ tiếc. Còn một quyết định sai, ngoài tiền của mình, đôi khi mình phải mang theo tiền và niềm tin của những người đi cùng. Nên tới giờ, gặp một deal mà con số nói được, còn trong bụng cứ thấy cấn, tui vẫn chịu khó coi thêm. Coi xong mà cái cấn còn nguyên, tui bỏ. Còn cụ thể miếng đó cấn chỗ nào, ráp làm sao ra cái quyết định đó — cái này ngồi lại nói riêng mới rõ được."
+          }
+         ]
+        },
+        {
+         "t": "700 triệu một sào, bán năm sáu triệu một mét, có thật sự lời dày",
+         "sub": "miếng này tui nhúng tay làm thiệt — mấy cái Excel không nói, phải làm rồi mới thấm",
+         "state": "ready",
+         "nen": true,
+         "body": [
+          {
+           "type": "lead",
+           "x": "Có một miếng khoảng mười hai ngàn mét, giá đất đầu vào đâu đó bảy trăm triệu một sào, miếng này tui không chỉ ngồi tính mà có nhúng tay vô làm thiệt. Nhìn sơ thì quá thơm — một mét đất mua chưa tới một triệu, làm xong sản phẩm khu vực đó có thể bán khoảng năm sáu triệu một mét, ai nhìn hai con số cũng dễ nghĩ khoảng giữa chắc lời dữ lắm. Tui thì không tính vậy, và nhờ có làm qua nên biết vì sao không nên tính vậy."
+          },
+          {
+           "type": "drop",
+           "x": "Mười hai ngàn mét mua về không có nghĩa là có mười hai ngàn mét để bán. Đường, hạ tầng, cây xanh, phần kỹ thuật, mấy phần không tạo doanh thu trực tiếp, lấy đi một cục khá lớn. Nếu sau cùng còn khoảng bốn lăm tới năm chục phần trăm thương phẩm, tức chừng năm ngàn tư tới sáu ngàn mét, thì riêng tiền đất phân bổ lên mỗi mét bán được đã thành khoảng một triệu tư tới một triệu sáu rồi. Chưa làm gì hết."
+          },
+          {
+           "type": "p",
+           "x": "Từ đó mới bắt đầu tính những thứ thật sự tốn tiền: hạ tầng, điện nước, san nền, thoát nước, cảnh quan, đo đạc, hồ sơ, nghĩa vụ đất, pháp lý, thuế phí, bộ máy, bán hàng, chi phí vốn, và một cục dự phòng cho mấy chuyện lúc ngồi tính chưa thấy. Tui thường không thích làm bài toán đẹp quá. Đất làm dự án mà mọi con số đều phải chạy đúng như Excel mới có lời thì tui ngại."
+          },
+          {
+           "type": "p",
+           "x": "Cái làm qua rồi mới thấm là mấy khoản Excel nói một đằng, ngoài công trường một nẻo. Trên bảng tính, hạ tầng là một con số gọn. Ra tới đất, chỗ đào chỗ đắp, mưa xuống một trận là nước cuốn cái mình vừa làm, rồi phát sinh cái lúc ngồi máy lạnh không ai nghĩ tới. Đo đạc tưởng nhanh, ra ranh thực tế lệch với sổ, phải chỉnh, phải chờ. Cái cục dự phòng mà hồi tính tui tưởng dư, làm mới biết nó vừa đủ. Chưa kể tiền — làm dự án là tiền ra trước cả năm, tiền về nhỏ giọt sau, cái khoảng giữa đó nó bào mình. Người chưa làm lần nào dễ tính thiếu đúng mấy khoản này, vì tụi nó không nằm trên tờ giấy chào bán."
+          },
+          {
+           "type": "p",
+           "x": "Nên sau vụ đó tui rút được một câu cho riêng mình: chi phí của mình và giá thị trường là hai chuyện khác nhau. Mình tốn bốn triệu một mét không có nghĩa khách phải mua sáu triệu. Mình mua đất được bảy trăm triệu một sào cũng không có nghĩa mình giỏi — thị trường chỉ trả cái giá nó chịu, vào đúng lúc nó chịu. Năm sáu triệu ngoài kia cũng chỉ là một giả định cho tới khi có người thật rút tiền ra trả. Làm rồi mới hiểu cái khoảng cách từ giá mình mơ tới giá người ta chịu trả, nó xa hơn cái khoảng cách trên Excel nhiều."
+          },
+          {
+           "type": "p",
+           "x": "Thành ra từ bảy trăm triệu một sào lên năm sáu triệu một mét nghe thì khoảng cách rất lớn, nhưng cái khoảng đó không phải phần lời nằm sẵn trên bàn. Ở giữa là diện tích mất đi, tiền thật phải bỏ thêm, thời gian, pháp lý, thị trường, và cả một đống chuyện chỉ lòi ra sau khi mình xuống tiền và xắn tay vô làm. Có miếng tui nhìn Excel thấy lời rất nhiều mà cuối cùng không đụng. Cũng có miếng biên nhìn vừa phải mà tui lại thích. Cái gu phân biệt được hai thứ đó, phần lớn là mấy vụ có nhúng tay làm dạy cho, chớ ngồi không đọc sách không ra."
+          },
+          {
+           "type": "iam",
+           "x": "làm qua vụ này rồi tui càng ít hỏi deal này lời được bao nhiêu trước. Tui hay hỏi một câu khác: nếu mình tính sai vài thứ cùng một lúc, mình còn sống khỏe không. Còn sống khỏe, rồi mới tính tới chuyện kiếm bao nhiêu. Một miếng làm dự án mà chỉ lời khi mọi con số chạy đúng ý, thì với tui đó chưa phải deal ngon, đó là deal đẹp trên giấy — và cái khác nhau giữa hai thứ đó, tui trả bằng mấy vụ có nhúng tay mới học được, chớ không phải đọc mà ra. Còn cụ thể một miếng nên làm hay không, chia sản phẩm sao, cấu trúc vốn sao, cái đó phải trải bản vẽ với dòng tiền ra ngồi tính riêng mới rõ được."
+          }
+         ]
+        },
+        {
+         "t": "Một miếng bốn mươi hai tỷ, tui coi gì trước khi tính lời",
+         "sub": "miếng này tui đang cân — chưa quyết, nên kể luôn cách tui bóc một bài toán còn dở dang",
+         "state": "ready",
+         "nen": true,
+         "body": [
+          {
+           "type": "lead",
+           "x": "Có một miếng tui đang cân, chưa quyết, nên kể luôn cái cách mình bóc một bài toán lúc nó còn dở dang. Miếng khoảng bốn phẩy chín héc-ta, giá bốn mươi hai tỷ. Có suối, địa hình hơi phức tạp, làm được thì phần đất thực sự đưa ra bán đâu đó sáu tới bảy chục phần trăm. Xung quanh, đất chia khoảng một trăm sáu tới ba trăm mét đang bán tầm bốn năm triệu một mét, nhà xây sẵn khoảng ba phẩy chín tới bốn phẩy năm tỷ một căn."
+          },
+          {
+           "type": "drop",
+           "x": "Nghe mấy con số này lần đầu rất dễ thích. Bốn mươi chín ngàn mét mua bốn mươi hai tỷ, tính ra chưa tới tám trăm sáu chục ngàn một mét. Sau này làm ra bán bốn năm triệu, khoảng cách nhìn quá rộng, lấy máy tính bấm sơ sơ là thấy lời lớn. Tui coi mấy miếng kiểu này thường không tính lời trước. Tui tìm coi nó có thể làm mình mất tiền ở đâu trước."
+          },
+          {
+           "type": "p",
+           "x": "Bốn mươi chín ngàn mét mua về không có nghĩa có bốn mươi chín ngàn mét để bán. Đường, cây xanh, hạ tầng, phần địa hình khó, khu có suối, mấy phần phải chừa ra, sau khi đo đạc lên phương án mới biết còn lại bao nhiêu. Nếu thương phẩm bảy chục phần trăm, mình còn khoảng ba mươi bốn ngàn mét. Sáu lăm phần trăm còn ba mươi mốt ngàn tám. Sáu chục phần trăm chỉ còn hai mươi chín ngàn tư. Bốn mươi hai tỷ chia cho toàn khu thì giá mua khoảng tám trăm năm bảy ngàn một mét, nghe rẻ; nhưng nếu thực tế chỉ còn sáu chục phần trăm để bán, riêng tiền đất phân bổ lên một mét thương phẩm đã hơn một triệu tư. Chưa chuyển đất, chưa làm đường, chưa xử cái suối, chưa bán được mét nào. Một con số thương phẩm thôi đã làm cả bài toán đổi hẳn."
+          },
+          {
+           "type": "p",
+           "x": "Có suối thì tui càng không lấy hết phần đất đẹp trên bản đồ bỏ vô Excel. Đo lại, coi ranh, cao độ, thoát nước, phần nào dính suối, phần nào làm được, phần nào chưa chắc thì khoanh ra trước. Sau này làm được thêm coi như phần có thêm, đừng lấy cái chưa chắc để nuôi lợi nhuận trên bảng tính. Tiền chuyển sang đất ở tạm tính khoảng hai tới ba trăm ngàn một mét — mà tui cũng chỉ coi đây là số chạy sơ bộ, làm thật phải tính lại đúng hồ sơ, vị trí, nghĩa vụ tài chính khu đất. Giả sử phải chuyển khoảng ba mươi ngàn mét thì riêng khoản này đã thêm sáu tới chín tỷ. Bốn mươi hai tỷ bắt đầu thành bốn mươi tám tới năm mươi mốt tỷ, trong khi đường sá vẫn chưa làm gì."
+          },
+          {
+           "type": "p",
+           "x": "Đất bằng thì hạ tầng còn tương đối dễ ước. Đất gần năm héc-ta, có suối, địa hình phức tạp, tui không thích lấy một đơn giá hạ tầng đâu đó trên mạng rồi nhân lên. Có chỗ đào xuống, có chỗ đắp lên, taluy, thoát nước, nền đường, điện nước, rồi xử mấy đoạn địa hình khó. Chênh vài tỷ tới cả chục tỷ ở đây không có gì lạ, mà nó ăn thẳng vào tiền của mình. Tới đoạn này tui cần bản đo hiện trạng, địa hình, phương án chia sơ bộ, rồi mới bóc được một bài toán gần với thực tế."
+          },
+          {
+           "type": "p",
+           "x": "Giả sử mấy thứ đó đều làm được, tui vẫn chưa lấy giá bán năm triệu để tính. Tui lấy phương án giữa trước: sáu lăm phần trăm thương phẩm, khoảng ba mươi mốt ngàn tám. Giá quanh đó bốn năm triệu thì tui không lấy năm triệu, cứ ép xuống khoảng bốn triệu hai để coi. Doanh thu lý thuyết khoảng một trăm ba mươi bốn tỷ, nghe vẫn rất đẹp. Rồi mới bắt đầu trừ: bốn mươi hai tỷ tiền đất, sáu tới chín tỷ tiền chuyển đất, hạ tầng bao nhiêu phải bóc lại, pháp lý, đo đạc, thiết kế, thuế phí, vận hành, bán hàng, chi phí vốn, rồi một khoản dự phòng cho mấy thứ mình chưa biết hôm nay. Tới đây mới ra giá vốn thật."
+          },
+          {
+           "type": "p",
+           "x": "Và tui còn phá tiếp cái bảng của mình. Nếu thương phẩm không được sáu lăm mà chỉ còn sáu chục phần trăm thì sao — hai mươi chín ngàn tư, bán bốn triệu, doanh thu còn khoảng một trăm mười bảy tỷ. Nếu hạ tầng đội thêm hai chục phần trăm? Nếu pháp lý chậm sáu tháng? Nếu mười hai tháng đầu bán không được như dự kiến? Nếu phải hạ giá một phần hàng để thu tiền về? Nếu lãi vay tăng, hoặc mình phải chồng thêm vốn đúng lúc mấy khoản đầu tư khác cũng đang cần tiền? Tui muốn coi hết mấy chuyện đó trước. Vì một dự án lời ba chục tỷ chưa chắc là một dự án mình làm nổi — có khi trên Excel cuối cùng lời ba chục tỷ, nhưng giữa đường nó bắt mình chồng thêm ba bốn chục tỷ đúng lúc mình không còn tiền. Lợi nhuận nằm ở cuối bảng đâu có chạy ngược về cứu mình ở tháng thứ mười tám."
+          },
+          {
+           "type": "p",
+           "x": "Đó là chỗ tui coi dòng tiền kỹ hơn con số lợi nhuận. Có ba mươi mốt ngàn tám thương phẩm, chia bình quân khoảng hai trăm mét thì đã gần một trăm sáu chục sản phẩm. Lúc này câu hỏi không còn là đất ở đây bán được bốn năm triệu không — tui tin bán một lô được. Cái phải hỏi là gần một trăm sáu chục lô này bán trong bao lâu. Lô đầu bán năm triệu không có nghĩa lô thứ một trăm cũng bán năm triệu. Bán mười lô khác hoàn toàn bán một trăm lô. Một khu có vài giao dịch ở mức năm triệu cũng khác hoàn toàn chuyện thị trường hấp thụ hàng chục ngàn mét của mình ở mức giá đó. Nếu dự kiến mười tám tháng bán xong mà thực tế thành ba mươi sáu tháng, cả bài toán đổi theo: tiền nằm lâu hơn, bộ máy chạy lâu hơn, lãi vốn tăng, thị trường có thể qua một nhịp khác."
+          },
+          {
+           "type": "p",
+           "x": "Nhà xây sẵn ba phẩy chín tới bốn phẩy năm tỷ một căn cũng là dữ liệu đáng coi, mà chưa đủ để tui quyết định xây nhà. Phải bóc ngược một căn cần bao nhiêu đất, xây bao nhiêu mét, tổng chi phí hoàn thiện, sân vườn, pháp lý, bán hàng, vốn nằm thêm bao lâu, rồi quan trọng nhất là khách quanh đó có thật sự mua loại nhà mình định làm không. Có khi bài toán đẹp nhất lại là bán một phần đất thu vốn về trước, giữ vài vị trí đẹp làm nhà sau. Có khi làm nhà lời nhiều hơn trên từng sản phẩm mà vốn quay quá chậm, cuối cùng hiệu quả lại thua bán đất. Chạy FS là để thử mấy chuyện đó bằng con số trước, đỡ lấy tiền thật ra thử."
+          },
+          {
+           "type": "p",
+           "x": "Có người mới coi FS hay hỏi IRR bao nhiêu, lợi nhuận mấy phần trăm. Mấy con số đó cần, mà tui không nhìn nó đầu tiên. Tui nhìn đỉnh vốn. Từ ngày mua đất tới lúc tiền bán hàng bắt đầu quay về, thời điểm nào mình phải bỏ ra nhiều tiền nhất, tổng cộng bao nhiêu, tiền đó nằm bao lâu. Có dự án lời bốn chục phần trăm mà bắt mình chồng vốn quá lớn, nằm ba bốn năm, tui không thích. Có dự án biên lời thấp hơn chút mà vốn quay nhanh, bán từng phần được, downside rõ, tui lại thấy dễ ngủ hơn. Làm đất nhiều rồi mới thấy, lợi nhuận trên Excel làm mình vui được vài phút, dòng tiền mới quyết định mình ngủ ngon được mấy năm."
+          },
+          {
+           "type": "iam",
+           "x": "với miếng bốn phẩy chín héc-ta này, tui chưa quan tâm nó lời được bao nhiêu. Tui muốn khóa ba chuyện trước: thực tế còn bao nhiêu mét bán được, tổng cộng phải chồng bao nhiêu tiền, và mất bao lâu lấy tiền về. Ba cái đó đẹp thì bốn mươi hai tỷ mới đáng nói tiếp. Còn phải lấy bảy chục phần trăm thương phẩm, bán đủ năm triệu và mọi thứ chạy đúng như mình muốn mới thấy lời ngon, thì tui coi như chưa có deal. Excel cộng trừ rất giỏi, mình nhập sai nó vẫn cộng cực kỳ chính xác. Miếng này giờ tui vẫn đang cân, chưa chốt — mà nhiều khi coi FS xong lại hết thích, tui thấy vậy cũng tốt: tiền còn trong túi thì mình còn quyền coi miếng khác. Còn cụ thể có xuống hay không, cân thế nào, cái đó ngồi lại trải số ra nói riêng mới rõ được."
           }
          ]
         }
@@ -3642,12 +3985,33 @@ function openO(mi,ti,oi){
 
 /* ---------- READER ---------- */
 let curRef=null;
+function segLines(txt,firstOpen){
+  const lines=String(txt).split('\n').map(function(l){return l.trim();}).filter(Boolean);
+  let out='',first=true;
+  lines.forEach(function(l){
+    if(l.indexOf('- ')===0){ out+='<p class="r-step">'+l.slice(2)+'</p>'; }
+    else if(l.indexOf('>> ')===0){ out+='<p class="r-chot">'+l.slice(3)+'</p>'; }
+    else { out+='<p>'+(first&&firstOpen?firstOpen:'')+l+'</p>'; }
+    if(first)first=false;
+  });
+  return out;
+}
 function openBai(mi,ti,oi,bi){
   const m=DATA.mucs[mi], t=m.tangs[ti], o=t.os[oi], b=o.bais[bi];
   curRef=[mi,ti,oi,bi];
+  // ---- thanh vị trí (sticky) ----
+  document.getElementById('posbarCrumb').innerHTML=`<button class="pb-face" onclick="openFace(${mi})">${m.title}</button><span class="pb-sep">›</span><span class="pb-here">${b.t}</span>`;
+  document.getElementById('posbarBack').onclick=function(){openO(mi,ti,oi);};
+  const readyList=o.bais.filter(function(x){return x.state==='ready';});
+  const cnt=document.getElementById('posbarCount');
+  if(m.num==='05' && readyList.length>1){
+    const pos=readyList.indexOf(b)+1;
+    cnt.textContent=pos+' / '+readyList.length;
+  } else { cnt.textContent=''; }
+  const pb=document.getElementById('posbar'); pb.classList.remove('pb-hide','pb-dim');
   document.getElementById('readKicker').textContent=`${m.title} · ${t.name} · ${o.name}`;
   document.getElementById('readTitle').textContent=b.t;
-  document.getElementById('readCrumb').innerHTML=`<button onclick="go('home')">Trang đầu</button> <span class="sep">/</span> <button onclick="openFace(${mi})">${m.title}</button> <span class="sep">/</span> <button onclick="openO(${mi},${ti},${oi})">${o.name}</button> <span class="sep">/</span> <span class="here">đọc</span>`;
+
   const bd=document.getElementById('readBody');
   if(b.state==='ready' && b.body){
     bd.innerHTML=b.body.map(seg=>{
@@ -3664,9 +4028,9 @@ function openBai(mi,ti,oi,bi){
         const paras=(fl.body||'').split('\n').filter(s=>s.trim()).map(s=>`<p>${s.trim()}</p>`).join('');
         return `<div class="flog">${metaHtml}<div class="fl-body">${paras}</div></div>`;
       }
-      if(seg.type==='iam')return `<div class="iam"><p><span class="iam-open">Nếu là tui — </span>${seg.x}</p></div>`;
+      if(seg.type==='iam')return `<div class="iam">${segLines(seg.x,'<span class="iam-open">Nếu là tui — </span>')}</div>`;
       if(seg.type==='rule')return `<div class="rrule"></div>`;
-      return `<p>${seg.x}</p>`;
+      return segLines(seg.x,'');
     }).join('');
   }else{
     bd.innerHTML=`<p class="pending-note">Bài này đang viết, sẽ lên trong thời gian tới.</p>`;
@@ -3713,6 +4077,19 @@ function renderFlog(){
     FLOG.slice(0,4).map(f=>`<button class="flog-item" onclick="go('notes')"><div class="flog-meta">${f.noi} · ${f.ngay}</div><div class="flog-x">${f.x}</div></button>`).join('')+'</div>';
 }
 renderHome();renderNotes();renderThink();renderFlog();
+/* ---- thanh vị trí: mờ khi cuộn xuống, hiện khi cuộn lên ---- */
+(function(){
+  let last=0;
+  window.addEventListener('scroll',function(){
+    const pb=document.getElementById('posbar'); if(!pb)return;
+    if(!document.getElementById('reader').classList.contains('active'))return;
+    const y=window.scrollY;
+    if(y<60){ pb.classList.remove('pb-hide','pb-dim'); }
+    else if(y>last){ pb.classList.add('pb-hide'); pb.classList.remove('pb-dim'); }
+    else { pb.classList.remove('pb-hide'); pb.classList.add('pb-dim'); }
+    last=y;
+  },{passive:true});
+})();
 </script>
 </body>
 </html>
