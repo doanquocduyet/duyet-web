@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:News;src:url('news-300.ttf');font-weight:300}
+@font-face{font-family:News;src:url('news-400.ttf');font-weight:400}
+@font-face{font-family:BVP;src:url('bvp.ttf');font-weight:400}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1200px;height:630px;overflow:hidden}
+body{background:#16140F;position:relative;font-family:BVP}
+body::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(105% 72% at 50% 0%,rgba(201,169,110,.11),transparent 60%);
+}
+.in{
+  position:absolute;left:0;right:0;top:0;bottom:118px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+}
+.star{font-size:19px;color:#C9A96E;letter-spacing:.5em;text-indent:.5em;margin-bottom:30px}
+.title{font-family:News;font-weight:300;font-size:112px;line-height:1.04;color:#EDE7D6;letter-spacing:-.02em}
+.dot{width:10px;height:10px;border-radius:50%;background:#C9A96E;margin:36px 0 30px}
+.sub{font-family:News;font-weight:300;font-style:italic;font-size:28px;line-height:1.45;color:#B5AD9C;max-width:500px}
+.foot{position:absolute;left:0;right:0;bottom:0;height:118px;display:flex;flex-direction:column;
+      align-items:center;justify-content:center;gap:20px}
+.rule{width:46px;height:1px;background:rgba(201,169,110,.34)}
+.name{font-size:18px;letter-spacing:.36em;text-transform:uppercase;color:#A79E8E;text-indent:.36em}
+</style></head>
+<body>
+  <div class="in">
+    <div class="star">✦</div>
+    <div class="title">Đọc đất<br>bằng chân</div>
+    <div class="dot"></div>
+    <div class="sub">Mỗi tuần một góc nhìn về đất, dòng tiền và con người.</div>
+  </div>
+  <div class="foot">
+    <div class="rule"></div>
+    <div class="name">Đoàn Quốc Duyệt</div>
+  </div>
+</body></html>
