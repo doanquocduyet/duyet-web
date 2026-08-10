@@ -17,8 +17,9 @@
 (function(){
   'use strict';
 
-  var RATES = [1, 1.15, 1.3, 0.85];
+  var RATES = [1, 1.25, 1.5, 2];
   var MAX   = 180;              /* đoạn dài hơn thì trình duyệt hay đứt giữa chừng */
+  var NHO   = 'duyet-toc-do';   /* nhớ tốc độ người nghe đã chọn */
 
   var speech = typeof speechSynthesis !== 'undefined'
             && typeof SpeechSynthesisUtterance !== 'undefined';
@@ -101,7 +102,7 @@
     var started = playing || at > 0 || (audio && audio.currentTime > 0);
     lblPlay.textContent = playing ? 'Tạm dừng' : (started ? 'Nghe tiếp' : 'Nghe bài này');
     btnStop.hidden = !started;
-    btnRate.hidden = !started;
+    btnRate.hidden = false;                 /* chọn tốc độ được ngay từ đầu */
     btnRate.textContent = RATES[rateIx] + '×';
     if(mode === 'mp3' && audio && isFinite(audio.duration)){
       elTime.hidden = false;
@@ -179,11 +180,20 @@
   }
 
   /* ---------- điều khiển ---------- */
+  /* giữ nguyên cao độ giọng khi nghe nhanh, để 1.5x hay 2x không bị the thé */
+  function setRate(){
+    if(!audio) return;
+    audio.preservesPitch = true;
+    audio.mozPreservesPitch = true;
+    audio.webkitPreservesPitch = true;
+    audio.playbackRate = RATES[rateIx];
+  }
+
   function toggle(){
     if(mode === 'mp3'){
       if(!audio) return;
       if(playing){ audio.pause(); playing = false; }
-      else { audio.playbackRate = RATES[rateIx]; audio.play(); playing = true; }
+      else { setRate(); audio.play(); playing = true; }
       paint();
       return;
     }
@@ -204,8 +214,9 @@
 
   function cycleRate(){
     rateIx = (rateIx + 1) % RATES.length;
+    try{ localStorage.setItem(NHO, String(rateIx)); }catch(e){}
     if(mode === 'mp3'){
-      if(audio) audio.playbackRate = RATES[rateIx];
+      setRate();
     } else if(playing){
       var back = at;
       speechSynthesis.cancel();
@@ -234,7 +245,7 @@
       mode = 'mp3';
       audio = new Audio('audio/' + manifest.bai[id].f);
       audio.preload = 'metadata';
-      audio.playbackRate = RATES[rateIx];
+      setRate();
       audio.addEventListener('timeupdate', paint);
       audio.addEventListener('loadedmetadata', paint);
       audio.addEventListener('ended', function(){ playing = false; audio.currentTime = 0; paint(); });
@@ -270,6 +281,11 @@
   function hook(){
     if(!ui()) return;
     css();
+
+    try{                                      /* lấy lại tốc độ lần trước đã chọn */
+      var nho = parseInt(localStorage.getItem(NHO), 10);
+      if(nho >= 0 && nho < RATES.length) rateIx = nho;
+    }catch(e){}
 
     if(typeof window.openBai === 'function'){
       var origOpen = window.openBai;
