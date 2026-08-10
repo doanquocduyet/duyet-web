@@ -1,0 +1,93 @@
+name: generate-audio-free
+
+# Thu tiếng cho các bài viết bằng edge-tts (giọng Microsoft Neural, miễn phí,
+# không cần khoá API). Chạy tự động khi index.html đổi, hoặc bấm chạy tay.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - index.html
+      - tools/extract.js
+      - tools/tts.py
+      - .github/workflows/generate-audio-free.yml
+  workflow_dispatch:
+    inputs:
+      giong:
+        description: Giọng đọc
+        required: false
+        default: vi-VN-NamMinhNeural
+        type: choice
+        options:
+          - vi-VN-NamMinhNeural
+          - vi-VN-HoaiMyNeural
+      thu_lai_tat_ca:
+        description: Thu lại tất cả (bỏ qua bản đã có)
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: audio
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  thu-tieng:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Rút chữ từ index.html
+        run: node tools/extract.js
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cài edge-tts
+        run: pip install --quiet edge-tts
+
+      - name: Xoá bản thu cũ (khi chọn thu lại tất cả)
+        if: inputs.thu_lai_tat_ca
+        run: rm -f audio/*.mp3 audio/manifest.json
+
+      - name: Thu tiếng
+        env:
+          TTS_VOICE: ${{ inputs.giong || 'vi-VN-NamMinhNeural' }}
+        run: python3 tools/tts.py
+
+      - name: Đẩy bản thu lên
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audio
+          if git diff --cached --quiet; then
+            echo "Không có gì đổi."
+            exit 0
+          fi
+          n=$(ls -1 audio/*.mp3 2>/dev/null | wc -l)
+          git commit -m "Thu tiếng: ${n} bài (giọng ${TTS_VOICE:-vi-VN-NamMinhNeural})"
+          git pull --rebase --autostash origin main
+          git push origin HEAD:main
+        env:
+          TTS_VOICE: ${{ inputs.giong || 'vi-VN-NamMinhNeural' }}
+
+      - name: Tóm tắt
+        if: always()
+        run: |
+          {
+            echo "### Thu tiếng xong"
+            echo ""
+            echo "- Giọng: \`${{ inputs.giong || 'vi-VN-NamMinhNeural' }}\`"
+            echo "- Số file: $(ls -1 audio/*.mp3 2>/dev/null | wc -l)"
+            echo "- Dung lượng: $(du -sh audio 2>/dev/null | cut -f1)"
+          } >> "$GITHUB_STEP_SUMMARY"

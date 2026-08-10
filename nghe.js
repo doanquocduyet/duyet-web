@@ -1,30 +1,44 @@
 /* ============================================================
    NGHE BÀI — đọc bài viết bằng giọng nói.
 
-   Miễn phí, chạy thẳng trên máy người đọc (Web Speech API),
-   không cần máy chủ, không tốn tiền, không giới hạn lượt nghe.
-   Ưu tiên giọng nam tiếng Việt, ưu tiên tiếp giọng miền Nam.
+   Thứ tự ưu tiên:
+     1. File thu sẵn ở audio/<mã bài>.mp3 — giọng nam tiếng Việt
+        vi-VN-NamMinhNeural (Microsoft Neural), thu bằng edge-tts
+        qua workflow generate-audio-free.yml. Nghe hay nhất, giống
+        nhau trên mọi máy.
+     2. Máy chưa có file thu thì dùng giọng tiếng Việt cài sẵn
+        trong máy người đọc (Web Speech API).
+     3. Máy không có giọng tiếng Việt thì ẩn nút luôn — thà không
+        có còn hơn đọc bằng giọng ngoại quốc.
 
-   File này tự chứa mọi thứ: giao diện, kiểu dáng, cách chạy.
    Trong index.html chỉ cần đúng một dòng trước thẻ </body>:
-
        <script src="nghe.js"></script>
-
-   Bản index mới thay chữ nghĩa thế nào cũng không phải sửa gì ở
-   đây — trình nghe đọc thẳng chữ đang hiện trên màn hình.
    ============================================================ */
 (function(){
   'use strict';
 
-  var has = typeof speechSynthesis !== 'undefined'
-         && typeof SpeechSynthesisUtterance !== 'undefined';
-  if(!has) return;                    /* máy không đọc được thì thôi, không hiện nút hỏng */
-
   var RATES = [1, 1.15, 1.3, 0.85];
-  var MAX   = 180;                    /* đoạn dài hơn thì trình duyệt hay đứt giữa chừng */
+  var MAX   = 180;              /* đoạn dài hơn thì trình duyệt hay đứt giữa chừng */
 
+  var speech = typeof speechSynthesis !== 'undefined'
+            && typeof SpeechSynthesisUtterance !== 'undefined';
+
+  var manifest = null;          /* danh mục file thu sẵn */
+  var audio = null;             /* thẻ audio khi có file thu */
+  var mode = '';                /* 'mp3' | 'may' | '' */
   var voice = null, chunks = [], at = 0, playing = false, rateIx = 0, guardTimer = null;
-  var box, btnPlay, lblPlay, btnStop, btnRate;
+  var box, btnPlay, lblPlay, btnStop, btnRate, elTime;
+
+  /* ---------- mã bài: phải giống hệt slug() trong tools/extract.js ---------- */
+  function slug(s){
+    return (s || '')
+      .normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .replace(/đ/g, 'd').replace(/Đ/g, 'D')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 60);
+  }
 
   /* ---------- kiểu dáng ---------- */
   function css(){
@@ -41,7 +55,8 @@
       '.ls-rate{min-height:40px;padding:.35rem .7rem;border:1px solid var(--gold-line);border-radius:999px;min-width:44px;font-size:.74rem;letter-spacing:.06em}',
       '.ls-stop:hover{color:var(--gold)}',
       '.ls-rate:hover{color:var(--gold);border-color:var(--gold)}',
-      '.ls-stop[hidden],.ls-rate[hidden]{display:none}'
+      '.ls-time{font-family:var(--sans);font-size:.72rem;letter-spacing:.06em;color:var(--text-2);font-variant-numeric:tabular-nums}',
+      '.ls-stop[hidden],.ls-rate[hidden],.ls-time[hidden]{display:none}'
     ].join('');
     document.head.appendChild(s);
   }
@@ -60,38 +75,51 @@
         '<span id="lsLabel">Nghe bài này</span>' +
       '</button>' +
       '<button class="ls-stop" id="lsStop" hidden aria-label="Dừng đọc">Dừng</button>' +
-      '<button class="ls-rate" id="lsRate" hidden aria-label="Đổi tốc độ đọc">1×</button>';
+      '<button class="ls-rate" id="lsRate" hidden aria-label="Đổi tốc độ đọc">1×</button>' +
+      '<span class="ls-time" id="lsTime" hidden></span>';
     title.parentNode.insertBefore(box, title.nextSibling);
     btnPlay = box.querySelector('#lsPlay');
     lblPlay = box.querySelector('#lsLabel');
     btnStop = box.querySelector('#lsStop');
     btnRate = box.querySelector('#lsRate');
+    elTime  = box.querySelector('#lsTime');
     btnPlay.addEventListener('click', toggle);
     btnStop.addEventListener('click', stop);
     btnRate.addEventListener('click', cycleRate);
     return true;
   }
 
+  function mmss(s){
+    if(!isFinite(s) || s < 0) return '';
+    var m = Math.floor(s / 60), x = Math.floor(s % 60);
+    return m + ':' + (x < 10 ? '0' : '') + x;
+  }
+
   function paint(){
     if(!box) return;
     box.classList.toggle('playing', playing);
-    lblPlay.textContent = playing ? 'Tạm dừng' : (at > 0 ? 'Nghe tiếp' : 'Nghe bài này');
-    var on = playing || at > 0;
-    btnStop.hidden = !on;
-    btnRate.hidden = !on;
+    var started = playing || at > 0 || (audio && audio.currentTime > 0);
+    lblPlay.textContent = playing ? 'Tạm dừng' : (started ? 'Nghe tiếp' : 'Nghe bài này');
+    btnStop.hidden = !started;
+    btnRate.hidden = !started;
     btnRate.textContent = RATES[rateIx] + '×';
+    if(mode === 'mp3' && audio && isFinite(audio.duration)){
+      elTime.hidden = false;
+      elTime.textContent = mmss(audio.currentTime) + ' / ' + mmss(audio.duration);
+    } else elTime.hidden = true;
   }
 
-  /* ---------- chọn giọng ---------- */
+  /* ---------- giọng cài sẵn trong máy ---------- */
   function pickVoice(){
+    if(!speech) return null;
     var vs = speechSynthesis.getVoices().filter(function(v){
       return /^vi/i.test(v.lang || '');
     });
-    if(!vs.length) return null;
+    if(!vs.length) return null;                 /* không có giọng Việt thì thôi */
     function score(v){
       var n = (v.name || '').toLowerCase(), s = 0;
-      if(/south|mien nam|miền nam|sai gon|sài gòn|hcm/.test(n)) s += 4;   /* giọng miền Nam */
-      if(/\bnam\b|male|minh|quang|huy|hoai|standard-b|wavenet-b|neural2-b/.test(n)) s += 3;  /* giọng nam */
+      if(/south|mien nam|miền nam|sai gon|sài gòn|hcm/.test(n)) s += 4;
+      if(/\bnam\b|male|minh|quang|huy|hoai|standard-b|wavenet-b|neural2-b/.test(n)) s += 3;
       if(/female|nữ|\bnu\b|linh|lan|mai|ngoc|ngọc|standard-a|wavenet-a/.test(n)) s -= 2;
       if(v.localService) s += 1;
       return s;
@@ -99,44 +127,38 @@
     return vs.slice().sort(function(a,b){ return score(b) - score(a); })[0];
   }
 
-  /* ---------- cắt câu ---------- */
+  /* ---------- cắt câu cho giọng máy ---------- */
   function cut(text){
     var out = [];
     text.split(/\n+/).forEach(function(para){
       var t = para.trim();
       if(!t) return;
-      var buf = '';
-      t.split(/([.!?…:;])\s+/).reduce(function(acc, part, i, arr){
-        /* ghép lại dấu câu vào cuối vế trước */
-        if(i % 2 === 1) return acc;
+      var buf = '', sens = [];
+      t.split(/([.!?…:;])\s+/).forEach(function(part, i, arr){
+        if(i % 2 === 1) return;
         var sen = (part + (arr[i+1] || '')).trim();
-        if(sen) acc.push(sen);
-        return acc;
-      }, []).forEach(function(sen){
+        if(sen) sens.push(sen);
+      });
+      sens.forEach(function(sen){
         if(sen.length > MAX){
           if(buf){ out.push(buf); buf = ''; }
-          sen.split(/(?:,)\s+/).forEach(function(part){
-            if((buf + ' ' + part).trim().length > MAX){
-              if(buf) out.push(buf.trim());
-              buf = part;
-            } else buf = (buf + ' ' + part).trim();
+          sen.split(/(?:,)\s+/).forEach(function(p){
+            if((buf + ' ' + p).trim().length > MAX){ if(buf) out.push(buf.trim()); buf = p; }
+            else buf = (buf + ' ' + p).trim();
           });
           if(buf){ out.push(buf.trim()); buf = ''; }
-        } else if((buf + ' ' + sen).trim().length > MAX){
-          out.push(buf.trim());
-          buf = sen;
-        } else buf = (buf + ' ' + sen).trim();
+        } else if((buf + ' ' + sen).trim().length > MAX){ out.push(buf.trim()); buf = sen; }
+        else buf = (buf + ' ' + sen).trim();
       });
       if(buf) out.push(buf.trim());
     });
     return out.filter(Boolean);
   }
 
-  /* ---------- đọc ---------- */
   function speakNext(){
     if(at >= chunks.length){ playing = false; at = 0; guard(false); paint(); return; }
     var u = new SpeechSynthesisUtterance(chunks[at]);
-    if(voice){ u.voice = voice; u.lang = voice.lang; } else u.lang = 'vi-VN';
+    u.voice = voice; u.lang = voice.lang;       /* chỉ chạy khi đã chắc có giọng Việt */
     u.rate = RATES[rateIx];
     u.pitch = 1;
     u.onend = function(){ if(playing){ at++; speakNext(); } };
@@ -151,36 +173,40 @@
     guardTimer = setInterval(function(){
       if(!playing){ clearInterval(guardTimer); return; }
       if(speechSynthesis.speaking && !speechSynthesis.paused){
-        speechSynthesis.pause();
-        speechSynthesis.resume();
+        speechSynthesis.pause(); speechSynthesis.resume();
       }
     }, 9000);
   }
 
+  /* ---------- điều khiển ---------- */
   function toggle(){
-    if(playing){
-      speechSynthesis.pause();
-      playing = false; guard(false); paint();
+    if(mode === 'mp3'){
+      if(!audio) return;
+      if(playing){ audio.pause(); playing = false; }
+      else { audio.playbackRate = RATES[rateIx]; audio.play(); playing = true; }
+      paint();
       return;
     }
+    if(mode !== 'may') return;
+    if(playing){ speechSynthesis.pause(); playing = false; guard(false); paint(); return; }
     if(speechSynthesis.paused && speechSynthesis.speaking){
-      speechSynthesis.resume();
-      playing = true; guard(true); paint();
-      return;
+      speechSynthesis.resume(); playing = true; guard(true); paint(); return;
     }
-    if(!voice) voice = pickVoice();
     playing = true; guard(true); paint(); speakNext();
   }
 
   function stop(){
     playing = false; at = 0; guard(false);
-    try{ speechSynthesis.cancel(); }catch(e){}
+    if(audio){ try{ audio.pause(); audio.currentTime = 0; }catch(e){} }
+    if(speech){ try{ speechSynthesis.cancel(); }catch(e){} }
     paint();
   }
 
   function cycleRate(){
     rateIx = (rateIx + 1) % RATES.length;
-    if(playing){
+    if(mode === 'mp3'){
+      if(audio) audio.playbackRate = RATES[rateIx];
+    } else if(playing){
       var back = at;
       speechSynthesis.cancel();
       at = back;
@@ -192,17 +218,52 @@
   /* ---------- nạp bài đang mở ---------- */
   function load(){
     stop();
-    chunks = [];
+    chunks = []; mode = ''; at = 0;
+    if(audio){ audio.src = ''; audio = null; }
     if(!box) return;
+
     var bd = document.getElementById('readBody');
     var tt = document.getElementById('readTitle');
     if(!bd || bd.querySelector('.pending-note')){ box.hidden = true; return; }
+
+    var title = (tt && tt.textContent) ? tt.textContent.trim() : '';
+    var id = slug(title);
+
+    /* 1. có file thu sẵn thì dùng */
+    if(manifest && manifest.bai && manifest.bai[id]){
+      mode = 'mp3';
+      audio = new Audio('audio/' + manifest.bai[id].f);
+      audio.preload = 'metadata';
+      audio.playbackRate = RATES[rateIx];
+      audio.addEventListener('timeupdate', paint);
+      audio.addEventListener('loadedmetadata', paint);
+      audio.addEventListener('ended', function(){ playing = false; audio.currentTime = 0; paint(); });
+      audio.addEventListener('error', function(){        /* file hỏng thì quay về giọng máy */
+        audio = null;
+        if(useMachineVoice(title, bd)) paint(); else box.hidden = true;
+      });
+      box.hidden = false;
+      paint();
+      return;
+    }
+
+    /* 2. chưa có file thu — dùng giọng tiếng Việt cài sẵn, nếu có */
+    if(useMachineVoice(title, bd)){ box.hidden = false; paint(); return; }
+
+    /* 3. không có gì đọc được thì ẩn nút */
+    box.hidden = true;
+  }
+
+  function useMachineVoice(title, bd){
+    if(!speech) return false;
+    voice = pickVoice();
+    if(!voice) return false;                 /* không đọc bằng giọng ngoại quốc */
     var text = (bd.innerText || bd.textContent || '').trim();
-    if(!text){ box.hidden = true; return; }
-    chunks = cut(((tt && tt.textContent) ? tt.textContent + '. ' : '') + text);
-    if(!chunks.length){ box.hidden = true; return; }
-    box.hidden = false;
-    paint();
+    if(!text) return false;
+    chunks = cut((title ? title + '. ' : '') + text);
+    if(!chunks.length) return false;
+    mode = 'may';
+    return true;
   }
 
   /* ---------- nối vào trang, không cần sửa index.html ---------- */
@@ -226,14 +287,28 @@
       };
     }
 
-    speechSynthesis.getVoices();
-    speechSynthesis.addEventListener('voiceschanged', function(){
-      voice = pickVoice();
-    });
+    if(speech){
+      speechSynthesis.getVoices();
+      speechSynthesis.addEventListener('voiceschanged', function(){
+        if(mode !== 'mp3') load();
+      });
+    }
     window.addEventListener('pagehide', stop);
     document.addEventListener('visibilitychange', function(){
       if(document.hidden && playing) toggle();
     });
+
+    /* lấy danh mục file thu sẵn; không có cũng không sao */
+    if(typeof fetch === 'function'){
+      fetch('audio/manifest.json', { cache: 'no-cache' })
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(j){
+          if(!j || !j.bai) return;
+          manifest = j;
+          if(document.getElementById('reader').classList.contains('active')) load();
+        })
+        .catch(function(){});
+    }
   }
 
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', hook);
