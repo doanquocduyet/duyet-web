@@ -17,7 +17,7 @@
 (function(){
   'use strict';
 
-  var RATES = [1, 1.25, 1.5, 2];
+  var RATES = [1, 1.25, 1.5];
   var MAX   = 180;              /* đoạn dài hơn thì trình duyệt hay đứt giữa chừng */
   var NHO   = 'duyet-toc-do';   /* nhớ tốc độ người nghe đã chọn */
 
