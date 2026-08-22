@@ -27,9 +27,14 @@
    "b": 1421280
   },
   "cai-gia-can-ho-no-cao-cao-tu-dau-ra": {
-   "h": "184d95a0fb16",
+   "h": "2863d7b22bbb",
    "f": "cai-gia-can-ho-no-cao-cao-tu-dau-ra.mp3",
-   "b": 1002528
+   "b": 1006272
+  },
+  "doc-hop-dong-nha-dat-dung-chi-doc-xem-minh-duoc-gi": {
+   "h": "b168cfdc0eb0",
+   "f": "doc-hop-dong-nha-dat-dung-chi-doc-xem-minh-duoc-gi.mp3",
+   "b": 2282112
   },
   "ranh-ngon-ngu-giay-to-truoc-khi-khuyen-ai-xuong-tien": {
    "h": "9d0cca6dad76",
@@ -61,6 +66,16 @@
    "f": "tra-gia-khong-phai-mac-ca-tra-gia-la-doc-nguoi.mp3",
    "b": 978192
   },
+  "deal-kho-khong-phai-vi-nhieu-tien-ma-vi-tien-cua-ai-dang-nam": {
+   "h": "26ecd140f1fe",
+   "f": "deal-kho-khong-phai-vi-nhieu-tien-ma-vi-tien-cua-ai-dang-nam.mp3",
+   "b": 2228112
+  },
+  "gop-von-mua-chung-tien-khong-kho-kho-la-chon-dung-nguoi": {
+   "h": "285e54fb357e",
+   "f": "gop-von-mua-chung-tien-khong-kho-kho-la-chon-dung-nguoi.mp3",
+   "b": 2330496
+  },
   "cam-tien-luc-kho-dung-tuong-minh-co-quyen-mua-re": {
    "h": "ce4d4b079607",
    "f": "cam-tien-luc-kho-dung-tuong-minh-co-quyen-mua-re.mp3",
@@ -75,6 +90,11 @@
    "h": "1405626f903e",
    "f": "dung-dau-trong-dong-chay.mp3",
    "b": 1619568
+  },
+  "kiem-tien-voi-lam-giau-la-hai-viec-khac-nhau": {
+   "h": "66077f42e7f3",
+   "f": "kiem-tien-voi-lam-giau-la-hai-viec-khac-nhau.mp3",
+   "b": 2901888
   },
   "sau-lop-tai-san-va-cai-lop-nam-duoi-cung-khong-ai-thay": {
    "h": "4c18ecd91321",
@@ -137,9 +157,9 @@
    "b": 1254528
   },
   "mot-can-giao-dich-ca-toa-chung-cu-tu-thay-minh-dat-hon": {
-   "h": "4c735327caae",
+   "h": "273aebd49ec1",
    "f": "mot-can-giao-dich-ca-toa-chung-cu-tu-thay-minh-dat-hon.mp3",
-   "b": 1070496
+   "b": 1074528
   },
   "mua-cai-ten-hay-mua-tai-san": {
    "h": "d5601ea5d4fc",
@@ -182,7 +202,7 @@
    "b": 1225728
   },
   "ngay-mai-can-tien-gap-ban-duoc-khong-do-moi-la-cau-hoi-thiet": {
-   "h": "a58144253b13",
+   "h": "30477fd18e7a",
    "f": "ngay-mai-can-tien-gap-ban-duoc-khong-do-moi-la-cau-hoi-thiet.mp3",
    "b": 1677168
   },
@@ -197,9 +217,9 @@
    "b": 718128
   },
   "luat-choi-dang-doi": {
-   "h": "3c4b82fcce03",
+   "h": "4b7129205547",
    "f": "luat-choi-dang-doi.mp3",
-   "b": 1702656
+   "b": 1705536
   },
   "danh-dau-thang-do-nho-minh-gioi-hay-nho-con-song": {
    "h": "93c060f2faed",
@@ -227,9 +247,9 @@
    "b": 565776
   },
   "co-tai-san-ma-van-ket": {
-   "h": "ed87a7767a84",
+   "h": "120c6b5e2ad1",
    "f": "co-tai-san-ma-van-ket.mp3",
-   "b": 2851776
+   "b": 2851344
   },
   "thu-tung-lam-mieng-dat-tang-gia-co-khi-lai-la-thu-lam-no-kho": {
    "h": "061cabcc39e1",
@@ -237,9 +257,9 @@
    "b": 2110176
   },
   "mat-150-trieu-co-khi-lai-la-mot-quyet-dinh-loi": {
-   "h": "e4af52e1594f",
+   "h": "5f4f1a63754a",
    "f": "mat-150-trieu-co-khi-lai-la-mot-quyet-dinh-loi.mp3",
-   "b": 1927296
+   "b": 1925856
   },
   "hoc-cach-mua-mot-manh-dat-thi-de-hoc-cach-song-cung-no-moi-l": {
    "h": "9820096e3b81",
@@ -291,6 +311,11 @@
    "f": "mot-nuoc-co.mp3",
    "b": 1530864
   },
+  "khong-phai-len-rung-hay-xuong-bien-ma-vung-do-co-gi-nguoi-kh": {
+   "h": "bf06a1684699",
+   "f": "khong-phai-len-rung-hay-xuong-bien-ma-vung-do-co-gi-nguoi-kh.mp3",
+   "b": 2151360
+  },
   "dat-duong-lao-nghi-duong-lam-dep-dat-de-ban-hay-lam-cho-cho-": {
    "h": "b19b7e19b2a6",
    "f": "dat-duong-lao-nghi-duong-lam-dep-dat-de-ban-hay-lam-cho-cho-.mp3",
@@ -322,12 +347,12 @@
    "b": 2638224
   },
   "bai-2-dung-tim-dat-truoc-tim-noi-dong-tien-sap-toi": {
-   "h": "0727781a78a6",
+   "h": "d00da6ad2e80",
    "f": "bai-2-dung-tim-dat-truoc-tim-noi-dong-tien-sap-toi.mp3",
-   "b": 3173184
+   "b": 3172896
   },
   "bai-3-tu-mot-tram-mieng-loc-con-nam-mieng-dang-di-coi": {
-   "h": "09442af7b69c",
+   "h": "acb176403898",
    "f": "bai-3-tu-mot-tram-mieng-loc-con-nam-mieng-dang-di-coi.mp3",
    "b": 3477744
   },
@@ -337,14 +362,14 @@
    "b": 3020688
   },
   "bai-5-truoc-khi-dat-coc-phap-ly-quy-hoach-va-gia": {
-   "h": "be0bc34ecc21",
+   "h": "4c88f85cf276",
    "f": "bai-5-truoc-khi-dat-coc-phap-ly-quy-hoach-va-gia.mp3",
-   "b": 2648304
+   "b": 2647296
   },
   "bai-6-mot-thuong-vu-tot-thuong-duoc-quyet-tu-luc-mua": {
-   "h": "6c0ff02c61e2",
+   "h": "aa150e9f3e05",
    "f": "bai-6-mot-thuong-vu-tot-thuong-duoc-quyet-tu-luc-mua.mp3",
-   "b": 3116160
+   "b": 3116880
   },
   "bai-7-mua-xong-roi-lam-gi-voi-tai-san": {
    "h": "291a5621c2de",
@@ -352,9 +377,14 @@
    "b": 2531232
   },
   "bai-8-lam-xong-mot-deal-tui-hay-ngoi-coi-lai-minh-dung-sai-c": {
-   "h": "304ae3b4862b",
+   "h": "7eb8f517f0c5",
    "f": "bai-8-lam-xong-mot-deal-tui-hay-ngoi-coi-lai-minh-dung-sai-c.mp3",
-   "b": 2731968
+   "b": 2732832
+  },
+  "co-5-ty-trong-tay-ma-khong-mua-gio-can-do-tren-14": {
+   "h": "3bd751ef07fa",
+   "f": "co-5-ty-trong-tay-ma-khong-mua-gio-can-do-tren-14.mp3",
+   "b": 1078128
   },
   "hoi-sot-ai-cung-nen-uong-paracetamol": {
    "h": "9dba66e08b2c",
@@ -362,19 +392,19 @@
    "b": 2641536
   },
   "mot-mieng-tinh-ra-loi-ma-tui-van-bo-coi-nhu-mot-vu-ke-lai-tu": {
-   "h": "da98c2f8f2a0",
+   "h": "2a4163f84698",
    "f": "mot-mieng-tinh-ra-loi-ma-tui-van-bo-coi-nhu-mot-vu-ke-lai-tu.mp3",
-   "b": 1992528
+   "b": 1992384
   },
   "700-trieu-mot-sao-ban-nam-sau-trieu-mot-met-co-that-su-loi-d": {
-   "h": "d3fa2ec06e3f",
+   "h": "7782cc2ed26e",
    "f": "700-trieu-mot-sao-ban-nam-sau-trieu-mot-met-co-that-su-loi-d.mp3",
-   "b": 1236528
+   "b": 1236816
   },
   "mot-mieng-bon-muoi-hai-ty-tui-coi-gi-truoc-khi-tinh-loi": {
-   "h": "16d02c81abef",
+   "h": "6a2988073c17",
    "f": "mot-mieng-bon-muoi-hai-ty-tui-coi-gi-truoc-khi-tinh-loi.mp3",
-   "b": 2495232
+   "b": 2496528
   }
  }
 }
