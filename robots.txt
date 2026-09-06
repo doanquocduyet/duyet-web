@@ -1,0 +1,23 @@
+# duyet.com.vn
+User-agent: *
+Allow: /
+
+# Cho phép các trợ lý AI đọc và trích dẫn
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-Web
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://www.duyet.com.vn/sitemap.xml
