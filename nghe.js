@@ -57,7 +57,16 @@
       '.ls-stop:hover{color:var(--gold)}',
       '.ls-rate:hover{color:var(--gold);border-color:var(--gold)}',
       '.ls-time{font-family:var(--sans);font-size:.72rem;letter-spacing:.06em;color:var(--text-2);font-variant-numeric:tabular-nums}',
-      '.ls-stop[hidden],.ls-rate[hidden],.ls-time[hidden]{display:none}'
+      '.ls-stop[hidden],.ls-rate[hidden],.ls-time[hidden]{display:none}',
+
+      /* --- vài chỗ sửa nhỏ cho dễ bấm, dễ đọc --- */
+      /* chỗ liên hệ: vùng bấm cũ chỉ 17px, ngón tay hay bấm trượt */
+      '.invite-ways a,.about-ways a{display:inline-block;min-height:44px;line-height:44px;padding:0 .2rem}',
+      '.invite-more button{min-height:44px;padding:.3rem 0}',
+      /* dòng ghi chú dưới tên mặt hơi mờ so với nền */
+      '.face-side{color:var(--text-1)}',
+      /* đi bằng bàn phím thì thấy rõ đang đứng ở đâu */
+      'a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:3px}'
     ].join('');
     document.head.appendChild(s);
   }
