@@ -48,12 +48,12 @@
       '.listen{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin:-1.1rem 0 2rem}',
       '.listen[hidden]{display:none}',
       '.listen button{font-family:var(--sans);background:none;cursor:pointer;color:var(--text-2);transition:color .3s,border-color .3s;-webkit-tap-highlight-color:transparent}',
-      '.ls-play{display:flex;align-items:center;gap:.5rem;min-height:40px;padding:.35rem .95rem .35rem .8rem;border:1px solid var(--gold-line);border-radius:999px;font-size:.78rem;letter-spacing:.06em}',
+      '.ls-play{display:flex;align-items:center;gap:.5rem;min-height:44px;padding:.35rem .95rem .35rem .8rem;border:1px solid var(--gold-line);border-radius:999px;font-size:.78rem;letter-spacing:.06em}',
       '.ls-play:hover{color:var(--gold);border-color:var(--gold)}',
       '.ls-ico{width:13px;height:13px;fill:var(--gold);flex-shrink:0}',
       '.listen.playing .ls-play{color:var(--gold);border-color:var(--gold)}',
-      '.ls-stop{min-height:40px;padding:.35rem .7rem;border:none;font-size:.74rem;letter-spacing:.08em}',
-      '.ls-rate{min-height:40px;padding:.35rem .7rem;border:1px solid var(--gold-line);border-radius:999px;min-width:44px;font-size:.74rem;letter-spacing:.06em}',
+      '.ls-stop{min-height:44px;padding:.35rem .7rem;border:none;font-size:.74rem;letter-spacing:.08em}',
+      '.ls-rate{min-height:44px;padding:.35rem .7rem;border:1px solid var(--gold-line);border-radius:999px;min-width:44px;font-size:.74rem;letter-spacing:.06em}',
       '.ls-stop:hover{color:var(--gold)}',
       '.ls-rate:hover{color:var(--gold);border-color:var(--gold)}',
       '.ls-time{font-family:var(--sans);font-size:.72rem;letter-spacing:.06em;color:var(--text-2);font-variant-numeric:tabular-nums}',
@@ -63,8 +63,20 @@
       /* chỗ liên hệ: vùng bấm cũ chỉ 17px, ngón tay hay bấm trượt */
       '.invite-ways a,.about-ways a{display:inline-block;min-height:44px;line-height:44px;padding:0 .2rem}',
       '.invite-more button{min-height:44px;padding:.3rem 0}',
+      /* ô trong trang mặt: 36px, chưa đủ cho ngón tay */
+      '.o{min-height:44px}',
+      /* đường dẫn quay lại: chỉ 17–21px, bấm hay trượt */
+      '.crumb button{display:inline-flex;align-items:center;min-height:44px}',
+      '.posbar-back{min-width:44px;min-height:44px}',
+      '.pb-face{display:inline-flex;align-items:center;min-height:44px}',
+      /* dòng chữ ký cuối trang chỉ 10.6px, nhỏ quá */
+      '.foot-kw{font-size:.75rem}',
+      /* nhãn bài trước/bài sau chỉ 10.9px, đây là chữ để đọc mà quyết đi đâu */
+      '.rnav .rnav-dir{font-size:.72rem}',
       /* dòng ghi chú dưới tên mặt hơi mờ so với nền */
       '.face-side{color:var(--text-1)}',
+      /* nền sáng: màu vàng nhạt dùng cho liên kết bị mờ (tương phản 3.2) */
+      'html[data-theme="light"]{--gold-dim:#7A6230}',
       /* đi bằng bàn phím thì thấy rõ đang đứng ở đâu */
       'a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:3px}'
     ].join('');
