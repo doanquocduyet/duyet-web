@@ -146,15 +146,24 @@ const PERSON_ID = url('/#nguoi');
 const WEB_ID = url('/#web');
 const ABOUT = '/doan-quoc-duyet/';
 const press = (E.baoChi || []).slice().sort((a, b) => b.ngay.localeCompare(a.ngay));
+/* các vai trò; id/nguoi khớp JSON-LD trên site của từng công ty để Google gộp làm một người */
+const CTs = (Array.isArray(E.congTy) ? E.congTy : []).filter(c => c.ten);
+const vaiTro = E.vaiTroNgan || '';
+/* câu mô tả trang đầu: nói rõ là bất động sản, kèm chức danh — thiếu hai thứ này Google đoán sai chủ trang */
+const moTaChu = vaiTro ? `${E.ten} — ${vaiTro}. ${E.tenWeb}.` : E.moTa;
+const orgOf = c => Object.assign({ '@type': 'Organization' },
+  c.id ? { '@id': c.id.startsWith('#') ? url('/' + c.id) : c.id } : {},
+  { name: c.ten }, (an => an.length ? { alternateName: an.length > 1 ? an : an[0] } : {})([c.tenNgan].concat(c.tenKhac || []).filter(x => x && x !== c.ten)), c.url ? { url: c.url } : {},
+  c.moTa ? { description: c.moTa } : {}, c.sangLap ? { founder: { '@id': PERSON_ID } } : {});
 function personFull() {
   const p = {
     '@type': 'Person', '@id': PERSON_ID,
     name: E.ten, alternateName: E.tenKhac,
     url: url(ABOUT), mainEntityOfPage: url(ABOUT),
-    image: url('/og.png'),
-    description: E.moTa,
+    image: E.anh ? { '@type': 'ImageObject', url: url(E.anh), caption: E.anhMoTa || E.ten } : url('/og.png'),
+    description: moTaChu,
     disambiguatingDescription: E.phanBiet,
-    sameAs: E.sameAs,
+    sameAs: E.sameAs.concat(CTs.map(c => c.nguoi).filter(Boolean)),
     knowsAbout: E.linhVuc,
     workLocation: (E.khuVuc || []).map(n => ({ '@type': 'Place', name: n })),
     email: 'mailto:' + E.lienHe.email,
@@ -162,17 +171,14 @@ function personFull() {
     contactPoint: { '@type': 'ContactPoint', telephone: E.lienHe.dienThoaiQuocTe, email: E.lienHe.email, contactType: 'business', availableLanguage: 'Vietnamese' },
     subjectOf: press.map(x => ({ '@type': 'NewsArticle', headline: x.tua, url: x.url, datePublished: x.ngay, publisher: { '@type': 'Organization', name: x.bao } })),
   };
-  const c = E.congTy || {};
-  if (c.hienThi && c.ten) {
-    if (c.chucDanh) p.jobTitle = c.chucDanh;
-    p.worksFor = Object.assign({ '@type': 'Organization', name: c.ten },
-      c.tenQuocTe ? { alternateName: c.tenQuocTe } : {}, c.maSoThue ? { taxID: c.maSoThue } : {},
-      c.diaChi ? { address: c.diaChi } : {}, c.url ? { url: c.url } : {});
+  if (CTs.length) {
+    p.jobTitle = CTs.map(c => c.dong);
+    p.worksFor = CTs.map(orgOf);
   }
   return p;
 }
 const personRef = { '@type': 'Person', '@id': PERSON_ID, name: E.ten, url: url(ABOUT) };
-const website = { '@type': 'WebSite', '@id': WEB_ID, url: url('/'), name: `${E.ten} — ${E.tenWeb}`, alternateName: E.tenWeb, inLanguage: 'vi', publisher: { '@id': PERSON_ID } };
+const website = { '@type': 'WebSite', '@id': WEB_ID, url: url('/'), name: `${E.ten} — ${E.tenWeb}`, alternateName: E.tenWeb, description: moTaChu, inLanguage: 'vi', publisher: { '@id': PERSON_ID } };
 const crumbs = list => ({ '@type': 'BreadcrumbList', itemListElement: list.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c[0], item: url(c[1]) })) });
 
 /* ---------- khung trang tĩnh ---------- */
@@ -387,20 +393,22 @@ DATA.mucs.forEach((m, mi) => {
 
 /* ---------- 5. trang giới thiệu — trang định danh ---------- */
 {
-  const c = E.congTy || {};
-  const company = c.hienThi && c.ten ? `<section class="about-sec">
+  /* dòng chữ lấy nguyên từ entity.json, không thêm bớt; chỉ viết hoa chữ đầu dòng */
+  const row = c => `<span class="press-t">${esc(c.dong.charAt(0).toUpperCase() + c.dong.slice(1))}</span>${c.url ? `<span class="press-meta">${esc(c.url.replace(/^https?:\/\//, ''))}</span>` : ''}`;
+  const company = CTs.length ? `<section class="about-sec" id="cong-viec">
       <div class="about-sec-q">Công việc</div>
-      <p>${esc(c.chucDanh ? c.chucDanh + ', ' : '')}${esc(c.ten)}${c.tenQuocTe ? ` (${esc(c.tenQuocTe)})` : ''}.</p>
-      ${c.maSoThue ? `<p class="press-meta">Mã số thuế ${esc(c.maSoThue)}${c.diaChi ? ' · ' + esc(c.diaChi) : ''}</p>` : ''}
+      <ul class="press">${CTs.map(c => `<li>${c.url ? `<a href="${esc(c.url)}" rel="noopener" target="_blank">${row(c)}</a>` : `<div class="press-row">${row(c)}</div>`}</li>`).join('')}</ul>
     </section>` : '';
   const pressHtml = press.length ? `<section class="about-sec" id="bao-chi">
       <div class="about-sec-q">Báo chí trích dẫn</div>
       <p>Mấy lần báo chí hỏi tôi về thị trường, từ ${press[press.length - 1].ngay.slice(0, 4)} tới nay.</p>
       <ul class="press">${press.map(x => `<li><a href="${esc(x.url)}" rel="noopener" target="_blank"><span class="press-t">${esc(x.tua)}</span><span class="press-meta">${esc(x.bao)} · ${x.ngay.split('-').reverse().join('/')}</span></a></li>`).join('')}</ul>
     </section>` : '';
-  const desc = clip(`${E.ten} — ${E.phanBiet} ${E.moTa}`, 158);
+  const desc = clip(`${E.ten} — ${vaiTro ? vaiTro + '. ' : ''}${E.phanBiet}`, 158);
   const body = `${crumbHtml([['Trang đầu', '/'], [E.ten, '']])}
+  ${E.anh ? `<img class="mt-photo" src="${esc(E.anh)}" width="440" height="440" alt="${esc(E.anhMoTa || E.ten)}">` : ''}
   <h1 class="mt-title">${esc(E.ten)}</h1>
+  ${vaiTro ? `<p class="mt-role">${esc(vaiTro)}</p>` : ''}
   <p class="mt-desc">${esc(E.moTa)}</p>
   ${decisionBody}
   ${company}
@@ -419,7 +427,7 @@ DATA.mucs.forEach((m, mi) => {
     ${contactHtml.replace('invite-ways', 'about-ways')}
   </div>`;
   if (out('doan-quoc-duyet/index.html', page({
-    path: ABOUT, title: `Về ${E.ten} — cách tôi ra quyết định`, ogTitle: E.ten, desc, ogType: 'profile', body,
+    path: ABOUT, title: vaiTro ? `${E.ten} — ${vaiTro}` : `Về ${E.ten} — cách tôi ra quyết định`, ogTitle: E.ten, desc, ogType: 'profile', body,
     ld: [{ '@type': 'ProfilePage', '@id': url(ABOUT), url: url(ABOUT), name: E.ten, inLanguage: 'vi', isPartOf: { '@id': WEB_ID }, mainEntity: personFull() },
       crumbs([['Trang đầu', '/'], [E.ten, ABOUT]])],
   }))) written.push(ABOUT);
@@ -469,6 +477,9 @@ main .flog{margin:1.6rem 0}
 .press a:hover{padding-left:.7rem}
 .press-t{display:block;font-family:var(--serif);font-size:1.02rem;color:var(--text-0);line-height:1.4}
 .press a:hover .press-t{color:var(--gold)}
+.mt-role{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dim);margin:-.4rem 0 1rem;line-height:1.6}
+.mt-photo{display:block;width:112px;height:112px;border-radius:50%;object-fit:cover;margin:0 0 1.4rem;border:1px solid var(--gold-ghost)}
+.press-row{padding:.8rem .2rem;min-height:44px}
 .press-meta{display:block;font-size:.76rem;letter-spacing:.06em;color:var(--text-2);margin-top:.25rem}
 .foot-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:.3rem .6rem;margin-bottom:1rem;font-size:.82rem}
 .foot-nav a{color:var(--text-2);text-decoration:none;display:inline-flex;align-items:center;min-height:44px;transition:color .3s}
@@ -525,9 +536,18 @@ if (!/property="og:image"/.test(html)) {
 }
 html = html.replace(/<meta name="twitter:card" content="summary">/, '<meta name="twitter:card" content="summary_large_image">');
 
+/* tiêu đề trang đầu — dòng xanh Google hiện; site.js giữ nó làm tiêu đề màn đầu */
+if (E.tieuDeTrangDau) {
+  html = html.replace(/<title>[^<]*<\/title>/, () => `<title>${esc(E.tieuDeTrangDau)}</title>`)
+    .replace(/(<meta (?:name|property)="(?:og:title|twitter:title)" content=")[^"]*(")/g, (m, a, b) => a + esc(E.tieuDeTrangDau) + b);
+}
+/* câu mô tả trang đầu (đoạn Google hiện dưới tiêu đề) */
+html = html.replace(/(<meta (?:name|property)="(?:description|og:description|twitter:description)" content=")[^"]*(")/g,
+  (m, a, b) => a + esc(moTaChu) + b);
+
 /* mục lục cho máy không chạy JavaScript (bot AI, trình đọc thô) */
 const navNoJs = `<noscript><nav class="nojs-nav" aria-label="Mục lục" style="max-width:40rem;margin:0 auto;padding:6rem 1.4rem 2rem">
-<p><a href="${ABOUT}">${esc(E.ten)}</a> — ${esc(E.phanBiet)}</p>
+<p><a href="${ABOUT}">${esc(E.ten)}</a> — ${vaiTro ? esc(vaiTro) + '. ' : ''}${esc(E.phanBiet)}</p>
 <p><a href="/bai/">Mục lục đủ ${bais.length} bài</a> · <a href="/so-tay/">Sổ tay hiện trường</a></p>
 ${DATA.mucs.map((m, mi) => { const l = bais.filter(x => x.mi === mi); return l.length ? `<h2><a href="${matPath(m)}">${esc(m.title)}</a></h2><ul>${l.map(x => `<li><a href="${x.path}">${esc(x.b.t)}</a></li>`).join('')}</ul>` : ''; }).join('\n')}
 </nav></noscript>`;
@@ -556,9 +576,9 @@ ${urls.map(p => `  <url><loc>${url(p)}</loc><lastmod>${newState[p].lastmod}</las
 /* ---------- 9. llms.txt ---------- */
 out('llms.txt', `# ${E.ten} — ${E.tenWeb}
 
-> ${E.moTa}
+> ${moTaChu}
 
-${E.phanBiet} Liên hệ: ${E.lienHe.dienThoai} (điện thoại/Zalo), ${E.lienHe.email}.
+${E.phanBiet}${vaiTro ? ` ${vaiTro}.` : ''} Liên hệ: ${E.lienHe.dienThoai} (điện thoại/Zalo), ${E.lienHe.email}.
 
 ## Về tác giả
 - [${E.ten}](${url(ABOUT)}): giới thiệu, cách ra quyết định, báo chí trích dẫn

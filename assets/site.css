@@ -296,6 +296,9 @@ main .flog{margin:1.6rem 0}
 .press a:hover{padding-left:.7rem}
 .press-t{display:block;font-family:var(--serif);font-size:1.02rem;color:var(--text-0);line-height:1.4}
 .press a:hover .press-t{color:var(--gold)}
+.mt-role{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dim);margin:-.4rem 0 1rem;line-height:1.6}
+.mt-photo{display:block;width:112px;height:112px;border-radius:50%;object-fit:cover;margin:0 0 1.4rem;border:1px solid var(--gold-ghost)}
+.press-row{padding:.8rem .2rem;min-height:44px}
 .press-meta{display:block;font-size:.76rem;letter-spacing:.06em;color:var(--text-2);margin-top:.25rem}
 .foot-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:.3rem .6rem;margin-bottom:1rem;font-size:.82rem}
 .foot-nav a{color:var(--text-2);text-decoration:none;display:inline-flex;align-items:center;min-height:44px;transition:color .3s}
