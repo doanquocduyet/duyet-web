@@ -29,6 +29,7 @@
   var mode = '';                /* 'mp3' | 'may' | '' */
   var voice = null, chunks = [], at = 0, playing = false, rateIx = 0, guardTimer = null;
   var box, btnPlay, lblPlay, btnStop, btnRate, elTime;
+  var STATIC = false;           /* trang tĩnh /bai/<mã>/ — không có giao diện một-màn-hình */
 
   /* ---------- mã bài: phải giống hệt slug() trong tools/extract.js ---------- */
   function slug(s){
@@ -99,7 +100,10 @@
       '<button class="ls-stop" id="lsStop" hidden aria-label="Dừng đọc">Dừng</button>' +
       '<button class="ls-rate" id="lsRate" hidden aria-label="Đổi tốc độ đọc">1×</button>' +
       '<span class="ls-time" id="lsTime" hidden></span>';
-    title.parentNode.insertBefore(box, title.nextSibling);
+    /* trang tĩnh có chỗ đặt sẵn; trang một-màn-hình thì gắn ngay dưới tựa */
+    var mount = document.getElementById('listenMount');
+    if(mount) mount.appendChild(box);
+    else title.parentNode.insertBefore(box, title.nextSibling);
     btnPlay = box.querySelector('#lsPlay');
     lblPlay = box.querySelector('#lsLabel');
     btnStop = box.querySelector('#lsStop');
@@ -251,7 +255,9 @@
   function load(){
     stop();
     chunks = []; mode = ''; at = 0;
-    if(audio){ audio.src = ''; audio = null; }
+    /* gỡ file của bài trước: chỉ dừng và bỏ nguồn, KHÔNG đặt src='' (trình duyệt coi là lỗi
+       và bắn sự kiện error vào đúng lúc file của bài mới vừa được gắn) */
+    if(audio){ try{ audio.pause(); audio.removeAttribute('src'); audio.load(); }catch(e){} audio = null; }
     if(!box) return;
 
     var bd = document.getElementById('readBody');
@@ -259,18 +265,22 @@
     if(!bd || bd.querySelector('.pending-note')){ box.hidden = true; return; }
 
     var title = (tt && tt.textContent) ? tt.textContent.trim() : '';
-    var id = slug(title);
+    /* trang tĩnh ghi sẵn mã bài; trang một-màn-hình thì tính từ tựa */
+    var id = document.body.getAttribute('data-bai') || slug(title);
 
     /* 1. có file thu sẵn thì dùng */
     if(manifest && manifest.bai && manifest.bai[id]){
       mode = 'mp3';
-      audio = new Audio('audio/' + manifest.bai[id].f);
+      var a = new Audio('/audio/' + manifest.bai[id].f);
+      audio = a;
       audio.preload = 'metadata';
       setRate();
-      audio.addEventListener('timeupdate', paint);
-      audio.addEventListener('loadedmetadata', paint);
-      audio.addEventListener('ended', function(){ playing = false; audio.currentTime = 0; paint(); });
-      audio.addEventListener('error', function(){        /* file hỏng thì quay về giọng máy */
+      /* mỗi hàm chỉ phản ứng với đúng file của nó — file của bài cũ có bắn sự kiện muộn cũng bỏ qua */
+      a.addEventListener('timeupdate', function(){ if(audio === a) paint(); });
+      a.addEventListener('loadedmetadata', function(){ if(audio === a) paint(); });
+      a.addEventListener('ended', function(){ if(audio !== a) return; playing = false; a.currentTime = 0; paint(); });
+      a.addEventListener('error', function(){        /* file hỏng thì quay về giọng máy */
+        if(audio !== a) return;
         audio = null;
         if(useMachineVoice(title, bd)) paint(); else box.hidden = true;
       });
@@ -302,6 +312,7 @@
   function hook(){
     if(!ui()) return;
     css();
+    STATIC = document.body.hasAttribute('data-bai');
 
     try{                                      /* lấy lại tốc độ lần trước đã chọn */
       var nho = parseInt(localStorage.getItem(NHO), 10);
@@ -337,15 +348,15 @@
 
     /* lấy danh mục file thu sẵn; không có cũng không sao */
     if(typeof fetch === 'function'){
-      fetch('audio/manifest.json', { cache: 'no-cache' })
+      fetch('/audio/manifest.json', { cache: 'no-cache' })
         .then(function(r){ return r.ok ? r.json() : null; })
         .then(function(j){
-          if(!j || !j.bai) return;
-          manifest = j;
-          if(document.getElementById('reader').classList.contains('active')) load();
+          if(j && j.bai) manifest = j;
+          var rd = document.getElementById('reader');
+          if(STATIC || (rd && rd.classList.contains('active'))) load();
         })
-        .catch(function(){});
-    }
+        .catch(function(){ if(STATIC) load(); });
+    } else if(STATIC) load();
   }
 
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', hook);

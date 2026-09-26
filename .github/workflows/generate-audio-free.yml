@@ -83,11 +83,13 @@ jobs:
 
       - name: Tóm tắt
         if: always()
+        env:
+          TTS_VOICE: ${{ inputs.giong || 'vi-VN-NamMinhNeural' }}
         run: |
           {
             echo "### Thu tiếng xong"
             echo ""
-            echo "- Giọng: \`${{ inputs.giong || 'vi-VN-NamMinhNeural' }}\`"
+            echo "- Giọng: \`${TTS_VOICE}\`"
             echo "- Số file: $(ls -1 audio/*.mp3 2>/dev/null | wc -l)"
             echo "- Dung lượng: $(du -sh audio 2>/dev/null | cut -f1)"
           } >> "$GITHUB_STEP_SUMMARY"
