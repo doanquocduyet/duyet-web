@@ -1,0 +1,55 @@
+name: build-pages
+
+# Dựng lại trang tĩnh (mỗi bài một địa chỉ), sitemap, llms.txt, và chỉnh
+# index.html mỗi khi có bản index mới hoặc thu tiếng xong.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - index.html
+      - nghe.js
+      - site.js
+      - tools/build-pages.js
+      - tools/entity.json
+      - .github/workflows/build-pages.yml
+  workflow_run:
+    workflows: [generate-audio-free]
+    types: [completed]
+  workflow_dispatch:
+
+concurrency:
+  group: build-pages
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  dung-trang:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Dựng trang
+        run: node tools/build-pages.js
+
+      - name: Đẩy lên
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A index.html bai mat so-tay doan-quoc-duyet assets sitemap.xml llms.txt tools/sitemap-state.json
+          if git diff --cached --quiet; then echo "Không có gì đổi."; exit 0; fi
+          git commit -m "Dựng lại trang tĩnh"
+          for i in 1 2 3 4; do
+            git pull --rebase --autostash origin main && git push origin HEAD:main && exit 0
+            sleep $((i * 5))
+          done
+          exit 1
