@@ -148,7 +148,9 @@
     '.fl-src{margin:.8rem 0 0;font-size:.85rem}',
     '.fl-src button{background:none;border:none;border-bottom:1px solid var(--gold-line);padding:0;min-height:44px;font-family:var(--sans);font-size:.85rem;color:var(--text-1);cursor:pointer;text-align:left;transition:color .3s,border-color .3s}',
     '.fl-src button:hover{color:var(--gold);border-color:var(--gold)}',
-    '#notesBody .flog{margin:1.6rem 0}'
+    '#notesBody .flog{margin:1.6rem 0}',
+    '.foot-kw a.chu-ky{color:inherit;text-decoration:none;display:inline-block;padding:.9rem .4rem;border-bottom:1px solid transparent;transition:color .8s,border-color .8s}',
+    '.foot-kw a.chu-ky:hover,.foot-kw a.chu-ky:focus-visible{color:var(--gold);border-color:var(--gold-line)}'
   ].join('');
   document.head.appendChild(css);
 
@@ -162,6 +164,18 @@
     p.setAttribute('aria-label', 'Đọc theo cách khác');
     p.innerHTML = '<a href="/bai/">Mục lục đủ ' + n + ' bài →</a><a href="/so-tay/">Sổ tay hiện trường →</a>';
     faces.parentNode.insertBefore(p, faces.nextSibling);
+  })();
+
+  /* ---------- cửa duy nhất vào trang /doan-quoc-duyet/: chữ ký cuối trang đầu ---------- */
+  (function () {
+    var kw = document.querySelector('#home .foot-kw');
+    if (!kw || kw.querySelector('a')) return;
+    var a = document.createElement('a');
+    a.className = 'chu-ky';
+    a.href = '/doan-quoc-duyet/';
+    a.textContent = kw.textContent;
+    kw.textContent = '';
+    kw.appendChild(a);
   })();
 
   /* ---------- sổ tay hiện trường: ghi chép thật từ các bài ---------- */
