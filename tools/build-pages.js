@@ -146,13 +146,18 @@ const PERSON_ID = url('/#nguoi');
 const WEB_ID = url('/#web');
 const ABOUT = '/doan-quoc-duyet/';
 const press = (E.baoChi || []).slice().sort((a, b) => b.ngay.localeCompare(a.ngay));
+/* chức danh viết y như báo chí ghi, để Google nối trang này với người trên báo */
+const CT = E.congTy || {};
+const vaiTro = CT.hienThi && CT.ten ? [CT.chucDanh, CT.ten].filter(Boolean).join(' ') : '';
+/* câu mô tả trang đầu: nói rõ là bất động sản, kèm chức danh — thiếu hai thứ này Google đoán sai chủ trang */
+const moTaChu = E.moTaNgan ? `${E.ten}${vaiTro ? ', ' + vaiTro : ''} — ${E.moTaNgan}` : E.moTa;
 function personFull() {
   const p = {
     '@type': 'Person', '@id': PERSON_ID,
     name: E.ten, alternateName: E.tenKhac,
     url: url(ABOUT), mainEntityOfPage: url(ABOUT),
     image: url('/og.png'),
-    description: E.moTa,
+    description: moTaChu,
     disambiguatingDescription: E.phanBiet,
     sameAs: E.sameAs,
     knowsAbout: E.linhVuc,
@@ -162,7 +167,7 @@ function personFull() {
     contactPoint: { '@type': 'ContactPoint', telephone: E.lienHe.dienThoaiQuocTe, email: E.lienHe.email, contactType: 'business', availableLanguage: 'Vietnamese' },
     subjectOf: press.map(x => ({ '@type': 'NewsArticle', headline: x.tua, url: x.url, datePublished: x.ngay, publisher: { '@type': 'Organization', name: x.bao } })),
   };
-  const c = E.congTy || {};
+  const c = CT;
   if (c.hienThi && c.ten) {
     if (c.chucDanh) p.jobTitle = c.chucDanh;
     p.worksFor = Object.assign({ '@type': 'Organization', name: c.ten },
@@ -172,7 +177,7 @@ function personFull() {
   return p;
 }
 const personRef = { '@type': 'Person', '@id': PERSON_ID, name: E.ten, url: url(ABOUT) };
-const website = { '@type': 'WebSite', '@id': WEB_ID, url: url('/'), name: `${E.ten} — ${E.tenWeb}`, alternateName: E.tenWeb, inLanguage: 'vi', publisher: { '@id': PERSON_ID } };
+const website = { '@type': 'WebSite', '@id': WEB_ID, url: url('/'), name: `${E.ten} — ${E.tenWeb}`, alternateName: E.tenWeb, description: moTaChu, inLanguage: 'vi', publisher: { '@id': PERSON_ID } };
 const crumbs = list => ({ '@type': 'BreadcrumbList', itemListElement: list.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c[0], item: url(c[1]) })) });
 
 /* ---------- khung trang tĩnh ---------- */
@@ -387,7 +392,7 @@ DATA.mucs.forEach((m, mi) => {
 
 /* ---------- 5. trang giới thiệu — trang định danh ---------- */
 {
-  const c = E.congTy || {};
+  const c = CT;
   const company = c.hienThi && c.ten ? `<section class="about-sec">
       <div class="about-sec-q">Công việc</div>
       <p>${esc(c.chucDanh ? c.chucDanh + ', ' : '')}${esc(c.ten)}${c.tenQuocTe ? ` (${esc(c.tenQuocTe)})` : ''}.</p>
@@ -398,9 +403,10 @@ DATA.mucs.forEach((m, mi) => {
       <p>Mấy lần báo chí hỏi tôi về thị trường, từ ${press[press.length - 1].ngay.slice(0, 4)} tới nay.</p>
       <ul class="press">${press.map(x => `<li><a href="${esc(x.url)}" rel="noopener" target="_blank"><span class="press-t">${esc(x.tua)}</span><span class="press-meta">${esc(x.bao)} · ${x.ngay.split('-').reverse().join('/')}</span></a></li>`).join('')}</ul>
     </section>` : '';
-  const desc = clip(`${E.ten} — ${E.phanBiet} ${E.moTa}`, 158);
+  const desc = clip(`${E.ten} — ${vaiTro ? vaiTro + '. ' : ''}${E.phanBiet}`, 158);
   const body = `${crumbHtml([['Trang đầu', '/'], [E.ten, '']])}
   <h1 class="mt-title">${esc(E.ten)}</h1>
+  ${vaiTro ? `<p class="mt-role">${esc(vaiTro)}</p>` : ''}
   <p class="mt-desc">${esc(E.moTa)}</p>
   ${decisionBody}
   ${company}
@@ -469,6 +475,7 @@ main .flog{margin:1.6rem 0}
 .press a:hover{padding-left:.7rem}
 .press-t{display:block;font-family:var(--serif);font-size:1.02rem;color:var(--text-0);line-height:1.4}
 .press a:hover .press-t{color:var(--gold)}
+.mt-role{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dim);margin:-.4rem 0 1rem}
 .press-meta{display:block;font-size:.76rem;letter-spacing:.06em;color:var(--text-2);margin-top:.25rem}
 .foot-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:.3rem .6rem;margin-bottom:1rem;font-size:.82rem}
 .foot-nav a{color:var(--text-2);text-decoration:none;display:inline-flex;align-items:center;min-height:44px;transition:color .3s}
@@ -525,9 +532,13 @@ if (!/property="og:image"/.test(html)) {
 }
 html = html.replace(/<meta name="twitter:card" content="summary">/, '<meta name="twitter:card" content="summary_large_image">');
 
+/* câu mô tả trang đầu (đoạn Google hiện dưới tiêu đề) */
+html = html.replace(/(<meta (?:name|property)="(?:description|og:description|twitter:description)" content=")[^"]*(")/g,
+  (m, a, b) => a + esc(moTaChu) + b);
+
 /* mục lục cho máy không chạy JavaScript (bot AI, trình đọc thô) */
 const navNoJs = `<noscript><nav class="nojs-nav" aria-label="Mục lục" style="max-width:40rem;margin:0 auto;padding:6rem 1.4rem 2rem">
-<p><a href="${ABOUT}">${esc(E.ten)}</a> — ${esc(E.phanBiet)}</p>
+<p><a href="${ABOUT}">${esc(E.ten)}</a> — ${vaiTro ? esc(vaiTro) + '. ' : ''}${esc(E.phanBiet)}</p>
 <p><a href="/bai/">Mục lục đủ ${bais.length} bài</a> · <a href="/so-tay/">Sổ tay hiện trường</a></p>
 ${DATA.mucs.map((m, mi) => { const l = bais.filter(x => x.mi === mi); return l.length ? `<h2><a href="${matPath(m)}">${esc(m.title)}</a></h2><ul>${l.map(x => `<li><a href="${x.path}">${esc(x.b.t)}</a></li>`).join('')}</ul>` : ''; }).join('\n')}
 </nav></noscript>`;
@@ -556,9 +567,9 @@ ${urls.map(p => `  <url><loc>${url(p)}</loc><lastmod>${newState[p].lastmod}</las
 /* ---------- 9. llms.txt ---------- */
 out('llms.txt', `# ${E.ten} — ${E.tenWeb}
 
-> ${E.moTa}
+> ${moTaChu}
 
-${E.phanBiet}${E.congTy && E.congTy.hienThi && E.congTy.ten ? ` ${E.congTy.chucDanh ? E.congTy.chucDanh + ', ' : ''}${E.congTy.ten}.` : ''} Liên hệ: ${E.lienHe.dienThoai} (điện thoại/Zalo), ${E.lienHe.email}.
+${E.phanBiet}${vaiTro ? ` ${vaiTro}.` : ''} Liên hệ: ${E.lienHe.dienThoai} (điện thoại/Zalo), ${E.lienHe.email}.
 
 ## Về tác giả
 - [${E.ten}](${url(ABOUT)}): giới thiệu, cách ra quyết định, báo chí trích dẫn
