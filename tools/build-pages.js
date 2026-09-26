@@ -146,20 +146,24 @@ const PERSON_ID = url('/#nguoi');
 const WEB_ID = url('/#web');
 const ABOUT = '/doan-quoc-duyet/';
 const press = (E.baoChi || []).slice().sort((a, b) => b.ngay.localeCompare(a.ngay));
-/* chức danh viết y như báo chí ghi, để Google nối trang này với người trên báo */
-const CT = E.congTy || {};
-const vaiTro = CT.hienThi && CT.ten ? [CT.chucDanh, CT.ten].filter(Boolean).join(' ') : '';
+/* các vai trò; id/nguoi khớp JSON-LD trên site của từng công ty để Google gộp làm một người */
+const CTs = (Array.isArray(E.congTy) ? E.congTy : []).filter(c => c.ten);
+const vaiTro = E.vaiTroNgan || '';
 /* câu mô tả trang đầu: nói rõ là bất động sản, kèm chức danh — thiếu hai thứ này Google đoán sai chủ trang */
-const moTaChu = E.moTaNgan ? `${E.ten}${vaiTro ? ', ' + vaiTro : ''} — ${E.moTaNgan}` : E.moTa;
+const moTaChu = E.moTaNgan ? `${E.ten}${vaiTro ? ' — ' + vaiTro + '.' : ' —'} ${E.moTaNgan}` : E.moTa;
+const orgOf = c => Object.assign({ '@type': 'Organization' },
+  c.id ? { '@id': c.id.startsWith('#') ? url('/' + c.id) : c.id } : {},
+  { name: c.ten }, c.tenNgan ? { alternateName: c.tenNgan } : {}, c.url ? { url: c.url } : {},
+  c.moTa ? { description: c.moTa } : {}, c.sangLap ? { founder: { '@id': PERSON_ID } } : {});
 function personFull() {
   const p = {
     '@type': 'Person', '@id': PERSON_ID,
     name: E.ten, alternateName: E.tenKhac,
     url: url(ABOUT), mainEntityOfPage: url(ABOUT),
-    image: url('/og.png'),
+    image: E.anh ? { '@type': 'ImageObject', url: url(E.anh), caption: E.anhMoTa || E.ten } : url('/og.png'),
     description: moTaChu,
     disambiguatingDescription: E.phanBiet,
-    sameAs: E.sameAs,
+    sameAs: E.sameAs.concat(CTs.map(c => c.nguoi).filter(Boolean)),
     knowsAbout: E.linhVuc,
     workLocation: (E.khuVuc || []).map(n => ({ '@type': 'Place', name: n })),
     email: 'mailto:' + E.lienHe.email,
@@ -167,12 +171,9 @@ function personFull() {
     contactPoint: { '@type': 'ContactPoint', telephone: E.lienHe.dienThoaiQuocTe, email: E.lienHe.email, contactType: 'business', availableLanguage: 'Vietnamese' },
     subjectOf: press.map(x => ({ '@type': 'NewsArticle', headline: x.tua, url: x.url, datePublished: x.ngay, publisher: { '@type': 'Organization', name: x.bao } })),
   };
-  const c = CT;
-  if (c.hienThi && c.ten) {
-    if (c.chucDanh) p.jobTitle = c.chucDanh;
-    p.worksFor = Object.assign({ '@type': 'Organization', name: c.ten },
-      c.tenQuocTe ? { alternateName: c.tenQuocTe } : {}, c.maSoThue ? { taxID: c.maSoThue } : {},
-      c.diaChi ? { address: c.diaChi } : {}, c.url ? { url: c.url } : {});
+  if (CTs.length) {
+    p.jobTitle = CTs.map(c => `${c.chucDanh} ${c.tenNgan || c.ten}`);
+    p.worksFor = CTs.map(orgOf);
   }
   return p;
 }
@@ -392,11 +393,10 @@ DATA.mucs.forEach((m, mi) => {
 
 /* ---------- 5. trang giới thiệu — trang định danh ---------- */
 {
-  const c = CT;
-  const company = c.hienThi && c.ten ? `<section class="about-sec">
+  const row = c => `<span class="press-t">${esc(c.chucDanh)} · ${esc(c.ten)}</span>${c.url || c.moTa ? `<span class="press-meta">${[c.url ? c.url.replace(/^https?:\/\//, '') : '', c.moTa || ''].filter(Boolean).map(esc).join(' · ')}</span>` : ''}`;
+  const company = CTs.length ? `<section class="about-sec" id="cong-viec">
       <div class="about-sec-q">Công việc</div>
-      <p>${esc(c.chucDanh ? c.chucDanh + ', ' : '')}${esc(c.ten)}${c.tenQuocTe ? ` (${esc(c.tenQuocTe)})` : ''}.</p>
-      ${c.maSoThue ? `<p class="press-meta">Mã số thuế ${esc(c.maSoThue)}${c.diaChi ? ' · ' + esc(c.diaChi) : ''}</p>` : ''}
+      <ul class="press">${CTs.map(c => `<li>${c.url ? `<a href="${esc(c.url)}" rel="noopener" target="_blank">${row(c)}</a>` : `<div class="press-row">${row(c)}</div>`}</li>`).join('')}</ul>
     </section>` : '';
   const pressHtml = press.length ? `<section class="about-sec" id="bao-chi">
       <div class="about-sec-q">Báo chí trích dẫn</div>
@@ -405,6 +405,7 @@ DATA.mucs.forEach((m, mi) => {
     </section>` : '';
   const desc = clip(`${E.ten} — ${vaiTro ? vaiTro + '. ' : ''}${E.phanBiet}`, 158);
   const body = `${crumbHtml([['Trang đầu', '/'], [E.ten, '']])}
+  ${E.anh ? `<img class="mt-photo" src="${esc(E.anh)}" width="440" height="440" alt="${esc(E.anhMoTa || E.ten)}">` : ''}
   <h1 class="mt-title">${esc(E.ten)}</h1>
   ${vaiTro ? `<p class="mt-role">${esc(vaiTro)}</p>` : ''}
   <p class="mt-desc">${esc(E.moTa)}</p>
@@ -425,7 +426,7 @@ DATA.mucs.forEach((m, mi) => {
     ${contactHtml.replace('invite-ways', 'about-ways')}
   </div>`;
   if (out('doan-quoc-duyet/index.html', page({
-    path: ABOUT, title: `Về ${E.ten} — cách tôi ra quyết định`, ogTitle: E.ten, desc, ogType: 'profile', body,
+    path: ABOUT, title: vaiTro ? `${E.ten} — ${vaiTro.replace(' và ', ' & ')}` : `Về ${E.ten} — cách tôi ra quyết định`, ogTitle: E.ten, desc, ogType: 'profile', body,
     ld: [{ '@type': 'ProfilePage', '@id': url(ABOUT), url: url(ABOUT), name: E.ten, inLanguage: 'vi', isPartOf: { '@id': WEB_ID }, mainEntity: personFull() },
       crumbs([['Trang đầu', '/'], [E.ten, ABOUT]])],
   }))) written.push(ABOUT);
@@ -475,7 +476,9 @@ main .flog{margin:1.6rem 0}
 .press a:hover{padding-left:.7rem}
 .press-t{display:block;font-family:var(--serif);font-size:1.02rem;color:var(--text-0);line-height:1.4}
 .press a:hover .press-t{color:var(--gold)}
-.mt-role{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dim);margin:-.4rem 0 1rem}
+.mt-role{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dim);margin:-.4rem 0 1rem;line-height:1.6}
+.mt-photo{display:block;width:112px;height:112px;border-radius:50%;object-fit:cover;margin:0 0 1.4rem;border:1px solid var(--gold-ghost)}
+.press-row{padding:.8rem .2rem;min-height:44px}
 .press-meta{display:block;font-size:.76rem;letter-spacing:.06em;color:var(--text-2);margin-top:.25rem}
 .foot-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:.3rem .6rem;margin-bottom:1rem;font-size:.82rem}
 .foot-nav a{color:var(--text-2);text-decoration:none;display:inline-flex;align-items:center;min-height:44px;transition:color .3s}
@@ -532,6 +535,11 @@ if (!/property="og:image"/.test(html)) {
 }
 html = html.replace(/<meta name="twitter:card" content="summary">/, '<meta name="twitter:card" content="summary_large_image">');
 
+/* tiêu đề trang đầu — dòng xanh Google hiện; site.js giữ nó làm tiêu đề màn đầu */
+if (E.tieuDeTrangDau) {
+  html = html.replace(/<title>[^<]*<\/title>/, () => `<title>${esc(E.tieuDeTrangDau)}</title>`)
+    .replace(/(<meta (?:name|property)="(?:og:title|twitter:title)" content=")[^"]*(")/g, (m, a, b) => a + esc(E.tieuDeTrangDau) + b);
+}
 /* câu mô tả trang đầu (đoạn Google hiện dưới tiêu đề) */
 html = html.replace(/(<meta (?:name|property)="(?:description|og:description|twitter:description)" content=")[^"]*(")/g,
   (m, a, b) => a + esc(moTaChu) + b);

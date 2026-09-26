@@ -5,7 +5,11 @@
   "tenKhac": ["Doan Quoc Duyet", "Duyệt Đọc đất"],
   "site": "https://www.duyet.com.vn",
   "tenWeb": "Đọc đất bằng chân",
-  "moTaNgan": "ghi chép bất động sản TP.HCM, Lâm Đồng bằng chân: cái nền, dòng tiền, người ở lại.",
+  "vaiTroNgan": "CEO BĐS Tín Thành, Founder GreenSpace và Namban Panorama",
+  "tieuDeTrangDau": "Đoàn Quốc Duyệt — CEO BĐS Tín Thành | Đọc đất bằng chân",
+  "anh": "/anh/doan-quoc-duyet.jpg",
+  "anhMoTa": "Đoàn Quốc Duyệt trên đồi Nam Ban, Lâm Đồng",
+  "moTaNgan": "Ghi chép bất động sản TP.HCM, Lâm Đồng bằng chân: cái nền, dòng tiền, người ở lại.",
   "moTa": "Ghi chép của Đoàn Quốc Duyệt về cách đọc một vùng đất bằng chân: cái nền, dòng tiền, người ở lại. Mỗi tuần một góc nhìn.",
   "phanBiet": "Người làm và viết về bất động sản ở TP.HCM và Lâm Đồng, tác giả trang Đọc đất bằng chân (duyet.com.vn).",
   "khuVuc": ["Nam Ban", "Lâm Hà", "Lâm Đồng", "Cần Giờ", "TP. Hồ Chí Minh"],
@@ -54,16 +58,18 @@
       "url": "https://vnexpress.net/chon-von-bac-ty-vi-ham-dau-tu-nha-pho-vua-to-vua-sang-3765098.html" }
   ],
 
-  "congTy": {
-    "_ghi_chu": "Khớp cách 12/12 bài báo 2018–11/2025 ghi. Viết đủ 'Công ty Bất động sản Tín Thành' để Google không nhập với Tín Thành Group (công ty khác). Muốn tắt: đổi hienThi thành false. GreenSpace RJSC (MST 0316210074) chưa đưa vào.",
-    "hienThi": true,
-    "chucDanh": "Giám đốc",
-    "ten": "Công ty Bất động sản Tín Thành",
-    "tenQuocTe": "",
-    "maSoThue": "",
-    "diaChi": "",
-    "url": ""
-  },
+  "congTy": [
+    { "_ghi_chu": "Báo chí 2018–11/2025 ghi 'Giám đốc Công ty (Bất động sản) Tín Thành'. Viết đủ tên để Google không nhập với Tín Thành Group (công ty khác).",
+      "chucDanh": "CEO", "ten": "Công ty Bất động sản Tín Thành", "tenNgan": "BĐS Tín Thành", "id": "#tin-thanh" },
+    { "_ghi_chu": "id và nguoi khớp JSON-LD trên greenspacers.vn, để Google gộp hai nơi làm một người.",
+      "chucDanh": "Founder", "sangLap": true, "ten": "GreenSpace", "url": "https://greenspacers.vn",
+      "id": "https://greenspacers.vn/#business", "nguoi": "https://greenspacers.vn/ve-greenspace",
+      "moTa": "Quản lý đất, nhà vườn Nam Ban cho người ở xa" },
+    { "_ghi_chu": "id và nguoi khớp JSON-LD trên nambanpanorama.com.",
+      "chucDanh": "Founder", "sangLap": true, "ten": "Namban Panorama", "url": "https://nambanpanorama.com",
+      "id": "https://nambanpanorama.com/#organization", "nguoi": "https://nambanpanorama.com/#founder",
+      "moTa": "Góc nhìn độc lập về quy hoạch, giá đất Nam Ban – Lâm Hà" }
+  ],
 
   "suaChu": [
     { "_ghi_chu": "Tựa mặt 05 bị cụt trong dữ liệu gốc. Bỏ đoạn cụt cho tới khi chú đưa tựa đầy đủ; khi dữ liệu gốc đã sửa thì dòng này tự không còn tác dụng.",
