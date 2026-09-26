@@ -232,7 +232,7 @@ ${o.body}
 </main>
 <footer class="foot">
   <nav class="foot-nav" aria-label="Đi tiếp">
-    <a href="/">Trang đầu</a><span>·</span><a href="/bai/">Mục lục</a><span>·</span><a href="/so-tay/">Sổ tay hiện trường</a><span>·</span><a href="${ABOUT}">Về ${esc(E.ten)}</a>
+    <a href="/">Trang đầu</a><span>·</span><a href="/bai/">Mục lục</a><span>·</span><a href="/so-tay/">Sổ tay hiện trường</a>
   </nav>
   <div class="foot-kw">${esc(E.ten)}</div>
 </footer>
@@ -257,7 +257,7 @@ const contactHtml = `<div class="invite-ways">
 
 const ctaHtml = `<aside class="cta" aria-label="Liên hệ">
     <p class="invite-line">${inviteLine}</p>
-    <p class="invite-more"><a href="${ABOUT}">Cách tôi ra quyết định →</a></p>
+    <p class="invite-more"><a href="/#cach-toi-ra-quyet-dinh">Cách tôi ra quyết định →</a></p>
     <p class="invite-line invite-plain">Phần lớn thời gian của tôi ở ngoài hiện trường.</p>
     ${contactHtml}
   </aside>`;
@@ -283,7 +283,7 @@ bais.forEach(x => {
   <article>
     <div class="kicker">${esc(m.title)} · ${esc(t.name)} · ${esc(o.name)}</div>
     <h1 class="rtitle" id="readTitle">${esc(b.t)}</h1>
-    <p class="byline">Ghi chép của <a href="${ABOUT}">${esc(E.ten)}</a></p>
+    <p class="byline">Ghi chép của ${esc(E.ten)}</p>
     <div id="listenMount"></div>
     <div class="rbody" id="readBody">
 ${renderBody(b)}

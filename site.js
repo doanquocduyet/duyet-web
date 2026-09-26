@@ -49,7 +49,7 @@
       case 'bai': var id = idOf[st.a.join('-')]; return id ? '/bai/' + id + '/' : '/';
       case 'situ': return '/#tinh-huong-' + (st.a[0] + 1);
       case 'screen':
-        if (st.a[0] === 'decision') return '/doan-quoc-duyet/';
+        if (st.a[0] === 'decision') return '/#cach-toi-ra-quyet-dinh';
         if (st.a[0] === 'notes') return '/so-tay/';
         if (st.a[0] === 'think') return '/#nguyen-tac';
         return '/';
@@ -132,6 +132,7 @@
     var st = null;
     if (m) st = { k: 'situ', a: [+m[1] - 1] };
     else if (h === '#nguyen-tac') st = { k: 'screen', a: ['think'] };
+    else if (h === '#cach-toi-ra-quyet-dinh') st = { k: 'screen', a: ['decision'] };
     if (!st) return;
     replay(st);
     try { history.replaceState(st, '', urlFor(st)); } catch (e) {}
@@ -159,7 +160,7 @@
     var p = document.createElement('nav');
     p.className = 'home-links';
     p.setAttribute('aria-label', 'Đọc theo cách khác');
-    p.innerHTML = '<a href="/bai/">Mục lục đủ ' + n + ' bài →</a><a href="/so-tay/">Sổ tay hiện trường →</a><a href="/doan-quoc-duyet/">Về ' + NAME + ' →</a>';
+    p.innerHTML = '<a href="/bai/">Mục lục đủ ' + n + ' bài →</a><a href="/so-tay/">Sổ tay hiện trường →</a>';
     faces.parentNode.insertBefore(p, faces.nextSibling);
   })();
 
