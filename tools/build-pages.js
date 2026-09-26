@@ -153,7 +153,7 @@ const vaiTro = E.vaiTroNgan || '';
 const moTaChu = E.moTaNgan ? `${E.ten}${vaiTro ? ' — ' + vaiTro + '.' : ' —'} ${E.moTaNgan}` : E.moTa;
 const orgOf = c => Object.assign({ '@type': 'Organization' },
   c.id ? { '@id': c.id.startsWith('#') ? url('/' + c.id) : c.id } : {},
-  { name: c.ten }, c.tenNgan ? { alternateName: c.tenNgan } : {}, c.url ? { url: c.url } : {},
+  { name: c.ten }, (an => an.length ? { alternateName: an.length > 1 ? an : an[0] } : {})([c.tenNgan].concat(c.tenKhac || []).filter(x => x && x !== c.ten)), c.url ? { url: c.url } : {},
   c.moTa ? { description: c.moTa } : {}, c.sangLap ? { founder: { '@id': PERSON_ID } } : {});
 function personFull() {
   const p = {
