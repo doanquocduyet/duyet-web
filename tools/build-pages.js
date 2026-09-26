@@ -558,7 +558,7 @@ out('llms.txt', `# ${E.ten} — ${E.tenWeb}
 
 > ${E.moTa}
 
-${E.phanBiet} Liên hệ: ${E.lienHe.dienThoai} (điện thoại/Zalo), ${E.lienHe.email}.
+${E.phanBiet}${E.congTy && E.congTy.hienThi && E.congTy.ten ? ` ${E.congTy.chucDanh ? E.congTy.chucDanh + ', ' : ''}${E.congTy.ten}.` : ''} Liên hệ: ${E.lienHe.dienThoai} (điện thoại/Zalo), ${E.lienHe.email}.
 
 ## Về tác giả
 - [${E.ten}](${url(ABOUT)}): giới thiệu, cách ra quyết định, báo chí trích dẫn
