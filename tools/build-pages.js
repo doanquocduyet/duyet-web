@@ -150,7 +150,7 @@ const press = (E.baoChi || []).slice().sort((a, b) => b.ngay.localeCompare(a.nga
 const CTs = (Array.isArray(E.congTy) ? E.congTy : []).filter(c => c.ten);
 const vaiTro = E.vaiTroNgan || '';
 /* câu mô tả trang đầu: nói rõ là bất động sản, kèm chức danh — thiếu hai thứ này Google đoán sai chủ trang */
-const moTaChu = E.moTaNgan ? `${E.ten}${vaiTro ? ' — ' + vaiTro + '.' : ' —'} ${E.moTaNgan}` : E.moTa;
+const moTaChu = vaiTro ? `${E.ten} — ${vaiTro}. ${E.tenWeb}.` : E.moTa;
 const orgOf = c => Object.assign({ '@type': 'Organization' },
   c.id ? { '@id': c.id.startsWith('#') ? url('/' + c.id) : c.id } : {},
   { name: c.ten }, (an => an.length ? { alternateName: an.length > 1 ? an : an[0] } : {})([c.tenNgan].concat(c.tenKhac || []).filter(x => x && x !== c.ten)), c.url ? { url: c.url } : {},
@@ -172,7 +172,7 @@ function personFull() {
     subjectOf: press.map(x => ({ '@type': 'NewsArticle', headline: x.tua, url: x.url, datePublished: x.ngay, publisher: { '@type': 'Organization', name: x.bao } })),
   };
   if (CTs.length) {
-    p.jobTitle = CTs.map(c => `${c.chucDanh} ${c.tenNgan || c.ten}`);
+    p.jobTitle = CTs.map(c => c.dong);
     p.worksFor = CTs.map(orgOf);
   }
   return p;
@@ -393,7 +393,8 @@ DATA.mucs.forEach((m, mi) => {
 
 /* ---------- 5. trang giới thiệu — trang định danh ---------- */
 {
-  const row = c => `<span class="press-t">${esc(c.chucDanh)} · ${esc(c.ten)}</span>${c.url || c.moTa ? `<span class="press-meta">${[c.url ? c.url.replace(/^https?:\/\//, '') : '', c.moTa || ''].filter(Boolean).map(esc).join(' · ')}</span>` : ''}`;
+  /* dòng chữ lấy nguyên từ entity.json, không thêm bớt; chỉ viết hoa chữ đầu dòng */
+  const row = c => `<span class="press-t">${esc(c.dong.charAt(0).toUpperCase() + c.dong.slice(1))}</span>${c.url ? `<span class="press-meta">${esc(c.url.replace(/^https?:\/\//, ''))}</span>` : ''}`;
   const company = CTs.length ? `<section class="about-sec" id="cong-viec">
       <div class="about-sec-q">Công việc</div>
       <ul class="press">${CTs.map(c => `<li>${c.url ? `<a href="${esc(c.url)}" rel="noopener" target="_blank">${row(c)}</a>` : `<div class="press-row">${row(c)}</div>`}</li>`).join('')}</ul>
@@ -426,7 +427,7 @@ DATA.mucs.forEach((m, mi) => {
     ${contactHtml.replace('invite-ways', 'about-ways')}
   </div>`;
   if (out('doan-quoc-duyet/index.html', page({
-    path: ABOUT, title: vaiTro ? `${E.ten} — ${vaiTro.replace(' và ', ' & ')}` : `Về ${E.ten} — cách tôi ra quyết định`, ogTitle: E.ten, desc, ogType: 'profile', body,
+    path: ABOUT, title: vaiTro ? `${E.ten} — ${vaiTro}` : `Về ${E.ten} — cách tôi ra quyết định`, ogTitle: E.ten, desc, ogType: 'profile', body,
     ld: [{ '@type': 'ProfilePage', '@id': url(ABOUT), url: url(ABOUT), name: E.ten, inLanguage: 'vi', isPartOf: { '@id': WEB_ID }, mainEntity: personFull() },
       crumbs([['Trang đầu', '/'], [E.ten, ABOUT]])],
   }))) written.push(ABOUT);
